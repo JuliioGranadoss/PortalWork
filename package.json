@@ -1,0 +1,26 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@popperjs/core": "^2.11.6",
+        "@vitejs/plugin-vue": "^4.0.0",
+        "axios": "^1.1.2",
+        "bootstrap": "^5.2.3",
+        "laravel-vite-plugin": "^0.7.2",
+        "sass": "^1.56.1",
+        "vite": "^4.0.0",
+        "vue": "^3.2.37"
+    },
+    "dependencies": {
+        "datatables.net-bs4": "^1.13.4",
+        "datatables.net-buttons-bs4": "^2.3.6",
+        "datatables.net-searchpanes-bs4": "^2.1.2",
+        "datatables.net-select-bs4": "^1.6.2",
+        "moment": "^2.29.4",
+        "vue-sweetalert2": "^5.0.5",
+        "vue3-colorpicker": "^2.2.3"
+    }
+}

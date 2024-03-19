@@ -1,0 +1,65 @@
+#dataTableReport {
+    width: 100% !important;
+}
+
+.custom-switch {
+    padding-left: 3.25rem;
+    margin-bottom: 15px;
+}
+
+.custom-switch .custom-control-label::after {
+    top: 4px;
+    left: -3.2rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 1rem;
+}
+
+.custom-switch .custom-control-label::before {
+    left: -3.25rem;
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 1rem;
+}
+
+.custom-switch .custom-control-input:checked~.custom-control-label::after {
+    transform: translateX(1.4rem);
+}
+
+.dtr-details {
+    padding: 0px;
+}
+.dtr-details li {
+    display: flex;
+    flex-direction: column;
+}
+.dtr-details .dtr-title {
+    font-weight: 800;
+    text-align: left;
+    margin: 5px 0px;
+}
+td.details-control {
+    width: 25px;
+    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.parent td.details-control {
+    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+}
+.table th,
+.table td {
+    padding: 0.5rem;
+    vertical-align: middle;
+}
+
+@media (min-width:769px) {
+    .details-control {
+        display: none;
+    }
+}
+
+@media (max-width:769px) {
+    .container-fluid {
+        padding: 0 !important;
+    }
+}

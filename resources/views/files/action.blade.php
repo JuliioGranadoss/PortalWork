@@ -1,0 +1,2 @@
+<a href="/{{ $model->source }}" class="btn btn-success btn-xs" data-id="{{$model->id}}" target="_blank"><i class="fa fa-download"></i></a>
+<a href="javascript:void(0)" class="btn btn-danger btn-xs deleteModel" data-id="{{$model->id}}"><i class="fa fa-trash"></i></a>
