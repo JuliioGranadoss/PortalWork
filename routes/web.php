@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\AccessLogController;
@@ -72,3 +73,6 @@ Route::controller(ConfigController::class)->group(function () {
     Route::get('/config/data', 'data')->name('config.data')->middleware(['role:admin|manager']);
     Route::post('/config/save', 'save')->name('config.save')->middleware(['role:admin|manager']);
 });
+
+Route::resource('workers', WorkerController::class)->middleware(['role:admin|manager']);
+
