@@ -91,11 +91,6 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name) {
-                this.alert = "Nombre es un campo obligatorio";
-                return;
-            }
-
             this.submit();
         },
         setModel(data) {
