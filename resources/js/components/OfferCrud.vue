@@ -28,7 +28,8 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="phone" class="control-label">Teléfono de contacto*</label>
-                                <input type="tel" class="form-control" v-model="model.phone" required>
+                                <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{9}"
+                                    title="El teléfono debe contener 9 dígitos numéricos" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="description" class="control-label">Descripción del trabajo*</label>

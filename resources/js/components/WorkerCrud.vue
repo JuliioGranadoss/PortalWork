@@ -28,7 +28,8 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="dni" class="control-label">DNI*</label>
-                                <input type="text" class="form-control" v-model="model.dni" required>
+                                <input type="text" class="form-control" id="dni" name="dni" pattern="[0-9]{8}[A-Za-z]"
+                                    title="Formato de DNI incorrecto (8 dígitos seguidos de una letra)" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="email" class="control-label">Email*</label>
@@ -44,11 +45,14 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="address" class="control-label">Dirección</label>
-                                <input type="text" class="form-control" v-model="model.address">
+                                <input type="text" class="form-control" v-model="model.address" pattern="[a-zA-Z]+\s\d+"
+                                    title="El formato de la dirección debe ser calle seguida del número">
+                                <small class="text-muted">Por ejemplo: Calle Principal 123</small>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="postal_code" class="control-label">Código Postal</label>
-                                <input type="text" class="form-control" v-model="model.postal_code">
+                                <input type="text" class="form-control" id="postal_code" name="postal_code"
+                                    pattern="[0-9]{5}" title="El código postal debe contener 5 dígitos numéricos">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="province" class="control-label">Provincia</label>
@@ -60,7 +64,8 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="phone" class="control-label">Teléfono</label>
-                                <input type="tel" class="form-control" v-model="model.phone">
+                                <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{9}"
+                                    title="El teléfono debe contener 9 dígitos numéricos">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="status" class="control-label">Estado*</label>
@@ -119,26 +124,6 @@ export default {
 
             if (!this.model.name) {
                 this.alert = "Nombre es un campo obligatorio";
-                return;
-            }
-
-            if (!this.model.surname) {
-                this.alert = "Apellidos es un campo obligatorio";
-                return;
-            }
-
-            if (!this.model.dni) {
-                this.alert = "DNI es un campo obligatorio";
-                return;
-            }
-
-            if (!this.model.email) {
-                this.alert = "Email es un campo obligatorio";
-                return;
-            }
-
-            if (!this.model.birth_date) {
-                this.alert = "Fecha de Nacimiento es un campo obligatorio";
                 return;
             }
 
