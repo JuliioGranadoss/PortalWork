@@ -48,6 +48,19 @@
             <i class="fas fa-exclamation-triangle"></i>
             <span>{{__('Incidencias')}}</span></a>
     </li>
+
+    <li class="nav-item">
+    <a class="nav-link" href="{{ route('workers.index') }}">
+        <i class="fas fa-user"></i>
+        <span>{{__('Trabajadores')}}</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('offers.index') }}">
+            <i class="fas fa-briefcase"></i>
+            <span>{{__('Ofertas de Trabajo')}}</span></a>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link" href="{{ route('files.index') }}">
             <i class="fas fa-fw fa-folder-open"></i>
