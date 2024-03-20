@@ -19,11 +19,14 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'manager']);
         Role::create(['name' => 'worker']);
 
+        //Crear 2 usuarios
         $user = User::create([
             'name' => 'Mikita Shupik',
             'email' => 'mshupik@logic10.net',
-            'password' => Hash::make('9ev4b65A!XHC')
+            'password' => Hash::make('9ev4b65A!XHC'),
         ]);
+
+
 
         $user->assignRole('admin');
     }

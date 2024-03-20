@@ -19,57 +19,30 @@
                         <input type="hidden" name="id" v-model="model.id">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="name" class="control-label">Nombre*</label>
-                                <input type="text" class="form-control" v-model="model.name" required>
+                                <label for="job_title" class="control-label">Título del trabajo*</label>
+                                <input type="text" class="form-control" v-model="model.job_title" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="surname" class="control-label">Apellidos*</label>
-                                <input type="text" class="form-control" v-model="model.surname" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="dni" class="control-label">DNI*</label>
-                                <input type="text" class="form-control" v-model="model.dni" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="email" class="control-label">Email*</label>
+                                <label for="email" class="control-label">Email de contacto*</label>
                                 <input type="email" class="form-control" v-model="model.email" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="birth_date" class="control-label">Fecha de Nacimiento*</label>
-                                <input type="date" class="form-control" v-model="model.birth_date" required>
+                                <label for="phone" class="control-label">Teléfono de contacto*</label>
+                                <input type="tel" class="form-control" v-model="model.phone" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="description" class="control-label">Descripción</label>
-                                <input type="text" class="form-control" v-model="model.description">
+                                <label for="description" class="control-label">Descripción del trabajo*</label>
+                                <input type="text" class="form-control" v-model="model.description" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="address" class="control-label">Dirección</label>
-                                <input type="text" class="form-control" v-model="model.address">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="postal_code" class="control-label">Código Postal</label>
-                                <input type="text" class="form-control" v-model="model.postal_code">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="province" class="control-label">Provincia</label>
-                                <input type="text" class="form-control" v-model="model.province">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="location" class="control-label">Localidad</label>
-                                <input type="text" class="form-control" v-model="model.location">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="phone" class="control-label">Teléfono</label>
-                                <input type="tel" class="form-control" v-model="model.phone">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="status" class="control-label">Estado*</label>
+                                <label for="status" class="control-label">Estado de la oferta*</label>
                                 <select class="select form-control" name="status" id="status" v-model="model.status">
                                     <option value="0">Baja</option>
                                     <option value="1">Alta</option>
                                 </select>
                             </div>
                         </div>
+
 
                         <div class="col-sm-12 text-right">
                             <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar</button>
@@ -95,7 +68,7 @@ export default {
         submit() {
             let self = this;
             this.disable = true;
-            axios.post('/workers', this.model)
+            axios.post('/offers', this.model)
                 .then(function (response) {
                     $('#modelForm').trigger("reset");
                     $('#ajaxModel').modal('hide');
@@ -107,7 +80,7 @@ export default {
                         timer: 1000
                     });
                     self.disable = false;
-                    $('#worker-table').DataTable().draw();
+                    $('#offer-table').DataTable().draw();
                 })
                 .catch(function (error) {
                     console.log('Error:', error);
@@ -119,26 +92,6 @@ export default {
 
             if (!this.model.name) {
                 this.alert = "Nombre es un campo obligatorio";
-                return;
-            }
-
-            if (!this.model.surname) {
-                this.alert = "Apellidos es un campo obligatorio";
-                return;
-            }
-
-            if (!this.model.dni) {
-                this.alert = "DNI es un campo obligatorio";
-                return;
-            }
-
-            if (!this.model.email) {
-                this.alert = "Email es un campo obligatorio";
-                return;
-            }
-
-            if (!this.model.birth_date) {
-                this.alert = "Fecha de Nacimiento es un campo obligatorio";
                 return;
             }
 
@@ -155,27 +108,27 @@ export default {
             };
         },
         ajustTable() {
-            $('#worker-table').DataTable().columns.adjust().draw();
+            $('#offer-table').DataTable().columns.adjust().draw();
         }
     },
     mounted() {
         let self = this;
 
-        $('#nav-workers-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('#nav-offers-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             self.ajustTable();
         });
 
         $('#createNewModel').click(function () {
-            self.title = 'Añadir nuevo trabajador';
+            self.title = 'Añadir nueva oferta';
             self.resetModel();
             $('#ajaxModel').modal('show');
         });
 
         $('body').on('click', '.editModel', function () {
             var id = $(this).data('id');
-            axios.get('/workers/' + id + '/edit')
+            axios.get('/offers/' + id + '/edit')
                 .then(function (response) {
-                    self.title = 'Editar trabajador';
+                    self.title = 'Editar oferta';
                     $('#ajaxModel').modal('show');
                     self.setModel(response.data);
                 })
@@ -188,7 +141,7 @@ export default {
             var id = $(this).data("id");
             self.$swal({
                 title: "¿Estas seguro?",
-                text: "¿Estas seguro de que quieres eliminar este trabajador?",
+                text: "¿Estas seguro de que quieres eliminar esta oferta?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
@@ -198,9 +151,9 @@ export default {
                 closeOnCancel: false
             }).then((data) => {
                 if (data.isConfirmed) {
-                    axios.delete('/workers/' + id)
+                    axios.delete('/offers/' + id)
                         .then(function (response) {
-                            $('#worker-table').DataTable().draw();
+                            $('#offer-table').DataTable().draw();
                         })
                         .catch(function (error) {
                             console.log('Error:', error);

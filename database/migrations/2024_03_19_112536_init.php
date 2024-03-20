@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('dni')->unique();
             $table->string('email')->unique();
             $table->date('birth_date');
-            $table->text('description')->nulable();
+            $table->text('description')->nullable();
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('province')->nullable();

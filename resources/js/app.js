@@ -13,12 +13,14 @@ import UserCrud from './components/UserCrud.vue';
 import FileCrud from './components/FileCrud.vue';
 import IncidentCrud from './components/IncidentCrud.vue';
 import WorkerCrud from './components/WorkerCrud.vue';
+import OfferCrud from './components/OfferCrud.vue';
 
 app.component('config-crud', ConfigCrud);
 app.component('user-crud', UserCrud);
 app.component('file-crud', FileCrud);
 app.component('incident-crud', IncidentCrud);
 app.component('worker-crud', WorkerCrud);
+app.component('offer-crud', OfferCrud);
 
 app.use(VueSweetalert2);
 app.mount('#app');

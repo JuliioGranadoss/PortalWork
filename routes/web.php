@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\AccessLogController;
@@ -76,3 +77,4 @@ Route::controller(ConfigController::class)->group(function () {
 
 Route::resource('workers', WorkerController::class)->middleware(['role:admin|manager']);
 
+Route::resource('offers', OfferController::class)->middleware(['role:admin|manager']);
