@@ -13,6 +13,7 @@ class Worker extends Model
     protected $table = 'workers';
 
     protected $fillable = [
+        'user_id',
         'name',
         'surname',
         'dni',
@@ -64,6 +65,11 @@ class Worker extends Model
     public function offers()
     {
         return $this->belongsToMany(Offer::class, 'worker_offers', 'worker_id', 'offer_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Incident;
 use App\DataTables\IncidentDataTable;
-use App\DataTables\ApartmentDataTable;
-use App\DataTables\DeviceDataTable;
 
 class IncidentController extends Controller
 {

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Offer;
 use App\DataTables\OfferDataTable;
-use App\DataTables\ApartmentDataTable;
-use App\DataTables\DeviceDataTable;
 use Carbon\Carbon;
 
 class OfferController extends Controller

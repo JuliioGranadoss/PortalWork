@@ -1,38 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Models\Worker;
-use App\DataTables\WorkerDataTable;
 use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 
 class WorkerController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        /*$this->middleware('auth');*/
-    }
-
-    public function data()
-    {
-        $model = Worker::get();
-        return response()->json($model);
-    }
-
-    /**
-     * Show the datatable.
+     * Show all workers.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(WorkerDataTable $dataTable)
+    public function index()
     {
-        return $dataTable->render('workers.index');
+        $model = Worker::get();
+        return response()->json($model);
     }
 
     /**
@@ -70,7 +55,7 @@ class WorkerController extends Controller
      * @param  \App\Worker  $model
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function show($id)
     {
         $model = Worker::find($id);
         return response()->json($model);

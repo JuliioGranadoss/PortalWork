@@ -62,6 +62,11 @@ class User extends Authenticatable
         }
     }
 
+        public function worker()
+    {
+        return $this->hasOne(Worker::class);
+    }
+
     /**
      * The "booted" method of the model.
      */
