@@ -28,6 +28,12 @@ Route::get('/users/{id}', [UserController::class, 'edit']); // Obtener un usuari
 Route::put('/users/{id}', [UserController::class, 'store']); // Actualizar un usuario existente
 Route::delete('/users/{id}', [UserController::class, 'destroy']); // Eliminar un usuario
 
+//Ruta para las incidencias
+Route::get('/incidences', [IncidenceController::class, 'data']); // Obtener todas las incidencias
+Route::post('/incidences', [IncidenceController::class, 'store']); // Crear una nueva incidencia
+Route::get('/incidences/{id}', [IncidenceController::class, 'edit']); // Obtener una incidencia específica
+Route::put('/incidences/{id}', [IncidenceController::class, 'store']); // Actualizar una incidencia existente
+Route::delete('/incidences/{id}', [IncidenceController::class, 'destroy']); // Eliminar una incidencia
 
 // Rutas para los trabajadores
 Route::get('/workers', [WorkerController::class, 'data']); // Obtener todos los trabajadores

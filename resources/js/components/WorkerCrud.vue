@@ -29,7 +29,7 @@
                             <div class="form-group col-md-6">
                                 <label for="dni" class="control-label">DNI*</label>
                                 <input type="text" class="form-control" id="dni" name="dni" pattern="[0-9]{8}[A-Za-z]"
-                                    title="Formato de DNI incorrecto (8 dígitos seguidos de una letra)" required>
+                                    title="Formato de DNI incorrecto (8 dígitos seguidos de una letra)" v-model="model.dni" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="email" class="control-label">Email*</label>
@@ -45,14 +45,12 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="address" class="control-label">Dirección</label>
-                                <input type="text" class="form-control" v-model="model.address" pattern="[a-zA-Z]+\s\d+"
-                                    title="El formato de la dirección debe ser calle seguida del número">
-                                <small class="text-muted">Por ejemplo: Calle Principal 123</small>
+                                <input type="text" class="form-control" v-model="model.address">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="postal_code" class="control-label">Código Postal</label>
                                 <input type="text" class="form-control" id="postal_code" name="postal_code"
-                                    pattern="[0-9]{5}" title="El código postal debe contener 5 dígitos numéricos">
+                                    pattern="[0-9]{5}" title="El código postal debe contener 5 dígitos numéricos" v-model="model.postal_code">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="province" class="control-label">Provincia</label>
@@ -65,11 +63,11 @@
                             <div class="form-group col-md-6">
                                 <label for="phone" class="control-label">Teléfono</label>
                                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{9}"
-                                    title="El teléfono debe contener 9 dígitos numéricos">
+                                    title="El teléfono debe contener 9 dígitos numéricos" v-model="model.phone">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="status" class="control-label">Estado*</label>
-                                <select class="select form-control" name="status" id="status" v-model="model.status">
+                                <select class="select form-control" name="status" id="status" v-model="model.status" required>
                                     <option value="0">Baja</option>
                                     <option value="1">Alta</option>
                                 </select>
@@ -77,7 +75,7 @@
                         </div>
 
                         <div class="col-sm-12 text-right">
-                            <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar</button>
+                            <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar trabajador</button>
                         </div>
                     </form>
                 </div>
@@ -87,13 +85,29 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
             title: null,
             alert: null,
             disable: false,
-            model: {}
+            model: {
+                id: null,
+                name: null,
+                surname: null,
+                dni: null,
+                email: null,
+                birth_date: null,
+                description: null,
+                address: null,
+                postal_code: null,
+                province: null,
+                location: null,
+                phone: null,
+                status: 1
+            }
         }
     },
     methods: {
@@ -116,14 +130,15 @@ export default {
                 })
                 .catch(function (error) {
                     console.log('Error:', error);
-                    $('#saveBtn').html('Guardar cambios');
+                    self.disable = false;
+                    self.alert = 'Error al guardar el trabajador.';
                 });
         },
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name) {
-                this.alert = "Nombre es un campo obligatorio";
+            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.status) {
+                this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }
 
@@ -136,6 +151,16 @@ export default {
             this.model = {
                 id: null,
                 name: null,
+                surname: null,
+                dni: null,
+                email: null,
+                birth_date: null,
+                description: null,
+                address: null,
+                postal_code: null,
+                province: null,
+                location: null,
+                phone: null,
                 status: 1
             };
         },
@@ -172,8 +197,8 @@ export default {
         $('body').on('click', '.deleteModel', function () {
             var id = $(this).data("id");
             self.$swal({
-                title: "¿Estas seguro?",
-                text: "¿Estas seguro de que quieres eliminar este trabajador?",
+                title: "¿Estás seguro?",
+                text: "¿Estás seguro de que quieres eliminar este trabajador?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',

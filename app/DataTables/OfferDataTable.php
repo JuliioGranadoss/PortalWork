@@ -74,9 +74,9 @@ class OfferDataTable extends DataTable
                 ->orderable(false)
                 ->defaultContent(''),
             Column::make('name')->responsivePriority(1)->targets(0)->title('Trabajo'),
+            Column::make('description')->title('Descripción'),
             Column::make('email')->title('Email'),
             Column::make('phone')->title('Teléfono'),
-            Column::make('description')->title('Descripción'),
             Column::make('status')->title('Estado')->width(80),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)

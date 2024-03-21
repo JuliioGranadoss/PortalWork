@@ -20,7 +20,11 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="job_title" class="control-label">Título del trabajo*</label>
-                                <input type="text" class="form-control" v-model="model.job_title" required>
+                                <input type="text" class="form-control" v-model="model.name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="description" class="control-label">Descripción del trabajo*</label>
+                                <input type="text" class="form-control" v-model="model.description" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="email" class="control-label">Email de contacto*</label>
@@ -29,24 +33,19 @@
                             <div class="form-group col-md-6">
                                 <label for="phone" class="control-label">Teléfono de contacto*</label>
                                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{9}"
-                                    title="El teléfono debe contener 9 dígitos numéricos" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="description" class="control-label">Descripción del trabajo*</label>
-                                <input type="text" class="form-control" v-model="model.description" required>
+                                    title="El teléfono debe contener 9 dígitos numéricos" v-model="model.phone" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="status" class="control-label">Estado de la oferta*</label>
-                                <select class="select form-control" name="status" id="status" v-model="model.status">
+                                <select class="select form-control" name="status" id="status" v-model="model.status" required>
                                     <option value="0">Baja</option>
                                     <option value="1">Alta</option>
                                 </select>
                             </div>
                         </div>
 
-
                         <div class="col-sm-12 text-right">
-                            <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar</button>
+                            <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar oferta</button>
                         </div>
                     </form>
                 </div>
@@ -56,13 +55,22 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
             title: null,
             alert: null,
             disable: false,
-            model: {}
+            model: {
+                id: null,
+                name: null,
+                description: null,
+                email: null,
+                phone: null,
+                status: 1
+            }
         }
     },
     methods: {
@@ -85,11 +93,17 @@ export default {
                 })
                 .catch(function (error) {
                     console.log('Error:', error);
-                    $('#saveBtn').html('Guardar cambios');
+                    self.disable = false;
+                    self.alert = 'Error al guardar la oferta.';
                 });
         },
         checkBeforeSubmit() {
             this.alert = "";
+
+            if (!this.model.name || !this.model.description || !this.model.email || !this.model.phone || !this.model.status) {
+                this.alert = "Por favor, completa todos los campos obligatorios.";
+                return;
+            }
 
             this.submit();
         },
@@ -100,6 +114,9 @@ export default {
             this.model = {
                 id: null,
                 name: null,
+                description: null,
+                email: null,
+                phone: null,
                 status: 1
             };
         },
@@ -136,8 +153,8 @@ export default {
         $('body').on('click', '.deleteModel', function () {
             var id = $(this).data("id");
             self.$swal({
-                title: "¿Estas seguro?",
-                text: "¿Estas seguro de que quieres eliminar esta oferta?",
+                title: "¿Estás seguro?",
+                text: "¿Estás seguro de que quieres eliminar esta oferta?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
