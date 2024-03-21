@@ -75,7 +75,6 @@ class WorkerController extends Controller
     public function edit($id)
     {
         $model = Worker::find($id);
-
         return response()->json($model);
     }
 

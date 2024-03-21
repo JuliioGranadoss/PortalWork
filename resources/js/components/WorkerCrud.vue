@@ -85,8 +85,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
     data() {
         return {
@@ -146,6 +144,7 @@ export default {
         },
         setModel(data) {
             this.model = data;
+            this.model.birth_date = moment(String(this.model.birth_date)).format('YYYY-MM-DD');
         },
         resetModel() {
             this.model = {

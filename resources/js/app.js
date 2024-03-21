@@ -5,6 +5,7 @@ import.meta.glob(['../img/**',]);
 import { createApp } from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import moment from 'moment';
 
 const app = createApp({});
 
@@ -23,6 +24,7 @@ app.component('worker-crud', WorkerCrud);
 app.component('offer-crud', OfferCrud);
 
 app.use(VueSweetalert2);
+app.use(moment);
 app.mount('#app');
 
 const profile = createApp({});
