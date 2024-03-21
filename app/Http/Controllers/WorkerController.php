@@ -68,7 +68,7 @@ class WorkerController extends Controller
             [
                 'name' => $model->name . ' ' . $model->surname,
                 'email' => $model->email,
-            ]
+            ], ['password' => '123456']
         );
 
         if ($user->wasRecentlyCreated) {
