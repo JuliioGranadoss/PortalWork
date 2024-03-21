@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Worker;
 use App\DataTables\WorkerDataTable;
+use App\Models\User;
 use Carbon\Carbon;
 
 class WorkerController extends Controller
@@ -61,7 +62,39 @@ class WorkerController extends Controller
             ]
         );
 
+        $user_id = $model->user_id ?? null;
+        $user = User::updateOrCreate(
+            ['id' => $user_id],
+            [
+                'name' => $model->name . ' ' . $model->surname,
+                'email' => $model->email,
+            ]
+        );
+
+        if ($user->wasRecentlyCreated) {
+            $user->password = '123456';
+            $user->save();
+
+            // aqui meter la funcion de enviar por correo el password al trabajador
+        }
+
+        $model->user_id = $user->id;
+        $model->save();
+
         return response()->json(['success' => __('Trabajador guardado correctamente.'), 'model' => $model]);
+    }
+
+
+    /**
+     * Show the detailss page.
+     *
+     * @param  \App\Worker  $model
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $model = Worker::find($id);
+        return view('workers.show', ['model' => $model]);
     }
 
     /**
