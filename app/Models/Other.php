@@ -9,9 +9,12 @@ class Other extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'others';
 
     protected $fillable = [
+        'worker_id',
         'name',
         'description',
         'score'

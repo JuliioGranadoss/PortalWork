@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('workers.index') }}">
         <div class="sidebar-brand-icon">
             @php
                 $logo = App\Models\Config::where('key','company_minilogo')->first()->value ?? null;
@@ -25,10 +25,23 @@
     </div>
 
     <li class="nav-item active">
+        <a class="nav-link" href="{{ route('workers.index') }}">
+            <i class="fas fa-user"></i>
+            <span>{{__('Trabajadores')}}</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('home') }}">
             <i class="fas fa-fw fa-file-invoice"></i>
             <span>{{__('Dashboard')}}</span></a>
     </li>
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('offers.index') }}">
+            <i class="fas fa-briefcase"></i>
+            <span>{{__('Ofertas de Trabajo')}}</span></a>
+    </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -47,18 +60,6 @@
         <a class="nav-link" href="{{ route('incidents.index') }}">
             <i class="fas fa-exclamation-triangle"></i>
             <span>{{__('Incidencias')}}</span></a>
-    </li>
-
-    <li class="nav-item">
-    <a class="nav-link" href="{{ route('workers.index') }}">
-        <i class="fas fa-user"></i>
-        <span>{{__('Trabajadores')}}</span></a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('offers.index') }}">
-            <i class="fas fa-briefcase"></i>
-            <span>{{__('Ofertas de Trabajo')}}</span></a>
     </li>
 
     <li class="nav-item">

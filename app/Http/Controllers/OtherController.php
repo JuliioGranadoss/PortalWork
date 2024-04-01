@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Offer;
-use App\DataTables\OfferDataTable;
+use App\Models\Other;
+use App\DataTables\OtherDataTable;
 
-class OfferController extends Controller
+class OtherController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -15,12 +15,12 @@ class OfferController extends Controller
      */
     public function __construct()
     {
-        /*$this->middleware('auth');*/
+        $this->middleware('auth');
     }
 
     public function data()
     {
-        $model = Offer::get();
+        $model = Other::get();
         return response()->json($model);
     }
 
@@ -29,9 +29,9 @@ class OfferController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(OfferDataTable $dataTable)
+    public function index(OtherDataTable $dataTable, $id)
     {
-        return $dataTable->render('offers.index');
+        return $dataTable->render('others.index', ['id' => $id]);
     }
 
     /**
@@ -42,29 +42,28 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        $model = Offer::updateOrCreate(
+        $model = Other::updateOrCreate(
             ['id' => $request->id],
             [
+                'worker_id' => $request->worker_id,
                 'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
                 'description' => $request->description,
-                'status' => $request->status,
+                'score' => $request->score,
             ]
         );
 
-        return response()->json(['success' => __('Oferta guardada correctamente.'), 'model' => $model]);
+        return response()->json(['success' => __('Otros datos guardados correctamente.'), 'model' => $model]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Offer  $model
+     * @param  \App\Other  $model
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $model = Offer::find($id);
+        $model = Other::find($id);
 
         return response()->json($model);
     }
@@ -72,15 +71,14 @@ class OfferController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Offer  $model
+     * @param  \App\Other  $model
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $model = Offer::find($id);
-        $model->status = -1;
-        $model->save();
+        $model = Other::find($id);
+        $model->delete();
 
-        return response()->json(['success' => __('Oferta eliminada correctamente.')]);
+        return response()->json(['success' => __('Otros datos eliminados correctamente.')]);
     }
 }

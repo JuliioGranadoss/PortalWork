@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\DegreeDataTable;
+use App\DataTables\ExperienceDataTable;
+use App\DataTables\JobDataTable;
+use App\DataTables\OtherDataTable;
 use Illuminate\Http\Request;
 use App\Models\Worker;
 use App\DataTables\WorkerDataTable;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
 class WorkerController extends Controller
@@ -17,7 +22,7 @@ class WorkerController extends Controller
      */
     public function __construct()
     {
-        /*$this->middleware('auth');*/
+        $this->middleware('auth');
     }
 
     public function data()
@@ -63,18 +68,19 @@ class WorkerController extends Controller
         );
 
         $user_id = $model->user_id ?? null;
+        $user = User::find($user_id);
         $user = User::updateOrCreate(
             ['id' => $user_id],
             [
                 'name' => $model->name . ' ' . $model->surname,
                 'email' => $model->email,
-            ], ['password' => '123456']
+                'password' => $user ? $user->password : Hash::make('123456')
+            ]
         );
+        
+        $user->syncRoles(['worker']);
 
         if ($user->wasRecentlyCreated) {
-            $user->password = '123456';
-            $user->save();
-
             // aqui meter la funcion de enviar por correo el password al trabajador
         }
 
@@ -91,10 +97,23 @@ class WorkerController extends Controller
      * @param  \App\Worker  $model
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(
+        $id, 
+        DegreeDataTable $degreeDataTable, 
+        ExperienceDataTable $experienceDataTable,
+        JobDataTable $jobDataTable, 
+        OtherDataTable $otherDataTable
+        )
     {
         $model = Worker::find($id);
-        return view('workers.show', ['model' => $model]);
+    
+        return view('workers.show', [
+            'model' => $model,
+            'degreeDataTable' => $degreeDataTable->html()->minifiedAjax(route('degrees.index', $id)),
+            'experienceDataTable' => $experienceDataTable->html()->minifiedAjax(route('experiencies.index', $id)),
+            'jobDataTable' => $jobDataTable->html()->minifiedAjax(route('jobs.index', $id)),
+            'otherDataTable' => $otherDataTable->html()->minifiedAjax(route('others.index', $id)),
+        ]);
     }
 
     /**

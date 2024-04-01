@@ -41,7 +41,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="description" class="control-label">Descripción</label>
-                                <input type="text" class="form-control" v-model="model.description">
+                                <textarea type="text" class="form-control" v-model="model.description"></textarea>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="address" class="control-label">Dirección</label>
@@ -135,7 +135,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.status) {
+            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }

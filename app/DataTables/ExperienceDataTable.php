@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Models\Worker;
+use App\Models\Experience;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class WorkerDataTable extends DataTable
+class ExperienceDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -21,13 +21,13 @@ class WorkerDataTable extends DataTable
     {
 
         return (new EloquentDataTable($query))
-            ->editColumn('birth_date', function (Worker $model) {
-                return $model->birth_date->format("d/m/Y");
+            ->editColumn('start', function (Experience $model) {
+                return $model->start->format("d/m/Y");
             })
-            ->editColumn('status', function (Worker $model) {
-                return $model->getStatusLabel();
+            ->editColumn('end', function (Experience $model) {
+                return $model->end->format("d/m/Y");
             })
-            ->addColumn('action', 'workers.action')
+            ->addColumn('action', 'experiencies.action')
             ->escapeColumns([])
             ->setRowId('id');
     }
@@ -35,10 +35,10 @@ class WorkerDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Worker $model
+     * @param \App\Models\Experience $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Worker $model): QueryBuilder
+    public function query(Experience $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -51,9 +51,9 @@ class WorkerDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->parameters(["language" =>  ["url" =>"//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
+            ->parameters(["language" =>  ["url" => "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
             ->responsive()
-            ->setTableId('worker-table')
+            ->setTableId('experience-table')
             ->addTableClass('table-bordered w-100')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -77,14 +77,10 @@ class WorkerDataTable extends DataTable
                 ->orderable(false)
                 ->defaultContent(''),
             Column::make('name')->responsivePriority(1)->targets(0)->title('Nombre'),
-            Column::make('surname')->title('Apellidos'),
-            Column::make('dni')->title('DNI'),
-            Column::make('email')->title('Email'),
-            Column::make('birth_date')->title('Fecha de nacimiento'),
-            Column::make('postal_code')->title('Código postal'),
-            Column::make('province')->title('Provincia'),
-            Column::make('phone')->title('Teléfono'),
-            Column::make('status')->title('Estado')->width(80),
+            Column::make('company')->title('Empresa'),
+            Column::make('start')->title('Fecha de Inicio'),
+            Column::make('end')->title('Fecha de Fin'),
+            Column::make('score')->title('Puntuación'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)
@@ -102,6 +98,6 @@ class WorkerDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Worker_' . date('YmdHis');
+        return 'Experience_' . date('YmdHis');
     }
 }

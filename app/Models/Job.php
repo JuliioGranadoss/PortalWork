@@ -9,9 +9,12 @@ class Job extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'jobs';
 
     protected $fillable = [
+        'worker_id',
         'name',
         'score'
     ];

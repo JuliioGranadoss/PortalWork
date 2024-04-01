@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Offer;
-use App\DataTables\OfferDataTable;
+use App\Models\Degree;
+use App\DataTables\DegreeDataTable;
+use App\Models\Worker;
+use Carbon\Carbon;
 
-class OfferController extends Controller
+class DegreeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -15,12 +17,12 @@ class OfferController extends Controller
      */
     public function __construct()
     {
-        /*$this->middleware('auth');*/
+        $this->middleware('auth');
     }
 
     public function data()
     {
-        $model = Offer::get();
+        $model = Degree::get();
         return response()->json($model);
     }
 
@@ -29,9 +31,9 @@ class OfferController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(OfferDataTable $dataTable)
+    public function index(DegreeDataTable $dataTable, $id)
     {
-        return $dataTable->render('offers.index');
+        return $dataTable->render('degrees.index', ['id' => $id]);
     }
 
     /**
@@ -42,45 +44,42 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        $model = Offer::updateOrCreate(
+        $model = Degree::updateOrCreate(
             ['id' => $request->id],
             [
+                'worker_id' => $request->worker_id,
                 'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'description' => $request->description,
-                'status' => $request->status,
+                'institution' => $request->institution,
+                'start' => Carbon::parse($request->start)->format('Y-m-d'),
+                'end' => Carbon::parse($request->end)->format('Y-m-d'),
+                'score' => $request->score,
             ]
         );
-
-        return response()->json(['success' => __('Oferta guardada correctamente.'), 'model' => $model]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Offer  $model
+     * @param  \App\Degree  $model
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $model = Offer::find($id);
-
+        $model = Degree::find($id);
         return response()->json($model);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Offer  $model
+     * @param  \App\Degree  $model
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $model = Offer::find($id);
-        $model->status = -1;
-        $model->save();
+        $model = Degree::find($id);
+        $model->delete();
 
-        return response()->json(['success' => __('Oferta eliminada correctamente.')]);
+        return response()->json(['success' => __('Título eliminado correctamente.')]);
     }
 }

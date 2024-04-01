@@ -10,9 +10,14 @@ use App\Http\Controllers\OfferController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\AccessLogController;
-use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DegreeController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\OtherController;
+use Livewire\Livewire;
 use App\Http\Livewire\Calendar;
 use App\Models\Config;
+use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +50,11 @@ Route::get('/dynamic-styles', function () {
 
 Livewire::component('calendar', Calendar::class);
 
-Route::controller(HomeController::class)->group(function () {
+/*Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
-});
+});*/
+
+Route::get('/', [WorkerController::class, 'index'])->name('home')->middleware(['role:admin|manager']);
 
 Route::resource('users', UserController::class)->middleware(['role:admin|manager']);
 Route::controller(UserController::class)->group(function () {
@@ -58,11 +65,6 @@ Route::controller(UserController::class)->group(function () {
 
 Route::controller(AccessLogController::class)->group(function () {
     Route::get('/access-log', 'index')->name('accesslog.index');
-});
-
-Route::resource('companies', CompanyController::class)->middleware(['role:admin|manager']);
-Route::controller(CompanyController::class)->group(function () {
-    Route::post('/companies/get/data', 'data')->name('companies.data');
 });
 
 Route::resource('incidents', IncidentController::class)->middleware(['role:admin|manager']);
@@ -78,3 +80,25 @@ Route::controller(ConfigController::class)->group(function () {
 Route::resource('workers', WorkerController::class)->middleware(['role:admin|manager']);
 
 Route::resource('offers', OfferController::class)->middleware(['role:admin|manager']);
+
+Route::resource('degrees', DegreeController::class)->except(['index'])->middleware(['role:admin|manager']);
+Route::controller(DegreeController::class)->group(function () {
+    Route::get('/degrees/{id}/index', 'index')->name('degrees.index');
+})->middleware(['role:admin|manager']);
+
+Route::resource('experiencies', ExperienceController::class)->except(['index'])->middleware(['role:admin|manager']);
+Route::controller(ExperienceController::class)->group(function () {
+    Route::get('/experiencies/{id}/index', 'index')->name('experiencies.index');
+})->middleware(['role:admin|manager']);
+
+Route::resource('others', OtherController::class)->except(['index'])->middleware(['role:admin|manager']);
+Route::controller(OtherController::class)->group(function () {
+    Route::get('/others/{id}/index', 'index')->name('others.index');
+})->middleware(['role:admin|manager']);
+
+Route::resource('jobs', JobController::class)->except(['index'])->middleware(['role:admin|manager']);
+Route::controller(JobController::class)->group(function () {
+    Route::get('/jobs/{id}/index', 'index')->name('jobs.index');
+})->middleware(['role:admin|manager']);
+
+Route::post('/email', [EmailController::class, 'sendCredentials'])->name('email.sendCredentials');

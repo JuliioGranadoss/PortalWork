@@ -15,6 +15,11 @@ import FileCrud from './components/FileCrud.vue';
 import IncidentCrud from './components/IncidentCrud.vue';
 import WorkerCrud from './components/WorkerCrud.vue';
 import OfferCrud from './components/OfferCrud.vue';
+import DegreeCrud from './components/DegreeCrud.vue';
+import ExperienceCrud from './components/ExperienceCrud.vue';
+import OtherCrud from './components/OtherCrud.vue';
+import JobCrud from './components/JobCrud.vue';
+
 
 app.component('config-crud', ConfigCrud);
 app.component('user-crud', UserCrud);
@@ -22,6 +27,11 @@ app.component('file-crud', FileCrud);
 app.component('incident-crud', IncidentCrud);
 app.component('worker-crud', WorkerCrud);
 app.component('offer-crud', OfferCrud);
+app.component('degree-crud', DegreeCrud);
+app.component('experience-crud', ExperienceCrud);
+app.component('other-crud', OtherCrud);
+app.component('job-crud', JobCrud);
+
 
 app.use(VueSweetalert2);
 app.use(moment);
