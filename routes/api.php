@@ -30,6 +30,8 @@ Route::get('/workers', [WorkerController::class, 'index'])->middleware(['auth:sa
 Route::get('/workers/{id}', [WorkerController::class, 'show'])->middleware(['auth:sanctum']); // Mostrar datos de trabajador
 Route::put('/workers/{id}', [WorkerController::class, 'store'])->middleware(['auth:sanctum']); // Actualizar un trabajador existente
 Route::delete('/workers/{id}', [WorkerController::class, 'destroy'])->middleware(['auth:sanctum']); // Eliminar un trabajador
+Route::post('/workers/{worker_id}/assign-offer/{offer_id}', [WorkerController::class, 'assignOffer'])->middleware(['auth:sanctum']); // Asignar una oferta a un trabajador
+Route::delete('/workers/{worker_id}/detach-offer/{offer_id}', [WorkerController::class, 'detachOffer'])->middleware(['auth:sanctum']); // Desvincular una oferta de un trabajador
 
 // Rutas para las ofertas
 Route::get('/offers', [OfferController::class, 'index'])->middleware(['auth:sanctum']); // Obtener todas las ofertas

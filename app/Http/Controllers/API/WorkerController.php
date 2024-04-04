@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Models\Worker;
+use App\Models\Offer;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 
@@ -74,5 +75,39 @@ class WorkerController extends Controller
         $model->save();
 
         return response()->json(['success' => __('Trabajador eliminado correctamente.')]);
+    }
+
+    /**
+     * Assign an offer to a worker.
+     *
+     * @param  int  $worker_id
+     * @param  int  $offer_id
+     * @return \Illuminate\Http\Response
+     */
+    public function assignOffer($worker_id, $offer_id)
+    {
+        $worker = Worker::findOrFail($worker_id);
+        $offer = Offer::findOrFail($offer_id);
+
+        $worker->offers()->attach($offer);
+
+        return response()->json(['success' => __('Oferta asignada correctamente al trabajador.')]);
+    }
+
+    /**
+     * Detach an offer from a worker.
+     *
+     * @param  int  $worker_id
+     * @param  int  $offer_id
+     * @return \Illuminate\Http\Response
+     */
+    public function detachOffer($worker_id, $offer_id)
+    {
+        $worker = Worker::findOrFail($worker_id);
+        $offer = Offer::findOrFail($offer_id);
+
+        $worker->offers()->detach($offer);
+
+        return response()->json(['success' => __('Oferta desvinculada correctamente del trabajador.')]);
     }
 }

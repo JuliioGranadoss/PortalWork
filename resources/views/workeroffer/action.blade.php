@@ -1,0 +1,1 @@
+<a href="javascript:void(0)" class="btn btn-danger btn-xs deleteWorkerOffer" data-id="{{$model->id}}"><i class="fa fa-trash"></i></a>

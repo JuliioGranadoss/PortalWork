@@ -19,6 +19,7 @@ import DegreeCrud from './components/DegreeCrud.vue';
 import ExperienceCrud from './components/ExperienceCrud.vue';
 import OtherCrud from './components/OtherCrud.vue';
 import JobCrud from './components/JobCrud.vue';
+import WorkerOffer from './components/WorkerOfferCrud.vue';
 
 
 app.component('config-crud', ConfigCrud);
@@ -31,6 +32,7 @@ app.component('degree-crud', DegreeCrud);
 app.component('experience-crud', ExperienceCrud);
 app.component('other-crud', OtherCrud);
 app.component('job-crud', JobCrud);
+app.component('workeroffer-crud', WorkerOffer);
 
 
 app.use(VueSweetalert2);

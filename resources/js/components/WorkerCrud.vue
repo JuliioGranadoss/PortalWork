@@ -132,6 +132,26 @@ export default {
                     self.alert = 'Error al guardar el trabajador.';
                 });
         },
+
+        sendEmail() {
+            this.$swal({
+                title: '¿Enviar correo electrónico?',
+                text: '¿Estás seguro de que quieres enviar un correo electrónico a este trabajador?',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Enviar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Aquí iría la lógica para enviar el correo electrónico
+                    this.$swal('¡Correo electrónico enviado!', 'El correo electrónico ha sido enviado correctamente.', 'success');
+                }
+            });
+        },
+
+        
         checkBeforeSubmit() {
             this.alert = "";
 

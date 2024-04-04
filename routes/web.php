@@ -18,6 +18,7 @@ use Livewire\Livewire;
 use App\Http\Livewire\Calendar;
 use App\Models\Config;
 use App\Http\Controllers\EmailController;
+use App\Models\Worker;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,10 +50,6 @@ Route::get('/dynamic-styles', function () {
 });
 
 Livewire::component('calendar', Calendar::class);
-
-/*Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index')->name('home');
-});*/
 
 Route::get('/', [WorkerController::class, 'index'])->name('home')->middleware(['role:admin|manager']);
 
@@ -101,4 +98,12 @@ Route::controller(JobController::class)->group(function () {
     Route::get('/jobs/{id}/index', 'index')->name('jobs.index');
 })->middleware(['role:admin|manager']);
 
+Route::resource('workeroffers', WorkerController::class)->middleware(['role:admin|manager']);
+Route::controller(WorkerController::class)->group(function () {
+    Route::get('/workeroffers/{id}/offers', 'offers')->name('workeroffers.offers');
+});
+
 Route::post('/email', [EmailController::class, 'sendCredentials'])->name('email.sendCredentials');
+
+// Rutas para la vista de ofertas de trabajo asociadas a un trabajador
+Route::get('/workers/{id}/offers', [WorkerController::class, 'offers'])->name('workers.offers')->middleware(['role:admin|manager']);

@@ -29,12 +29,6 @@
             <i class="fas fa-user"></i>
             <span>{{__('Trabajadores')}}</span></a>
     </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('home') }}">
-            <i class="fas fa-fw fa-file-invoice"></i>
-            <span>{{__('Dashboard')}}</span></a>
-    </li>
     
     <li class="nav-item">
         <a class="nav-link" href="{{ route('offers.index') }}">

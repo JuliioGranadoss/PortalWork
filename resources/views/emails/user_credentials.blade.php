@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Credenciales de Usuario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f3f8;
+        }
+        .container {
+            max-width: 670px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 3px;
+            text-align: center;
+            box-shadow: 0 6px 18px 0 rgba(0,0,0,.06);
+            padding: 40px 35px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #20e277;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: rgba(69, 80, 86, 0.7411764705882353);
+        }
+    </style>
 </head>
 <body>
     <div class="container">

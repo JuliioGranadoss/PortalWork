@@ -6,12 +6,18 @@ use App\DataTables\DegreeDataTable;
 use App\DataTables\ExperienceDataTable;
 use App\DataTables\JobDataTable;
 use App\DataTables\OtherDataTable;
+use App\DataTables\WorkerOfferDataTable;
 use Illuminate\Http\Request;
 use App\Models\Worker;
 use App\DataTables\WorkerDataTable;
+use App\Mail\SendUserCredentials;
+use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
 
 class WorkerController extends Controller
 {
@@ -39,6 +45,16 @@ class WorkerController extends Controller
     public function index(WorkerDataTable $dataTable)
     {
         return $dataTable->render('workers.index');
+    }
+
+    /**
+     * Show the datatable.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function offers(WorkerOfferDataTable $dataTable, $id)
+    {
+        return $dataTable->render('workers.offers', ['id' => $id]);
     }
 
     /**
@@ -82,6 +98,7 @@ class WorkerController extends Controller
 
         if ($user->wasRecentlyCreated) {
             // aqui meter la funcion de enviar por correo el password al trabajador
+            Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, '123456'));
         }
 
         $model->user_id = $user->id;
@@ -102,7 +119,8 @@ class WorkerController extends Controller
         DegreeDataTable $degreeDataTable, 
         ExperienceDataTable $experienceDataTable,
         JobDataTable $jobDataTable, 
-        OtherDataTable $otherDataTable
+        OtherDataTable $otherDataTable,
+        WorkerOfferDataTable $workerofferDataTable
         )
     {
         $model = Worker::find($id);
@@ -113,6 +131,7 @@ class WorkerController extends Controller
             'experienceDataTable' => $experienceDataTable->html()->minifiedAjax(route('experiencies.index', $id)),
             'jobDataTable' => $jobDataTable->html()->minifiedAjax(route('jobs.index', $id)),
             'otherDataTable' => $otherDataTable->html()->minifiedAjax(route('others.index', $id)),
+            'workerofferDataTable' => $workerofferDataTable->html()->minifiedAjax(route('workers.offers', $id))
         ]);
     }
 
@@ -142,4 +161,19 @@ class WorkerController extends Controller
 
         return response()->json(['success' => __('Trabajador eliminado correctamente.')]);
     }
+
+    public function sendCredentials($id)
+    {
+        $model = Worker::find($id);
+        $password = Str::random(12);
+        $user = $model->user;
+
+        $user->password = Hash::make($password);
+        $user->save();
+        
+        Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, $password));
+
+        return response()->json(['message' => '¡Email enviado!']);
+    }
+
 }

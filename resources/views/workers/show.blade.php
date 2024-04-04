@@ -82,12 +82,24 @@
                 </div>
             </div>
 
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h4 class="m-0 font-weight-bold text-dark text-center text-sm-left h2-sm">{{ __('Ofertas de trabajo')}}
+                    <a class="btn btn-success float-sm-right" href="javascript:void(0)" id="createNewWorkerOffer"><i class="fa fa-plus"></i> {{ __('Seleccionar oferta') }}</a>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {!! $workerofferDataTable->table() !!}
+                </div>
+            </div>
+
         </div>
         <!-- /.container-fluid -->
         <degree-crud ref="degreecrud"></degree-crud>
         <experience-crud ref="experiencecrud"></experience-crud>
         <other-crud ref="othercrud"></other-crud>
         <job-crud ref="jobcrud"></job-crud>
+        <workeroffer-crud ref="workeroffercrud"></workeroffer-crud>
 @endsection
          
 @section('scripts')
@@ -97,4 +109,5 @@
     {!! $experienceDataTable->scripts() !!}
     {!! $jobDataTable->scripts() !!}
     {!! $otherDataTable->scripts() !!}
+    {!! $workerofferDataTable->scripts() !!}
 @endsection
