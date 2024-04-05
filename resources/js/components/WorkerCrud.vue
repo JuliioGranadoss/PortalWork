@@ -133,25 +133,6 @@ export default {
                 });
         },
 
-        sendEmail() {
-            this.$swal({
-                title: '¿Enviar correo electrónico?',
-                text: '¿Estás seguro de que quieres enviar un correo electrónico a este trabajador?',
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Enviar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Aquí iría la lógica para enviar el correo electrónico
-                    this.$swal('¡Correo electrónico enviado!', 'El correo electrónico ha sido enviado correctamente.', 'success');
-                }
-            });
-        },
-
-        
         checkBeforeSubmit() {
             this.alert = "";
 
@@ -185,6 +166,30 @@ export default {
         },
         ajustTable() {
             $('#worker-table').DataTable().columns.adjust().draw();
+        },
+        sendEmail(id) {
+            let self = this;
+            this.$swal({
+                title: '¿Enviar correo electrónico?',
+                text: '¿Estás seguro de que quieres enviar un correo electrónico a este trabajador?',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Enviar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.get('/email/' + id)
+                        .then(function (response) {
+                            self.$swal('¡Correo electrónico enviado!', 'El correo electrónico ha sido enviado correctamente.', 'success');
+                        })
+                        .catch(function (error) {
+                            console.error('Error al enviar el correo electrónico:', error);
+                            self.$swal('Error', 'Hubo un error al enviar el correo electrónico.', 'error');
+                        });
+                }
+            });
         }
     },
     mounted() {
@@ -213,6 +218,11 @@ export default {
                 });
         });
 
+        $('body').on('click', '.sendEmail', function () {
+            var id = $(this).data('id');
+            self.sendEmail(id);
+        });
+
         $('body').on('click', '.deleteModel', function () {
             var id = $(this).data("id");
             self.$swal({
@@ -237,7 +247,7 @@ export default {
                 }
             });
         });
-
     }
 }
+
 </script>

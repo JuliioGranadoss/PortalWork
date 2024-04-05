@@ -14,6 +14,7 @@ use App\Http\Controllers\DegreeController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\OtherController;
+use App\Http\Controllers\WorkerOfferController;
 use Livewire\Livewire;
 use App\Http\Livewire\Calendar;
 use App\Models\Config;
@@ -98,12 +99,14 @@ Route::controller(JobController::class)->group(function () {
     Route::get('/jobs/{id}/index', 'index')->name('jobs.index');
 })->middleware(['role:admin|manager']);
 
-Route::resource('workeroffers', WorkerController::class)->middleware(['role:admin|manager']);
-Route::controller(WorkerController::class)->group(function () {
+Route::resource('workeroffers', WorkerOfferController::class)->except(['destroy'])->middleware(['role:admin|manager']);
+Route::controller(WorkerOfferController::class)->group(function () {
     Route::get('/workeroffers/{id}/offers', 'offers')->name('workeroffers.offers');
-});
+    Route::get('/workeroffers/{id}/available-offers', 'availableOffers')->name('workeroffers.available-offers');
+    Route::delete('/workeroffers/{worker_id}/{offer_id}/destroy', 'destroy')->name('workeroffers.destroy');
+})->middleware(['role:admin|manager']);
 
-Route::post('/email', [EmailController::class, 'sendCredentials'])->name('email.sendCredentials');
+Route::get('/email/{id}', [WorkerController::class, 'sendCredentials'])->name('email.sendCredentials');
 
 // Rutas para la vista de ofertas de trabajo asociadas a un trabajador
 Route::get('/workers/{id}/offers', [WorkerController::class, 'offers'])->name('workers.offers')->middleware(['role:admin|manager']);

@@ -6,40 +6,59 @@
     <title>Credenciales de Usuario</title>
     <style>
         body {
+            background-color: darkgrey; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f2f3f8;
         }
-        .container {
-            max-width: 670px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 3px;
-            text-align: center;
-            box-shadow: 0 6px 18px 0 rgba(0,0,0,.06);
-            padding: 40px 35px;
+
+        .card {
+            width: 500px;
+            margin: 20px auto;
+            border-radius: 10px;
+            background-color: #ffffff; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
+
+        .card-content {
+            padding: 20px;
+            color: #024997; 
+        }
+
         .highlight {
             font-weight: bold;
-            color: #20e277;
         }
+
+        .img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
         .footer {
-            margin-top: 20px;
+            padding: 10px;
             text-align: center;
-            color: rgba(69, 80, 86, 0.7411764705882353);
+            background-color: #f2f3f8; 
+            border-top: 1px solid #ddd;
+            color: rgba(69, 80, 86, 0.7411764705882353); 
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>¡Hola {{ $name }}!</h2>
-        <p>Aquí están tus credenciales de acceso:</p>
-        <div class="credentials">
-            <p><span class="highlight">Nombre de Usuario:</span> {{ $name }}</p>
-            <p><span class="highlight">Contraseña:</span> {{ $password }}</p>
+    <div class="card">
+        <div class="card-content">
+            <img src="{{ asset('img/Logo_Ayuntamiento.png') }}" alt="" class="img">
+            <h2 style="text-align: center;">¡Hola {{ $name }}!</h2>
+            <p>Aquí están tus credenciales de acceso:</p>
+            <div class="credentials">
+                <p><span class="highlight">Nombre de Usuario:</span> {{ $name }}</p>
+                <p><span class="highlight">Contraseña:</span> {{ $password }}</p>
+            </div>
+            <p>Por favor, mantén esta información segura y no la compartas con nadie.</p>
         </div>
-        <p>Por favor, mantén esta información segura y no la compartas con nadie.</p>
     </div>
     <div class="footer">
         <p>Este correo electrónico fue generado automáticamente. Por favor, no respondas a este mensaje.</p>

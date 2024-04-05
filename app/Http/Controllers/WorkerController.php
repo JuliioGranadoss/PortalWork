@@ -11,13 +11,11 @@ use Illuminate\Http\Request;
 use App\Models\Worker;
 use App\DataTables\WorkerDataTable;
 use App\Mail\SendUserCredentials;
-use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-
 
 class WorkerController extends Controller
 {

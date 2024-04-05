@@ -87,9 +87,7 @@ class WorkerController extends Controller
     public function assignOffer($worker_id, $offer_id)
     {
         $worker = Worker::findOrFail($worker_id);
-        $offer = Offer::findOrFail($offer_id);
-
-        $worker->offers()->attach($offer);
+        $worker->offers()->attach($offer_id);
 
         return response()->json(['success' => __('Oferta asignada correctamente al trabajador.')]);
     }
@@ -104,9 +102,8 @@ class WorkerController extends Controller
     public function detachOffer($worker_id, $offer_id)
     {
         $worker = Worker::findOrFail($worker_id);
-        $offer = Offer::findOrFail($offer_id);
 
-        $worker->offers()->detach($offer);
+        $worker->offers()->detach($offer_id);
 
         return response()->json(['success' => __('Oferta desvinculada correctamente del trabajador.')]);
     }

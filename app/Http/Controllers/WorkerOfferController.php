@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Worker;
-use App\Models\WorkOffer;
+use App\Models\WorkerOffer;
+use App\Models\Offer;
 use Illuminate\Http\Request;
 
 class WorkerOfferController extends Controller
@@ -20,7 +21,7 @@ class WorkerOfferController extends Controller
         $worker = Worker::findOrFail($id);
 
         // Obtener las ofertas asociadas al trabajador
-        $offers = $worker->workOffers;
+        $offers = $worker->offers;
 
         return view('workeroffers.offers', compact('worker', 'offers'));
     }
@@ -33,15 +34,43 @@ class WorkerOfferController extends Controller
      */
     public function store(Request $request)
     {
-        $workOffer = WorkOffer::updateOrCreate(
-            ['id' => $request->id],
+        $model = WorkerOffer::updateOrCreate(
+            ['worker_id' => $request->worker_id, 'offer_id' => $request->offer_id],
             [
-                'worker_id' => $request->worker_id,
-                'offer_id' => $request->offer_id
+                'offer_id' => $request->offer_id,
             ]
         );
+        return response()->json(['success' => __('Oferta guardada correctamente.'), 'model' => $model]);
+    }
 
-        return response()->json(['success' => __('Oferta de trabajo guardada correctamente.'), 'workOffer' => $workOffer]);
+    /**
+     * Obtener las ofertas de trabajo disponibles para asignar a un trabajador.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    // public function availableOffers($id)
+    // {
+    //     $worker = Worker::findOrFail($id);
+    //     $offers_ids = $worker->offers->pluck('id')->toArray();
+
+    //     // Obtener todas las ofertas de trabajo que no están asignadas a ningún trabajador
+    //     $availableOffers = Offer::where('status', 1)   ->get();
+
+    //     // Retornar las ofertas disponibles como respuesta JSON
+    //     return response()->json($availableOffers);
+    // }
+
+    public function availableOffers($id)
+    {
+        $worker = Worker::findOrFail($id);
+
+        // Obtener todas las ofertas de trabajo que no están asignadas al trabajador
+        $availableOffers = Offer::whereNotIn('id', $worker->offers()->pluck('id')->toArray())
+            ->where('status', 1)
+            ->get();
+
+        // Retornar las ofertas disponibles como respuesta JSON
+        return response()->json($availableOffers);
     }
 
     /**
@@ -50,11 +79,10 @@ class WorkerOfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($worker_id, $offer_id)
     {
-        $workOffer = WorkOffer::find($id);
-
-        $workOffer->delete();
+        $worker = Worker::findOrFail($worker_id);
+        $worker->offers()->detach($offer_id);
 
         return response()->json(['success' => __('Oferta de trabajo eliminada correctamente.')]);
     }

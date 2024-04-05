@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\WorkOffer;
+use App\Models\WorkerOffer;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -20,7 +20,7 @@ class WorkerOfferDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('offer', function (WorkOffer $model) {
+            ->addColumn('offer', function (WorkerOffer $model) {
                 return $model->offer->name;
             })
             ->addColumn('action', 'workeroffer.action')
@@ -31,10 +31,10 @@ class WorkerOfferDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\WorkOffer $model
+     * @param \App\Models\WorkerOffer $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(WorkOffer $model): QueryBuilder
+    public function query(WorkerOffer $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -48,7 +48,7 @@ class WorkerOfferDataTable extends DataTable
     {
         return $this->builder()
             ->parameters(["language" =>  ["url" =>"//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
-            ->setTableId('worker-offer-table')
+            ->setTableId('workeroffer-table')
             ->addTableClass('table-bordered w-100')
             ->columns($this->getColumns());
     }
