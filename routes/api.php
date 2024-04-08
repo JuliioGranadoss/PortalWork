@@ -41,7 +41,7 @@ Route::delete('/workers/{worker_id}/detach-offer/{offer_id}', [WorkerController:
 Route::get('/offers', [OfferController::class, 'index'])->middleware(['auth:sanctum']); // Obtener todas las ofertas
 Route::get('/offers/{id}', [OfferController::class, 'show'])->middleware(['auth:sanctum']); // Obtener una oferta específica
 
-Route::resource('degrees', DegreeController::class)->middleware(['auth:sanctum']); // Rutas para los títulos
-Route::resource('experiences', ExperienceController::class)->middleware(['auth:sanctum']); // Rutas para las experiencias
-Route::resource('others', OtherController::class)->middleware(['auth:sanctum']); // Rutas para las habilidades
-Route::resource('jobs', JobController::class)->middleware(['auth:sanctum']); // Rutas para los trabajos
+Route::resource('/degrees', DegreeController::class)->middleware(['auth:sanctum']); // Rutas para los títulos
+Route::resource('/experiences', ExperienceController::class)->middleware(['auth:sanctum']); // Rutas para las experiencias
+Route::resource('/others', OtherController::class)->middleware(['auth:sanctum']); // Rutas para las habilidades
+Route::resource('/jobs', JobController::class)->middleware(['auth:sanctum']); // Rutas para los trabajos
