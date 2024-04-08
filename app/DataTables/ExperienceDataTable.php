@@ -8,6 +8,7 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Http\Request;
 
 class ExperienceDataTable extends DataTable
 {
@@ -38,10 +39,10 @@ class ExperienceDataTable extends DataTable
      * @param \App\Models\Experience $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Experience $model): QueryBuilder
-    {
-        return $model->newQuery();
-    }
+    public function query(Experience $model, Request $request): QueryBuilder
+{
+    return $model->where('worker_id', $request->id)->newQuery();
+}
 
     /**
      * Optional method if you want to use html builder.

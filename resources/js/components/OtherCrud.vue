@@ -116,7 +116,7 @@ export default {
         });
 
         $('#createNewOther').click(function () {
-            self.title = 'Añadir otros';
+            self.title = 'Añadir habilidades';
             self.resetModel();
             $('#ajaxOther').modal('show');
         });
@@ -125,7 +125,7 @@ export default {
             var id = $(this).data('id');
             axios.get('/others/' + id + '/edit')
                 .then(function (response) {
-                    self.title = 'Editar otros';
+                    self.title = 'Editar habilidades';
                     $('#ajaxOther').modal('show');
                     self.setModel(response.data);
                 })

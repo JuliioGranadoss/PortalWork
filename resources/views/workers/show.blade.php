@@ -73,8 +73,8 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h4 class="m-0 font-weight-bold text-dark text-center text-sm-left h2-sm">{{ __('Otros')}}
-                    <a class="btn btn-success float-sm-right" href="javascript:void(0)" id="createNewOther"><i class="fa fa-plus"></i> {{ __('Añadir otros') }}</a>
+                    <h4 class="m-0 font-weight-bold text-dark text-center text-sm-left h2-sm">{{ __('Habilidades')}}
+                    <a class="btn btn-success float-sm-right" href="javascript:void(0)" id="createNewOther"><i class="fa fa-plus"></i> {{ __('Añadir habilidades') }}</a>
                     </h4>
                 </div>
                 <div class="card-body">

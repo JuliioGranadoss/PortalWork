@@ -105,6 +105,8 @@ export default {
 
         setModel(data) {
             this.model = data;
+            this.model.start = moment(String(this.model.start)).format('YYYY-MM-DD');
+            this.model.end = moment(String(this.model.end)).format('YYYY-MM-DD');
         },
         resetModel() {
             this.model = {

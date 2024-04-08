@@ -8,6 +8,7 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Http\Request;
 
 class WorkerOfferDataTable extends DataTable
 {
@@ -34,9 +35,9 @@ class WorkerOfferDataTable extends DataTable
      * @param \App\Models\WorkerOffer $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(WorkerOffer $model): QueryBuilder
+    public function query(WorkerOffer $model, Request $request): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('worker_id', $request->id)->newQuery();
     }
 
     /**
@@ -47,7 +48,7 @@ class WorkerOfferDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->parameters(["language" =>  ["url" =>"//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
+            ->parameters(["language" =>  ["url" => "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
             ->setTableId('workeroffer-table')
             ->addTableClass('table-bordered w-100')
             ->columns($this->getColumns());

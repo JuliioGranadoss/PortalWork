@@ -4,6 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\WorkerController;
 use App\Http\Controllers\API\OfferController;
+use App\Http\Controllers\API\DegreeController;
+use App\Http\Controllers\API\ExperienceController;
+use App\Http\Controllers\API\JobController;
+use App\Http\Controllers\API\OtherController;
 use App\Http\Controllers\API\AuthController;
 
 /*
@@ -36,3 +40,8 @@ Route::delete('/workers/{worker_id}/detach-offer/{offer_id}', [WorkerController:
 // Rutas para las ofertas
 Route::get('/offers', [OfferController::class, 'index'])->middleware(['auth:sanctum']); // Obtener todas las ofertas
 Route::get('/offers/{id}', [OfferController::class, 'show'])->middleware(['auth:sanctum']); // Obtener una oferta específica
+
+Route::resource('degrees', DegreeController::class)->middleware(['role:admin|manager']); // Rutas para los títulos
+Route::resource('experiences', ExperienceController::class)->middleware(['role:admin|manager']); // Rutas para las experiencias
+Route::resource('others', OtherController::class)->middleware(['role:admin|manager']); // Rutas para las habilidades
+Route::resource('jobs', JobController::class)->middleware(['role:admin|manager']); // Rutas para los trabajos

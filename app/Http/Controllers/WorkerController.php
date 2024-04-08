@@ -95,7 +95,6 @@ class WorkerController extends Controller
         $user->syncRoles(['worker']);
 
         if ($user->wasRecentlyCreated) {
-            // aqui meter la funcion de enviar por correo el password al trabajador
             Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, '123456'));
         }
 

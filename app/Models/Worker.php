@@ -62,6 +62,21 @@ class Worker extends Model
         return $this->hasMany(Degree::class);
     }
 
+	public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
+	public function experiencies()
+    {
+        return $this->hasMany(Experience::class);
+    }
+
+	public function skills()
+    {
+        return $this->hasMany(Experience::class);
+    }
+
     public function offers()
     {
         return $this->belongsToMany(Offer::class, 'worker_offers', 'worker_id', 'offer_id');

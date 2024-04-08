@@ -18,7 +18,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            $user = User::with(['worker', 'worker.offers'])->where('email', $request->email)->firstOrFail();
+            $user = User::with(['worker', 'worker.offers', 'worker.degrees','worker.jobs','worker.experiencies','worker.skills'])->where('email', $request->email)->firstOrFail();
             $token = $user->createToken('authToken')->plainTextToken;
             return response()->json([
                 'token' => $token,
@@ -40,7 +40,7 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        $user = User::with(['worker', 'worker.offers'])->findOrFail($request->user()->id);
+        $user = User::with(['worker', 'worker.offers', 'worker.degrees','worker.jobs','worker.experiencies','worker.skills'])->findOrFail($request->user()->id);
         return response()->json(['user' => $user], 200);
     }
 }

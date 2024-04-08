@@ -48,18 +48,6 @@ class WorkerOfferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function availableOffers($id)
-    // {
-    //     $worker = Worker::findOrFail($id);
-    //     $offers_ids = $worker->offers->pluck('id')->toArray();
-
-    //     // Obtener todas las ofertas de trabajo que no están asignadas a ningún trabajador
-    //     $availableOffers = Offer::where('status', 1)   ->get();
-
-    //     // Retornar las ofertas disponibles como respuesta JSON
-    //     return response()->json($availableOffers);
-    // }
-
     public function availableOffers($id)
     {
         $worker = Worker::findOrFail($id);

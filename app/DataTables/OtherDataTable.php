@@ -8,6 +8,7 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Http\Request;
 
 class OtherDataTable extends DataTable
 {
@@ -32,9 +33,9 @@ class OtherDataTable extends DataTable
      * @param \App\Models\Other $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Other $model): QueryBuilder
+    public function query(Other $model, Request $request): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('worker_id', $request->id)->newQuery();
     }
 
     /**
@@ -45,7 +46,7 @@ class OtherDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->parameters(["language" =>  ["url" =>"//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
+            ->parameters(["language" =>  ["url" => "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
             ->responsive()
             ->setTableId('other-table')
             ->addTableClass('table-bordered w-100')

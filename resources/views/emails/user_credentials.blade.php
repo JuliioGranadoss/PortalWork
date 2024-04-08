@@ -6,10 +6,14 @@
     <title>Credenciales de Usuario</title>
     <style>
         body {
-            background-color: darkgrey; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+        }
+
+        .body {
+            background-color: #f2f3f8;
+            padding: 50px; 
         }
 
         .card {
@@ -22,12 +26,12 @@
         }
 
         .card-content {
-            padding: 20px;
-            color: #024997; 
+            padding: 30px;
         }
 
         .highlight {
             font-weight: bold;
+            color: #024997;
         }
 
         .img {
@@ -39,29 +43,34 @@
         }
 
         .footer {
-            padding: 10px;
             text-align: center;
             background-color: #f2f3f8; 
             border-top: 1px solid #ddd;
             color: rgba(69, 80, 86, 0.7411764705882353); 
         }
+
+        #footer-text{
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="card-content">
-            <img src="{{ asset('img/Logo_Ayuntamiento.png') }}" alt="" class="img">
-            <h2 style="text-align: center;">¡Hola {{ $name }}!</h2>
-            <p>Aquí están tus credenciales de acceso:</p>
-            <div class="credentials">
-                <p><span class="highlight">Nombre de Usuario:</span> {{ $name }}</p>
-                <p><span class="highlight">Contraseña:</span> {{ $password }}</p>
+    <div class="body">
+        <div class="card">
+            <div class="card-content">
+                <img src="{{ asset('img/Logo_Ayuntamiento.png') }}" alt="" class="img">
+                <h2 style="text-align: center;">¡Hola {{ $name }}!</h2>
+                <p>Aquí están tus credenciales de acceso:</p>
+                <div class="credentials">
+                    <p><span class="highlight">Nombre de Usuario:</span> {{ $name }}</p>
+                    <p><span class="highlight">Contraseña:</span> {{ $password }}</p>
+                </div>
+                <p>Por favor, mantén esta información segura y no la compartas con nadie.</p>
             </div>
-            <p>Por favor, mantén esta información segura y no la compartas con nadie.</p>
         </div>
-    </div>
-    <div class="footer">
-        <p>Este correo electrónico fue generado automáticamente. Por favor, no respondas a este mensaje.</p>
+        <div class="footer">
+            <p id="footer-text">Este correo electrónico fue generado automáticamente. Por favor, no respondas a este mensaje.</p>
+        </div>   
     </div>
 </body>
 </html>
