@@ -1,9 +1,11 @@
 import './bootstrap';
 import './sb-admin-2';
 import.meta.glob(['../img/**',]);
+import 'vue-select/dist/vue-select.css';
 
 import { createApp } from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
+import vSelect from 'vue-select'
 import 'sweetalert2/dist/sweetalert2.min.css';
 import moment from 'moment';
 
@@ -20,7 +22,12 @@ import ExperienceCrud from './components/ExperienceCrud.vue';
 import OtherCrud from './components/OtherCrud.vue';
 import JobCrud from './components/JobCrud.vue';
 import WorkerOffer from './components/WorkerOfferCrud.vue';
-
+import ProviderCrud from './components/ProviderCrud.vue';
+import CategoryCrud from './components/CategoryCrud.vue';
+import ProductCrud from './components/ProductCrud.vue';
+import StockHistoryCrud from './components/StockHistoryCrud.vue';
+import BarcodeCrud from './components/BarcodeCrud.vue';
+import CategoryProductCrud from './components/CategoryProductCrud.vue';
 
 app.component('config-crud', ConfigCrud);
 app.component('user-crud', UserCrud);
@@ -33,7 +40,14 @@ app.component('experience-crud', ExperienceCrud);
 app.component('other-crud', OtherCrud);
 app.component('job-crud', JobCrud);
 app.component('workeroffer-crud', WorkerOffer);
+app.component('provider-crud', ProviderCrud);
+app.component('category-crud', CategoryCrud);
+app.component('product-crud', ProductCrud);
+app.component('stockhistory-crud', StockHistoryCrud);
+app.component('barcode-crud', BarcodeCrud);
+app.component('categoryproduct-crud', CategoryProductCrud);
 
+app.component("v-select", vSelect)
 
 app.use(VueSweetalert2);
 app.use(moment);

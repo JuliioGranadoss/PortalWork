@@ -36,6 +36,38 @@
             <span>{{__('Ofertas de Trabajo')}}</span></a>
     </li>
 
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        {{__('Inventario')}}
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('products.index') }}">
+            <i class="fas fa-cubes"></i>
+            <span>{{__('Productos')}}</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('providers.index') }}">
+            <i class="fas fa-truck"></i>
+            <span>{{__('Proveedores')}}</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('categories.index') }}">
+            <i class="fas fa-sitemap"></i>
+            <span>{{__('Categorías')}}</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('stockhistories.index') }}">
+            <i class="fas fa-history"></i>
+            <span>{{__('Historial')}}</span></a>
+    </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">
