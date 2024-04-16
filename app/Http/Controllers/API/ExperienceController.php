@@ -56,18 +56,6 @@ class ExperienceController extends Controller
     }
 
     /**
-     * Show the form for editing the specified experience.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $experience = Experience::find($id);
-        return response()->json($experience);
-    }
-
-    /**
      * Remove the specified experience from storage.
      *
      * @param  int  $id

@@ -35,7 +35,7 @@ class Worker extends Model
      * @var array
      */
     protected $casts = [
-        'birth_date' => 'date'
+        'birth_date' => 'date:Y-m-d'
     ];
 
     /**
@@ -74,7 +74,7 @@ class Worker extends Model
 
 	public function skills()
     {
-        return $this->hasMany(Experience::class);
+        return $this->hasMany(Other::class);
     }
 
     public function offers()

@@ -56,18 +56,6 @@ class DegreeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified degree.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $degree = Degree::find($id);
-        return response()->json($degree);
-    }
-
-    /**
      * Remove the specified degree from storage.
      *
      * @param  int  $id

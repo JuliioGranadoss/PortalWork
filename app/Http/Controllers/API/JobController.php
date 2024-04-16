@@ -53,18 +53,6 @@ class JobController extends Controller
     }
 
     /**
-     * Show the form for editing the specified job.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $job = Job::find($id);
-        return response()->json($job);
-    }
-
-    /**
      * Remove the specified job from storage.
      *
      * @param  int  $id
