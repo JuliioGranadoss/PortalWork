@@ -28,8 +28,8 @@ class Experience extends Model
      * @var array
      */
     protected $casts = [
-        'start' => 'date',
-        'end' => 'date'
+        'start' => 'datedate:Y-m-d',
+        'end' => 'datedate:Y-m-d'
     ];
 
     public function worker()
