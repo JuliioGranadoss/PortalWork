@@ -33,7 +33,6 @@ class JobController extends Controller
             [
                 'worker_id' => $request->worker_id,
                 'name' => $request->name,
-                'score' => $request->score,
             ]
         );
 

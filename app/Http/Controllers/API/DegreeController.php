@@ -36,7 +36,6 @@ class DegreeController extends Controller
                 'institution' => $request->institution,
                 'start' => Carbon::parse($request->start)->format('Y-m-d'),
                 'end' => Carbon::parse($request->end)->format('Y-m-d'),
-                'score' => $request->score,
             ]
         );
 

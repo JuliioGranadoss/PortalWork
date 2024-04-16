@@ -36,7 +36,6 @@ class ExperienceController extends Controller
                 'company' => $request->company,
                 'start' => Carbon::parse($request->start)->format('Y-m-d'),
                 'end' => Carbon::parse($request->end)->format('Y-m-d'),
-                'score' => $request->score,
             ]
         );
 

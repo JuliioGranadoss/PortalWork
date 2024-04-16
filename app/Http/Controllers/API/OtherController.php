@@ -34,7 +34,6 @@ class OtherController extends Controller
                 'worker_id' => $request->worker_id,
                 'name' => $request->name,
                 'description' => $request->description,
-                'score' => $request->score,
             ]
         );
 
