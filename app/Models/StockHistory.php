@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int    $created_at
  * @property int    $quantity
+ * @property int    $type
  * @property int    $updated_at
  * @property string $name
  */
@@ -32,7 +33,7 @@ class StockHistory extends Model
      * @var array
      */
     protected $fillable = [
-        'created_at', 'name', 'product_id', 'quantity', 'updated_at'
+        'created_at', 'name', 'product_id', 'quantity', 'type' ,'updated_at'
     ];
 
     /**
@@ -48,7 +49,7 @@ class StockHistory extends Model
      * @var array
      */
     protected $casts = [
-        'created_at' => 'timestamp', 'name' => 'string', 'quantity' => 'int', 'updated_at' => 'timestamp'
+        'created_at' => 'timestamp', 'name' => 'string', 'quantity' => 'int', 'type' => 'int' ,'updated_at' => 'timestamp'
     ];
 
     /**
@@ -66,6 +67,25 @@ class StockHistory extends Model
      * @var boolean
      */
     public $timestamps = true;
+
+    /**
+     * Get the type label.
+     */
+    public function getTypeLabel()
+    {
+        switch ($this->type) {
+            case 0:
+                $label = '<h5 class="text-center"><span class="badge badge-pill badge-danger">Salida</span></h5>';
+                break;
+            case 1:
+                $label = '<h5 class="text-center"><span class="badge badge-pill badge-success">Entrada</span></h5>';
+                break;
+            default:
+                $label = 'Entrada';
+                break;
+        }
+        return $label;
+    }
 
     // Relations
 

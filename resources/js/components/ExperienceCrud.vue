@@ -36,8 +36,8 @@
                                 <input type="date" class="form-control" v-model="model.end" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="score" class="control-label">Puntuación*</label>
-                                <input type="number" class="form-control" v-model="model.score" min="0" max="10" required>
+                                <label for="score" class="control-label">Puntuación</label>
+                                <input type="number" class="form-control" v-model="model.score" min="0" max="10">
                             </div>
                         </div>
 
@@ -96,7 +96,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.company || !this.model.start || !this.model.end || !this.model.score) {
+            if (!this.model.name || !this.model.company || !this.model.start || !this.model.end) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }

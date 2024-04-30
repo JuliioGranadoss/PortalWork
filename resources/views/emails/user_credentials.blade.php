@@ -13,11 +13,11 @@
 
         .body {
             background-color: #f2f3f8;
-            padding: 50px; 
+            padding: 20px; 
         }
 
         .card {
-            width: 500px;
+            max-width: 500px;
             margin: 20px auto;
             border-radius: 10px;
             background-color: #ffffff; 
@@ -50,7 +50,19 @@
         }
 
         #footer-text{
-            margin-top: 40px;
+            margin-top: 20px; 
+        }
+
+        @media screen and (max-width: 600px) {
+            .card {
+                margin: 10px auto; 
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .card-content {
+                padding: 20px;
+            }
         }
     </style>
 </head>

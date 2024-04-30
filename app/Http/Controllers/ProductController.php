@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\DataTables\ProductDataTable;
 use App\DataTables\ProviderDataTable;
+use App\Models\Barcode;
+use App\Models\StockHistory;
 
 class ProductController extends Controller
 {
@@ -64,13 +66,12 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(
-        $id, 
+        $id,
         CategoryProductDataTable $categoryProductDataTable,
         BarcodeDataTable $barcodeDataTable
-        )
-    {
+    ) {
         $model = Product::find($id);
-    
+
         return view('products.show', [
             'model' => $model,
             'categoryproductDataTable' => $categoryProductDataTable->html()->minifiedAjax(route('categoryproducts.index', $id)),
@@ -103,4 +104,46 @@ class ProductController extends Controller
 
         return response()->json(['success' => __('Producto eliminado correctamente.')]);
     }
+
+    public function searchByBarcode($barcode)
+    {
+        // Buscar el código de barras en la tabla 'barcodes'
+        $barcodeEntry = Barcode::where('code', $barcode)->first();
+
+        if (!$barcodeEntry) {
+            return response()->json(['error' => 'Código de barras no encontrado.']);
+        }
+
+        // Obtener el producto asociado al código de barras
+        $product = $barcodeEntry->product;
+
+        if (!$product) {
+            return response()->json(['error' => 'Producto no encontrado para el código de barras dado.']);
+        }
+
+        // Retornar los detalles del producto encontrado
+        return response()->json(['product' => $product]);
+    }
+
+    public function updateProducts(Request $request){
+        $products = $request->products;
+    
+        foreach ($products as $product) {
+            $model = Product::find($product['id']);
+            if ($model) {
+                $quantity = $product['stock'];
+                $type = $quantity >= 0 ? 1 : 0;
+    
+                $model->update(['stock' => $model->stock + $quantity]);
+    
+                // Registro de historial de stock
+                StockHistory::create([
+                    'product_id' => $model->id,
+                    'name' => $model->name,
+                    'quantity' => abs($quantity),
+                    'type' => $type,
+                ]);
+            }
+        }
+    }      
 }

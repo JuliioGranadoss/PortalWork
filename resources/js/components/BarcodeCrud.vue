@@ -20,8 +20,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="code" class="control-label">Código*</label>
-                                <input type="text" class="form-control" v-model="model.code" pattern="[0-9]{12}" 
-                                title="El código de barras debe contener 12 dígitos numéricos" required>
+                                <input type="text" class="form-control" v-model="model.code" required>
                             </div>
                         </div>
                         <div class="row justify-content-end">

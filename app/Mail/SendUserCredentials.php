@@ -33,6 +33,7 @@ class SendUserCredentials extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.user_credentials');
+        return $this->view('emails.user_credentials')
+            ->subject('Credenciales de Usuario');
     }
 }

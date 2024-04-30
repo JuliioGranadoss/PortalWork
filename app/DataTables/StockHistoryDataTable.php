@@ -2,13 +2,13 @@
 
 namespace App\DataTables;
 
+use App\Models\Product;
 use App\Models\StockHistory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Http\Request;
 
 class StockHistoryDataTable extends DataTable
 {
@@ -21,7 +21,18 @@ class StockHistoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'stockhistories.action')
+            ->addColumn('product_name', function (StockHistory $history) {
+                return $history->product->name;
+            })
+            ->addColumn('quantity', function (StockHistory $history) {
+                return $history->quantity;
+            })
+            ->addColumn('type', function (StockHistory $history) {
+                return $history->getTypeLabel();
+            })
+            ->editColumn('updated_at', function (StockHistory $history) {
+                return date("d/m/Y H:i:s", $history->updated_at);
+            })
             ->escapeColumns([])
             ->setRowId('id');
     }
@@ -29,12 +40,12 @@ class StockHistoryDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\StockHistory $model
+     * @param \App\Models\Product $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(StockHistory $model, Request $request): QueryBuilder
+    public function query(StockHistory $history): QueryBuilder
     {
-        return $model->where('product_id', $request->id)->newQuery();
+        return $history->newQuery();
     }
 
     /**
@@ -47,12 +58,11 @@ class StockHistoryDataTable extends DataTable
         return $this->builder()
             ->parameters(["language" =>  ["url" => "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
             ->responsive()
-            ->setTableId('stockhistory-table')
+            ->setTableId('stock-history-table')
             ->addTableClass('table-bordered w-100')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->orderBy(1)
-            ->lengthChange(false);
+            ->orderBy(3);
     }
 
     /**
@@ -63,23 +73,10 @@ class StockHistoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('details')->title('')
-                ->responsivePriority(0)->targets(-2)
-                ->addClass('details-control')
-                ->exportable(false)
-                ->printable(false)
-                ->orderable(false)
-                ->defaultContent(''),
-            Column::make('product_id')->hidden(),
-            Column::make('name')->responsivePriority(1)->targets(0)->title('Nombre'),
+            Column::make('product_name')->title('Producto'),
             Column::make('quantity')->title('Cantidad'),
-            Column::computed('action')->title('Acciones')
-                ->responsivePriority(2)
-                ->targets(-1)
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center text-nowrap'),
+            Column::make('type')->title('Tipo'),
+            Column::make('updated_at')->title('Fecha'),
         ];
     }
 

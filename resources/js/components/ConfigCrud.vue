@@ -90,7 +90,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="theme_color" class="col-sm-12 control-label">Color del thema*</label>
+                    <label for="theme_color" class="col-sm-12 control-label">Color del tema*</label>
                     <div class="col-sm-12">
                         <color-picker v-model:pureColor="model.theme_color"/>
                     </div>

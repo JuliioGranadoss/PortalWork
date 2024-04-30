@@ -25,10 +25,6 @@ class ProductDataTable extends DataTable
             ->editColumn('status', function (Product $model) {
                 return $model->getStatusLabel();
             })
-            // ->addColumn('cantidad', function ($model) {
-            //     $input = '<input value="'.$model->cantidad. '" data-id="'. $model->id .'" type="number" step="1" placeholder="" name="stock" class="stock-update form-control text-right">';
-            //     return $input;
-            // })
             ->addColumn('action', 'products.action')
             ->escapeColumns([])
             ->setRowId('id');
@@ -82,7 +78,7 @@ class ProductDataTable extends DataTable
             Column::make('name')->responsivePriority(1)->targets(0)->title('Nombre'),
             Column::make('description')->title('Descripción'),
             Column::make('provider.name')->title('Proveedor'),
-            Column::make('stock')->title('Existencias'),
+            Column::make('stock')->title('Cantidad'),
             Column::make('status')->title('Estado')->width(80),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)

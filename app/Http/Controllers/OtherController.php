@@ -52,7 +52,7 @@ class OtherController extends Controller
             ]
         );
 
-        return response()->json(['success' => __('Otros datos guardados correctamente.'), 'model' => $model]);
+        return response()->json(['success' => __('Habilidad guardada correctamente.'), 'model' => $model]);
     }
 
     /**
@@ -79,6 +79,6 @@ class OtherController extends Controller
         $model = Other::find($id);
         $model->delete();
 
-        return response()->json(['success' => __('Otros datos eliminados correctamente.')]);
+        return response()->json(['success' => __('Habilidad eliminada correctamente.')]);
     }
 }

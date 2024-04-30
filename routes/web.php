@@ -110,8 +110,9 @@ Route::controller(JobController::class)->group(function () {
 })->middleware(['role:admin|manager']);
 
 // Ruta para las ofertas de trabajo asociadas a un trabajador
-Route::resource('workeroffers', WorkerOfferController::class)->except(['destroy'])->middleware(['role:admin|manager']);
+Route::resource('workeroffers', WorkerOfferController::class)->except(['destroy','index'])->middleware(['role:admin|manager']);
 Route::controller(WorkerOfferController::class)->group(function () {
+    Route::get('/workeroffers/{id}/index', 'index')->name('workeroffers.index');
     Route::get('/workeroffers/{id}/offers', 'offers')->name('workeroffers.offers');
     Route::get('/workeroffers/{id}/available-offers', 'availableOffers')->name('workeroffers.available-offers');
     Route::delete('/workeroffers/{worker_id}/{offer_id}/destroy', 'destroy')->name('workeroffers.destroy');
@@ -120,16 +121,12 @@ Route::controller(WorkerOfferController::class)->group(function () {
 // Ruta para enviar credenciales por email
 Route::get('/email/{id}', [WorkerController::class, 'sendCredentials'])->name('email.sendCredentials');
 
-// Rutas para la vista de ofertas de trabajo asociadas a un trabajador
-Route::get('/workers/{id}/offers', [WorkerController::class, 'offers'])->name('workers.offers')->middleware(['role:admin|manager']);
-
 // Ruta para los proveedores
 Route::resource('providers', ProviderController::class)->middleware(['role:admin|manager']);
 Route::controller(ProviderController::class)->group(function () {
     Route::get('/providers/get/data', 'data')->name('providers.data');
 })->middleware(['role:admin|manager']);
 
-//Ruta para los proveedores
 Route::resource('providers', ProviderController::class)->middleware(['role:admin|manager']);
 
 // Ruta para las categorías
@@ -137,8 +134,13 @@ Route::resource('categories', CategoryController::class)->middleware(['role:admi
 
 // Ruta para los productos
 Route::resource('products', ProductController::class)->middleware(['role:admin|manager']);
+Route::controller(ProductController::class)->group(function () {
+    Route::get('/products/searchByBarcode/{barcode}', 'searchByBarcode')->name('products.searchByBarcode');
+    Route::post('/products/updateProducts', 'updateProducts')->name('products.updateProducts');
+})->middleware(['role:admin|manager']);
 
-// Ruta para los historiales
+
+// Ruta para el historial
 Route::resource('stockhistories', StockHistoryController::class)->middleware(['role:admin|manager']);
 
 // Ruta para los códigos de barras
@@ -146,7 +148,6 @@ Route::resource('barcodes', BarcodeController::class)->middleware(['role:admin|m
 
 // Ruta para las categorías de productos
 Route::resource('categoryproducts', CategoryProductController::class)->except(['destroy','index'])->middleware(['role:admin|manager']);
-
 Route::controller(CategoryProductController::class)->group(function () {
     Route::get('/categoryproducts/{id}/index', 'index')->name('categoryproducts.index');
     Route::get('/categoryproducts/{id}/categories', 'categories')->name('categoryproducts.categories');

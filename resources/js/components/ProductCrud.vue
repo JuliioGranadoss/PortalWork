@@ -27,7 +27,7 @@
                                 <input type="text" class="form-control" v-model="model.description">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="stock" class="control-label">Existencias*</label>
+                                <label for="stock" class="control-label">Cantidad*</label>
                                 <input type="number" class="form-control" v-model="model.stock" min="0" required>
                             </div>
                             <div class="form-group col-md-6">

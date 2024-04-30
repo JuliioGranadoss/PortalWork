@@ -28,6 +28,7 @@ import ProductCrud from './components/ProductCrud.vue';
 import StockHistoryCrud from './components/StockHistoryCrud.vue';
 import BarcodeCrud from './components/BarcodeCrud.vue';
 import CategoryProductCrud from './components/CategoryProductCrud.vue';
+import ProductStock from './components/ProductStock.vue';
 
 app.component('config-crud', ConfigCrud);
 app.component('user-crud', UserCrud);
@@ -46,6 +47,7 @@ app.component('product-crud', ProductCrud);
 app.component('stockhistory-crud', StockHistoryCrud);
 app.component('barcode-crud', BarcodeCrud);
 app.component('categoryproduct-crud', CategoryProductCrud);
+app.component('product-stock', ProductStock);
 
 app.component("v-select", vSelect)
 

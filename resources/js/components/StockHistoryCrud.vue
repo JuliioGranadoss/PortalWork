@@ -17,14 +17,22 @@
                             </div>
                         </div>
                         <input type="hidden" name="id" v-model="model.id">
+                        <input type="hidden" name="product_id" v-model="model.product_id">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="name" class="control-label">Nombre*</label>
+                                <label for="name" class="control-label">Producto*</label>
                                 <input type="text" class="form-control" v-model="model.name" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="quantity" class="control-label">Cantidad*</label>
                                 <input type="number" class="form-control" v-model="model.quantity" min="1" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="type" class="control-label">Tipo*</label>
+                                <select class="form-control" name="type" id="type" v-model="model.type" required>
+                                    <option value="entrada">Entrada</option>
+                                    <option value="salida">Salida</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-12 text-right">
@@ -48,7 +56,8 @@ export default {
                 id: null,
                 product_id: $('#product_id').val(),
                 name: null,
-                quantity: null
+                quantity: null,
+                type: 1 
             }
         }
     },
@@ -79,7 +88,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.quantity) {
+            if (!this.model.name || !this.model.quantity || !this.model.type) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }
@@ -94,7 +103,8 @@ export default {
                 id: null,
                 product_id: $('#product_id').val(),
                 name: null,
-                quantity: null
+                quantity: null,
+                type: 1
             };
         },
         ajustTable() {

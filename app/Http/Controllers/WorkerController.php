@@ -46,16 +46,6 @@ class WorkerController extends Controller
     }
 
     /**
-     * Show the datatable.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function offers(WorkerOfferDataTable $dataTable, $id)
-    {
-        return $dataTable->render('workers.offers', ['id' => $id]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -128,7 +118,7 @@ class WorkerController extends Controller
             'experienceDataTable' => $experienceDataTable->html()->minifiedAjax(route('experiencies.index', $id)),
             'jobDataTable' => $jobDataTable->html()->minifiedAjax(route('jobs.index', $id)),
             'otherDataTable' => $otherDataTable->html()->minifiedAjax(route('others.index', $id)),
-            'workerofferDataTable' => $workerofferDataTable->html()->minifiedAjax(route('workers.offers', $id))
+            'workerofferDataTable' => $workerofferDataTable->html()->minifiedAjax(route('workeroffers.index', $id))
         ]);
     }
 

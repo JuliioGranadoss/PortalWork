@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\WorkerOfferDataTable;
 use App\Models\Worker;
 use App\Models\WorkerOffer;
 use App\Models\Offer;
@@ -9,6 +10,17 @@ use Illuminate\Http\Request;
 
 class WorkerOfferController extends Controller
 {
+
+    /**
+     * Show the datatable.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index(WorkerOfferDataTable $dataTable, $id)
+    {
+        return $dataTable->render('workeroffers.index', ['id' => $id]);
+    }
+
     /**
      * Muestra las ofertas asociadas a un trabajador.
      *
