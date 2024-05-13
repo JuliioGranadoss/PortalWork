@@ -68,7 +68,6 @@
             <span>{{__('Historial')}}</span></a>
     </li>
 
-
     <!-- Divider -->
     <hr class="sidebar-divider">
 

@@ -4,9 +4,10 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Models\Worker;
-use App\Models\Offer;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use App\Models\File;
+use Illuminate\Support\Facades\Storage;
 
 class WorkerController extends Controller
 {
@@ -44,6 +45,7 @@ class WorkerController extends Controller
                 'location' => $request->location,
                 'phone' => $request->phone,
                 'status' => $request->status,
+                'file_id' => $request->file_id
             ]
         );
 
@@ -106,5 +108,43 @@ class WorkerController extends Controller
         $worker->offers()->detach($offer_id);
 
         return response()->json(['success' => __('Oferta desvinculada correctamente del trabajador.')]);
+    }
+
+    /**
+     * Update or add the worker's profile photo.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrAddProfilePhoto(Request $request, $id)
+    {
+        $worker = Worker::findOrFail($id);
+
+        $request->validate([
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('profile_photo')) {
+            $profilePhoto = $request->file('profile_photo');
+
+            // Guardar el archivo en el almacenamiento
+            $filename = time() . '_' . $profilePhoto->getClientOriginalName();
+            $path = $profilePhoto->storeAs('public/file/' . $id, $filename);
+
+            // Crear una nueva entrada en la tabla files
+            $file = new File();
+            $file->title = $filename;
+            $file->filename = $filename;
+            $file->mime_type = $profilePhoto->getClientMimeType();
+            $file->slug = $filename;
+            $file->save();
+
+            // Vincular el archivo al trabajador
+            $worker->file_id = $file->id;
+            $worker->save();
+        }
+
+        return response()->json(['success' => __('Foto de perfil actualizada correctamente.')]);
     }
 }

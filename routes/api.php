@@ -9,6 +9,7 @@ use App\Http\Controllers\API\ExperienceController;
 use App\Http\Controllers\API\JobController;
 use App\Http\Controllers\API\OtherController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::put('/workers/{id}', [WorkerController::class, 'store'])->middleware(['au
 Route::delete('/workers/{id}', [WorkerController::class, 'destroy'])->middleware(['auth:sanctum']); // Eliminar un trabajador
 Route::post('/workers/{worker_id}/assign-offer/{offer_id}', [WorkerController::class, 'assignOffer'])->middleware(['auth:sanctum']); // Asignar una oferta a un trabajador
 Route::delete('/workers/{worker_id}/detach-offer/{offer_id}', [WorkerController::class, 'detachOffer'])->middleware(['auth:sanctum']); // Desvincular una oferta de un trabajador
+
+// Rutas para las fotos de perfil de los trabajadores
+Route::post('/workers/{id}/profile-photo', [WorkerController::class, 'updateOrAddProfilePhoto'])->middleware(['auth:sanctum']); // Actualizar o añadir la foto de perfil a un trabajador
 
 // Rutas para las ofertas
 Route::get('/offers', [OfferController::class, 'index'])->middleware(['auth:sanctum']); // Obtener todas las ofertas

@@ -28,8 +28,8 @@ class Degree extends Model
      * @var array
      */
     protected $casts = [
-        'start' => 'datedate:Y-m-d',
-        'end' => 'datedate:Y-m-d'
+        'start' => 'date:Y-m-d',
+        'end' => 'date:Y-m-d'
     ];
 
     public function worker()

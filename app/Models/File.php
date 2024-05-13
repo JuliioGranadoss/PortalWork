@@ -65,9 +65,7 @@ class File extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -103,4 +101,9 @@ class File extends Model
     //         $builder->where('files.status', '>', -1);
     //     });
     // }
+
+    public function worker()
+    {
+        return $this->hasOne(Worker::class);
+    }
 }

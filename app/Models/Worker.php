@@ -25,7 +25,8 @@ class Worker extends Model
         'province',
         'location',
         'phone',
-        'status'
+        'status',
+        'file_id'
     ];
 
 
@@ -35,7 +36,8 @@ class Worker extends Model
      * @var array
      */
     protected $casts = [
-        'birth_date' => 'date:Y-m-d'
+        'birth_date' => 'date:Y-m-d',
+        'file_id' => 'int'
     ];
 
     /**
@@ -62,17 +64,17 @@ class Worker extends Model
         return $this->hasMany(Degree::class);
     }
 
-	public function jobs()
+    public function jobs()
     {
         return $this->hasMany(Job::class);
     }
 
-	public function experiencies()
+    public function experiencies()
     {
         return $this->hasMany(Experience::class);
     }
 
-	public function skills()
+    public function skills()
     {
         return $this->hasMany(Other::class);
     }
@@ -87,6 +89,11 @@ class Worker extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
+
     /**
      * The "booted" method of the model.
      */
@@ -96,5 +103,4 @@ class Worker extends Model
             $builder->where('workers.status', '>', -1);
         });
     }
-
 }

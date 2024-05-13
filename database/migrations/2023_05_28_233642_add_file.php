@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('source')->nullable();
             $table->string('filename')->nullable();
-            $table->string('mime_type', 5);
+            $table->string('mime_type', 100);
             $table->integer('position')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->string('slug')->unique();

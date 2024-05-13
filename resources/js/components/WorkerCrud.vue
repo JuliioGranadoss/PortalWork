@@ -93,6 +93,7 @@ export default {
             disable: false,
             model: {
                 id: null,
+                file_id: null,
                 name: null,
                 surname: null,
                 dni: null,
@@ -104,8 +105,8 @@ export default {
                 province: null,
                 location: null,
                 phone: null,
-                status: 1
-            }
+                status: 1,
+            },
         }
     },
     methods: {
@@ -150,6 +151,7 @@ export default {
         resetModel() {
             this.model = {
                 id: null,
+                file_id: null,
                 name: null,
                 surname: null,
                 dni: null,
