@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -18,7 +19,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            $user = User::with(['worker', 'worker.offers', 'worker.degrees','worker.jobs','worker.experiencies','worker.skills'])->where('email', $request->email)->firstOrFail();
+            $user = User::with(['worker', 'worker.offers', 'worker.degrees', 'worker.jobs', 'worker.experiencies', 'worker.skills'])->where('email', $request->email)->firstOrFail();
             $token = $user->createToken('authToken')->plainTextToken;
             return response()->json([
                 'token' => $token,
@@ -40,7 +41,17 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        $user = User::with(['worker', 'worker.offers', 'worker.degrees','worker.jobs','worker.experiencies','worker.skills'])->findOrFail($request->user()->id);
+        $user = User::with(['worker', 'worker.file', 'worker.offers', 'worker.degrees', 'worker.jobs', 'worker.experiencies', 'worker.skills'])
+            ->findOrFail($request->user()->id);
+
+        // Obtener la URL de la imagen de perfil si está disponible
+        $profilePhotoUrl = null;
+        if ($user->worker && $user->worker->file) {
+            $profilePhotoUrl = Storage::url($user->worker->file->filename);
+        }
+
+        $user->profile_photo_url = $profilePhotoUrl;
+
         return response()->json(['user' => $user], 200);
     }
 }
