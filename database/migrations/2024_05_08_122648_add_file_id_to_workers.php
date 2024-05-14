@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('workers', function (Blueprint $table) {
             $table->unsignedInteger('file_id')->nullable()->after('id');
-            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade')->onUpdate('set null');
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('set null')->onUpdate('set null');
         });
     }
 
