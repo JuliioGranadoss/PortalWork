@@ -2,15 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Models\Product;
+use App\Models\StockMovement;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Http\Request;
 
-class ProductDataTable extends DataTable
+class StockMovementDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -20,23 +19,14 @@ class ProductDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-
         return (new EloquentDataTable($query))
-            ->editColumn('status', function (Product $model) {
-                return $model->getStatusLabel();
+            ->addColumn('place_name', function (StockMovement $movement) {
+                return $movement->place ? $movement->place->name : 'N/A';
             })
-            ->addColumn('categories', function (Product $model) {
-                return '<ul><li>' . $model->categories->pluck('name')->implode('</li><li>') . '</li></ul>';
+            ->addColumn('personal_name', function (StockMovement $movement) {
+                return $movement->personal ? $movement->personal->name . ' ' . $movement->personal->surname : 'N/A';
             })
-            ->filterColumn('categories', function($query, $keyword) {
-                $query->whereHas('categories', function($query) use ($keyword) {
-                    $query->where('id', $keyword);
-                });
-            })
-            ->addColumn('barcodes', function (Product $model) {
-                return '<ul><li>' . $model->barcodes->pluck('code')->implode('</li><li>') . '</li></ul>';
-            })
-            ->addColumn('action', 'products.action')
+            ->addColumn('action', 'stockmovement.action')
             ->escapeColumns([])
             ->setRowId('id');
     }
@@ -44,12 +34,12 @@ class ProductDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Product $model
+     * @param \App\Models\StockMovement $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Product $model, Request $request): QueryBuilder
+    public function query(StockMovement $movement): QueryBuilder
     {
-        return $model->with('provider', 'categories', 'barcodes')->newQuery();
+        return $movement->newQuery()->with(['place', 'personal']);
     }
 
     /**
@@ -62,12 +52,11 @@ class ProductDataTable extends DataTable
         return $this->builder()
             ->parameters(["language" =>  ["url" => "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
             ->responsive()
-            ->setTableId('product-table')
+            ->setTableId('stock-movement-table')
             ->addTableClass('table-bordered w-100')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->orderBy(1)
-            ->lengthChange(false);
+            ->orderBy(1);
     }
 
     /**
@@ -85,14 +74,8 @@ class ProductDataTable extends DataTable
                 ->printable(false)
                 ->orderable(false)
                 ->defaultContent(''),
-            Column::make('provider_id')->hidden(),
-            Column::make('name')->responsivePriority(1)->addClass('column-name')->targets(0)->title('Nombre'),
-            Column::make('description')->title('Descripción')->addClass('column-description'),
-            Column::make('categories')->title('Categorías')->addClass('column-category'),
-            Column::make('provider.name')->title('Proveedor')->addClass('column-provider'),
-            Column::make('barcodes')->title('Código de Barras'),
-            Column::make('stock')->title('Cantidad')->addClass('column-stock'),
-            Column::make('status')->title('Estado')->addClass('column-status')->width(80),
+            Column::make('place_name')->title('Lugar'),
+            Column::make('personal_name')->title('Personal'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)
@@ -102,6 +85,7 @@ class ProductDataTable extends DataTable
                 ->addClass('text-center text-nowrap'),
         ];
     }
+
     /**
      * Get filename for export.
      *
@@ -109,6 +93,6 @@ class ProductDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Product_' . date('YmdHis');
+        return 'StockMovement_' . date('YmdHis');
     }
 }

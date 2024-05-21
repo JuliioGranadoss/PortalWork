@@ -24,6 +24,9 @@ use App\Models\Config;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\StockHistoryController;
+use App\Http\Controllers\StockMovementController;
+use App\Http\Controllers\StockPersonalController;
+use App\Http\Controllers\StockPlaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,14 +134,12 @@ Route::resource('providers', ProviderController::class)->middleware(['role:admin
 
 // Ruta para las categorías
 Route::resource('categories', CategoryController::class)->middleware(['role:admin|manager']);
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('/categories/get/data', 'data')->name('categories.data');
+})->middleware(['role:admin|manager']);
 
 // Ruta para los productos
 Route::resource('products', ProductController::class)->middleware(['role:admin|manager']);
-Route::controller(ProductController::class)->group(function () {
-    Route::get('/products/searchByBarcode/{barcode}', 'searchByBarcode')->name('products.searchByBarcode');
-    Route::post('/products/updateProducts', 'updateProducts')->name('products.updateProducts');
-})->middleware(['role:admin|manager']);
-
 
 // Ruta para el historial
 Route::resource('stockhistories', StockHistoryController::class)->middleware(['role:admin|manager']);
@@ -159,4 +160,23 @@ Route::controller(CategoryProductController::class)->group(function () {
 Route::resource('barcodes', BarcodeController::class)->except(['index'])->middleware(['role:admin|manager']);
 Route::controller(BarcodeController::class)->group(function () {
     Route::get('/barcodes/{id}/index', 'index')->name('barcodes.index');
+})->middleware(['role:admin|manager']);
+
+// Ruta para los lugares de stock
+Route::resource('stockplaces', StockPlaceController::class)->middleware(['role:admin|manager']);
+Route::controller(StockPlaceController::class)->group(function () {
+    Route::get('/stockplaces/get/data', 'data')->name('stockplaces.data');
+})->middleware(['role:admin|manager']);
+
+// Ruta para personal de stock
+Route::resource('stockpersonals', StockPersonalController::class)->middleware(['role:admin|manager']);
+Route::controller(StockPersonalController::class)->group(function () {
+    Route::get('/stockpersonals/get/data', 'data')->name('stockpersonals.data');
+})->middleware(['role:admin|manager']);
+
+// Ruta para movimientos de stock
+Route::resource('stockmovements', StockMovementController::class)->middleware(['role:admin|manager']);
+Route::controller(StockMovementController::class)->group(function () {
+    Route::get('/stockmovements/searchByBarcode/{barcode}', 'searchByBarcode')->name('stockmovements.searchByBarcode');
+    Route::post('/stockmovements/updateProducts', 'updateProducts')->name('stockmovements.updateProducts');
 })->middleware(['role:admin|manager']);

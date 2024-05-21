@@ -18,19 +18,23 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
+                            <p><strong>Convocatoria:</strong> {{ $model->announcement->format('d/m/Y') }}</p>
                             <p><strong>Nombre:</strong> {{ $model->name }}</p>
                             <p><strong>Apellido:</strong> {{ $model->surname }}</p>
                             <p><strong>DNI:</strong> {{ $model->dni }}</p>
                             <p><strong>Correo electrónico:</strong> {{ $model->email }}</p>
                             <p><strong>Fecha de nacimiento:</strong> {{ $model->birth_date->format('d/m/Y') }}</p>
                             <p><strong>Descripción:</strong> {{ $model->description }}</p>
+                            <p><strong>Dirección:</strong> {{ $model->address }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Dirección:</strong> {{ $model->address }}</p>
                             <p><strong>Código postal:</strong> {{ $model->postal_code }}</p>
                             <p><strong>Provincia:</strong> {{ $model->province }}</p>
                             <p><strong>Localidad:</strong> {{ $model->location }}</p>
                             <p><strong>Teléfono:</strong> {{ $model->phone }}</p>
+                            <p><strong>Teléfono 2:</strong></p> {{ $model->phone2 }}
+                            <p><strong>Permiso B (turismo):</strong> {{ $model->driving_license_B == 1 ? 'Si' : 'No' }}</p>
+                            <p><strong>Permiso A (moto):</strong> {{ $model->driving_license_A == 1 ? 'Si' : 'No' }}</p>
                             <p><strong>Estado:</strong> {{ $model->status == 1 ? 'Alta' : 'Baja' }}</p>
                         </div>
                     </div>

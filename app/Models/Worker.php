@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,6 +15,8 @@ class Worker extends Model
 
     protected $fillable = [
         'user_id',
+        'file_id',
+        'announcement',
         'name',
         'surname',
         'dni',
@@ -25,8 +28,10 @@ class Worker extends Model
         'province',
         'location',
         'phone',
+        'phone2',
         'status',
-        'file_id'
+        'driving_license_B',
+        'driving_license_A'
     ];
 
 
@@ -36,6 +41,7 @@ class Worker extends Model
      * @var array
      */
     protected $casts = [
+        'announcement' => 'date:Y-m-d',
         'birth_date' => 'date:Y-m-d',
         'file_id' => 'int'
     ];
@@ -54,6 +60,38 @@ class Worker extends Model
                 break;
             default:
                 $label = 'Alta';
+                break;
+        }
+        return $label;
+    }
+
+    public function getDrivingLicenseBLabel()
+    {
+        switch ($this->driving_license_B) {
+            case 0:
+                $label = '<h5 class="text-center"><span class="badge badge-pill badge-danger">No</span></h5>';
+                break;
+            case 1:
+                $label = '<h5 class="text-center"><span class="badge badge-pill badge-success">Si</span></h5>';
+                break;
+            default:
+                $label = 'Si';
+                break;
+        }
+        return $label;
+    }
+
+    public function getDrivingLicenseALabel()
+    {
+        switch ($this->driving_license_A) {
+            case 0:
+                $label = '<h5 class="text-center"><span class="badge badge-pill badge-danger">No</span></h5>';
+                break;
+            case 1:
+                $label = '<h5 class="text-center"><span class="badge badge-pill badge-success">Si</span></h5>';
+                break;
+            default:
+                $label = 'Si';
                 break;
         }
         return $label;

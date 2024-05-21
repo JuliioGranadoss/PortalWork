@@ -45,21 +45,16 @@
     </div>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('stockmovements.index') }}">
+            <i class="fas fa-exchange-alt"></i>
+            <span>{{ __('Movimientos de Stock') }}</span>
+        </a>
+    </li>
+    
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('products.index') }}">
             <i class="fas fa-cubes"></i>
             <span>{{__('Productos')}}</span></a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('providers.index') }}">
-            <i class="fas fa-truck"></i>
-            <span>{{__('Proveedores')}}</span></a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('categories.index') }}">
-            <i class="fas fa-sitemap"></i>
-            <span>{{__('Categorías')}}</span></a>
     </li>
 
     <li class="nav-item">
@@ -68,6 +63,33 @@
             <span>{{__('Historial')}}</span></a>
     </li>
 
+    <li class="nav-item">
+        <a href="#collapseTwo" class="nav-link" data-toggle="collapse" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-bars"></i>
+            <span>Opciones de Inventario</span>
+        </a>
+        <div id="collapseTwo" class="collapse dropdown-menu-right">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a href="{{ route('providers.index') }}" class="collapse-item">
+                    <i class="fas fa-truck"></i>
+                    <span>{{__('Proveedores')}}</span>
+                </a>
+                <a href="{{ route('categories.index') }}" class="collapse-item">
+                    <i class="fas fa-sitemap"></i>
+                    <span>{{__('Categorías')}}</span>
+                </a>
+                <a href="{{ route('stockplaces.index') }}" class="collapse-item">
+                    <i class="fas fa-warehouse"></i>
+                    <span>{{ __('Lugares de Stock') }}</span>
+                </a>
+                <a href="{{ route('stockpersonals.index') }}" class="collapse-item">
+                    <i class="fas fa-user"></i>
+                    <span>{{ __('Personal de Stock') }}</span>
+                </a>
+            </div>
+        </div>
+    </li>
+    
     <!-- Divider -->
     <hr class="sidebar-divider">
 

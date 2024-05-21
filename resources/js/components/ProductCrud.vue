@@ -31,19 +31,41 @@
                                 <input type="number" class="form-control" v-model="model.stock" min="0" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="status" class="control-label">Proveedor</label>
-                                <v-select label="name" :reduce="provider => provider.id" v-model="model.provider_id" :options="providers"></v-select>                            
+                                <label for="provider" class="control-label">Proveedor</label>
+                                <v-select label="name" :reduce="provider => provider.id" v-model="model.provider_id"
+                                    :options="providers" required></v-select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="categories" class="control-label">Categorías</label>
+                                <v-select label="name" :reduce="category => category.id" v-model="model.categories_ids"
+                                    :options="categories" multiple></v-select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="barcode" class="control-label">Código de barras</label>
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control" v-model="newBarcode"
+                                        @keyup.enter="addBarcode">
+                                    <button type="button" class="btn btn-primary" @click="addBarcode">Agregar</button>
+                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="(barcode, index) in model.barcodes">
+                                        {{ barcode.code }}
+                                        <button type="button" class="btn btn-danger btn-sm float-right"
+                                            @click="removeBarcode(index)">Eliminar</button>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="status" class="control-label">Estado del producto*</label>
-                                <select class="select form-control" name="status" id="status" v-model="model.status" required>
+                                <select class="select form-control" name="status" id="status" v-model="model.status"
+                                    required>
                                     <option value="0">No disponible</option>
                                     <option value="1">Disponible</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-12 text-right">
-                            <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar producto</button>
+                            <button type="submit" class="btn btn-primary" :disabled="disable">Guardar producto</button>
                         </div>
                     </form>
                 </div>
@@ -60,17 +82,33 @@ export default {
             alert: null,
             disable: false,
             providers: [],
+            categories: [],
+            newBarcode: '',
             model: {
                 id: null,
-                provider_id: $('#provider_id').val(),
+                categories_ids: [],
+                provider_id: null,
                 name: null,
                 description: null,
                 stock: null,
+                barcodes: [],
                 status: 1
             }
         }
     },
     methods: {
+        addBarcode() {
+            if (this.newBarcode) {
+                if (!this.model.barcodes) {
+                    this.model.barcodes = [];
+                }
+                this.model.barcodes.push({id: null, code: this.newBarcode});
+                this.newBarcode = '';
+            }
+        },
+        removeBarcode(index) {
+            this.model.barcodes.splice(index, 1);
+        },
         submit() {
             let self = this;
             this.disable = true;
@@ -97,7 +135,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.stock ||!this.model.status) {
+            if (!this.model.name || !this.model.stock || !this.model.status) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }
@@ -110,12 +148,15 @@ export default {
         resetModel() {
             this.model = {
                 id: null,
-                provider_id: $('#provider_id').val(),
+                categories_ids: [],
+                provider_id: null,
                 name: null,
                 description: null,
                 stock: null,
+                barcodes: [],
                 status: 1
             };
+            this.newBarcode = '';
         },
         ajustTable() {
             $('#product-table').DataTable().columns.adjust().draw();
@@ -128,12 +169,23 @@ export default {
                 .catch(error => {
                     console.error('Error al obtener los proveedores:', error);
                 });
+        },
+        getCategories() {
+            axios.get('/categories/get/data')
+                .then(response => {
+                    this.categories = response.data;
+                    console.log(this.categories);
 
+                })
+                .catch(error => {
+                    console.error('Error al obtener las categorías:', error);
+                });
         }
     },
     mounted() {
         let self = this;
         this.getProviders();
+        this.getCategories();
 
         $('#nav-products-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             self.ajustTable();
@@ -182,7 +234,6 @@ export default {
                 }
             });
         });
-
     }
 }
 </script>

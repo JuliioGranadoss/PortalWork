@@ -19,6 +19,10 @@
                         <input type="hidden" name="id" v-model="model.id">
                         <div class="row">
                             <div class="form-group col-md-6">
+                                <label for="announcement" class="control-label">Convocatoria*</label>
+                                <input type="date" class="form-control" v-model="model.announcement" required>
+                            </div>
+                            <div class="form-group col-md-6">
                                 <label for="name" class="control-label">Nombre*</label>
                                 <input type="text" class="form-control" v-model="model.name" required>
                             </div>
@@ -61,9 +65,28 @@
                                 <input type="text" class="form-control" v-model="model.location">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="phone" class="control-label">Teléfono</label>
+                                <label for="phone" class="control-label">Teléfono*</label>
                                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{9}"
-                                    title="El teléfono debe contener 9 dígitos numéricos" v-model="model.phone">
+                                    title="El teléfono debe contener 9 dígitos numéricos" v-model="model.phone" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="phone2" class="control-label">Segundo teléfono</label>
+                                <input type="tel" class="form-control" id="phone2" name="phone2" pattern="[0-9]{9}"
+                                    title="El teléfono debe contener 9 dígitos numéricos" v-model="model.phone2">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="driving_license_B" class="control-label">Permiso de conducir B (turismo)*</label>
+                                <select class="select form-control" name="driving_license_B" id="driving_license_B" v-model="model.driving_license_B" required>
+                                    <option value="0">No</option>
+                                    <option value="1">Si</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="driving_license_A" class="control-label">Permiso de conducir A (moto)*</label>
+                                <select class="select form-control" name="driving_license_A" id="driving_license_A" v-model="model.driving_license_A" required>
+                                    <option value="0">No</option>
+                                    <option value="1">Si</option>
+                                </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="status" class="control-label">Estado*</label>
@@ -94,6 +117,7 @@ export default {
             model: {
                 id: null,
                 file_id: null,
+                announcement: null,
                 name: null,
                 surname: null,
                 dni: null,
@@ -105,6 +129,9 @@ export default {
                 province: null,
                 location: null,
                 phone: null,
+                phone2: null,
+                driving_license_B: 1,
+                driving_license_A: 1,
                 status: 1,
             },
         }
@@ -137,7 +164,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date) {
+            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.phone || !this.model.status || !this.model.driving_license_B || !this.model.driving_license_A || !this.model.announcement) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }
@@ -147,11 +174,13 @@ export default {
         setModel(data) {
             this.model = data;
             this.model.birth_date = moment(String(this.model.birth_date)).format('YYYY-MM-DD');
+            this.model.announcement = moment(String(this.model.announcement)).format('YYYY-MM-DD');
         },
         resetModel() {
             this.model = {
                 id: null,
                 file_id: null,
+                announcement: null,
                 name: null,
                 surname: null,
                 dni: null,
@@ -163,6 +192,9 @@ export default {
                 province: null,
                 location: null,
                 phone: null,
+                phone2: null,
+                driving_license_B: 1,
+                driving_license_A: 1,
                 status: 1
             };
         },

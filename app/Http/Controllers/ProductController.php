@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\DataTables\ProductDataTable;
 use App\DataTables\ProviderDataTable;
 use App\Models\Barcode;
+use App\Models\Category;
+use App\Models\Provider;
 use App\Models\StockHistory;
 
 class ProductController extends Controller
@@ -34,8 +36,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(ProductDataTable $dataTable)
+    public function index(ProductDataTable $dataTable, Request $request)
     {
+        // $providers = Provider::all(); 
+        // $categories = Category::all(); 
+        // return $dataTable->render('products.index', compact('providers', 'categories'));
         return $dataTable->render('products.index');
     }
 
@@ -57,6 +62,19 @@ class ProductController extends Controller
                 'status' => $request->status,
             ]
         );
+
+        $model->categories()->detach();
+        $model->categories()->attach($request->categories_ids);
+
+        // Actualizar códigos de barras
+        $barcodes = $request->input('barcodes', []);
+        $model->barcodes()->delete(); 
+
+        foreach ($barcodes as $barcode) {
+            Barcode::create(['code' => $barcode['code'], 'product_id' => $model->id]);
+        }
+
+        return response()->json(['success' => __('Producto guardado correctamente.')]);
     }
 
     /**
@@ -87,7 +105,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $model = Product::find($id);
+        $model = Product::with('categories', 'barcodes')->find($id);
+        $model->categories_ids = $model->categories->pluck('id');
         return response()->json($model);
     }
 
@@ -104,46 +123,4 @@ class ProductController extends Controller
 
         return response()->json(['success' => __('Producto eliminado correctamente.')]);
     }
-
-    public function searchByBarcode($barcode)
-    {
-        // Buscar el código de barras en la tabla 'barcodes'
-        $barcodeEntry = Barcode::where('code', $barcode)->first();
-
-        if (!$barcodeEntry) {
-            return response()->json(['error' => 'Código de barras no encontrado.']);
-        }
-
-        // Obtener el producto asociado al código de barras
-        $product = $barcodeEntry->product;
-
-        if (!$product) {
-            return response()->json(['error' => 'Producto no encontrado para el código de barras dado.']);
-        }
-
-        // Retornar los detalles del producto encontrado
-        return response()->json(['product' => $product]);
-    }
-
-    public function updateProducts(Request $request){
-        $products = $request->products;
-    
-        foreach ($products as $product) {
-            $model = Product::find($product['id']);
-            if ($model) {
-                $quantity = $product['stock'];
-                $type = $quantity >= 0 ? 1 : 0;
-    
-                $model->update(['stock' => $model->stock + $quantity]);
-    
-                // Registro de historial de stock
-                StockHistory::create([
-                    'product_id' => $model->id,
-                    'name' => $model->name,
-                    'quantity' => abs($quantity),
-                    'type' => $type,
-                ]);
-            }
-        }
-    }      
 }

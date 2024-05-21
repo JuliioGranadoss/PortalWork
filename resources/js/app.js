@@ -29,6 +29,10 @@ import StockHistoryCrud from './components/StockHistoryCrud.vue';
 import BarcodeCrud from './components/BarcodeCrud.vue';
 import CategoryProductCrud from './components/CategoryProductCrud.vue';
 import ProductStock from './components/ProductStock.vue';
+import StockPlaceCrud from './components/StockPlaceCrud.vue';
+import StockPersonalCrud from './components/StockPersonalCrud.vue';
+import StockMovementCrud from './components/StockMovementCrud.vue';
+import ProductsFilters from './components/ProductsFilters.vue';
 
 app.component('config-crud', ConfigCrud);
 app.component('user-crud', UserCrud);
@@ -48,6 +52,10 @@ app.component('stockhistory-crud', StockHistoryCrud);
 app.component('barcode-crud', BarcodeCrud);
 app.component('categoryproduct-crud', CategoryProductCrud);
 app.component('product-stock', ProductStock);
+app.component('stockplace-crud', StockPlaceCrud);
+app.component('stockpersonal-crud', StockPersonalCrud);
+app.component('stockmovement-crud', StockMovementCrud);
+app.component('products-filters', ProductsFilters);
 
 app.component("v-select", vSelect)
 

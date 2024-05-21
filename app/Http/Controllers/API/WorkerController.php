@@ -45,7 +45,6 @@ class WorkerController extends Controller
                 'location' => $request->location,
                 'phone' => $request->phone,
                 'status' => $request->status,
-                'file_id' => $request->file_id
             ]
         );
 
@@ -136,7 +135,7 @@ class WorkerController extends Controller
             $file = new File();
             $file->title = $filename;
             $file->filename = $filename;
-            $file->mime_type = $profilePhoto->getClientMimeType();
+            $file->mime_type = str_replace("image/", "", $profilePhoto->getClientMimeType());
             $file->slug = $filename;
             $file->save();
 

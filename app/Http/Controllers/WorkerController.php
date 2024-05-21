@@ -56,6 +56,7 @@ class WorkerController extends Controller
         $model = Worker::updateOrCreate(
             ['id' => $request->id],
             [
+                'announcement' => Carbon::parse($request->announcement)->format('Y-m-d'),
                 'name' => $request->name,
                 'surname' => $request->surname,
                 'dni' => $request->dni,
@@ -67,6 +68,9 @@ class WorkerController extends Controller
                 'province' => $request->province,
                 'location' => $request->location,
                 'phone' => $request->phone,
+                'phone2' => $request->phone2,
+                'driving_license_B' => $request->driving_license_B,
+                'driving_license_A' => $request->driving_license_A,
                 'status' => $request->status,
             ]
         );

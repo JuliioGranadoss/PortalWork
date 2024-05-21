@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $type
  * @property int    $updated_at
  * @property string $name
+ * @property int    $movement_id
+ * @property int    $place_id
+ * @property int    $personal_id
  */
 class StockHistory extends Model
 {
@@ -33,7 +36,7 @@ class StockHistory extends Model
      * @var array
      */
     protected $fillable = [
-        'created_at', 'name', 'product_id', 'quantity', 'type' ,'updated_at'
+        'created_at', 'name', 'product_id', 'quantity', 'type', 'updated_at', 'movement_id', 'place_id', 'personal_id'
     ];
 
     /**
@@ -49,7 +52,7 @@ class StockHistory extends Model
      * @var array
      */
     protected $casts = [
-        'created_at' => 'timestamp', 'name' => 'string', 'quantity' => 'int', 'type' => 'int' ,'updated_at' => 'timestamp'
+        'created_at' => 'timestamp', 'name' => 'string', 'quantity' => 'int', 'type' => 'int', 'updated_at' => 'timestamp'
     ];
 
     /**
@@ -88,9 +91,23 @@ class StockHistory extends Model
     }
 
     // Relations
-
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function movement()
+    {
+        return $this->belongsTo(StockMovement::class, 'movement_id');
+    }
+
+    public function place()
+    {
+        return $this->belongsTo(StockPlace::class, 'place_id');
+    }
+
+    public function personal()
+    {
+        return $this->belongsTo(StockPersonal::class, 'personal_id');
     }
 }

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->string('province')->nullable();
             $table->string('location')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('phone');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

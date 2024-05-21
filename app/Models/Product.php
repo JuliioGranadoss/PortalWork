@@ -107,6 +107,6 @@ class Product extends Model
 
     public function barcodes()
     {
-        return $this->hasMany(Barcode::class);
+        return $this->HasMany(Barcode::class);
     }
 }
