@@ -135,7 +135,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.stock || !this.model.status) {
+            if (!this.model.name || !this.model.stock) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }

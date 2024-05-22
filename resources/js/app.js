@@ -33,6 +33,7 @@ import StockPlaceCrud from './components/StockPlaceCrud.vue';
 import StockPersonalCrud from './components/StockPersonalCrud.vue';
 import StockMovementCrud from './components/StockMovementCrud.vue';
 import ProductsFilters from './components/ProductsFilters.vue';
+import JobBoardCrud from './components/JobBoardCrud.vue';
 
 app.component('config-crud', ConfigCrud);
 app.component('user-crud', UserCrud);
@@ -56,6 +57,7 @@ app.component('stockplace-crud', StockPlaceCrud);
 app.component('stockpersonal-crud', StockPersonalCrud);
 app.component('stockmovement-crud', StockMovementCrud);
 app.component('products-filters', ProductsFilters);
+app.component('jobboard-crud', JobBoardCrud);
 
 app.component("v-select", vSelect)
 

@@ -27,6 +27,7 @@ use App\Http\Controllers\StockHistoryController;
 use App\Http\Controllers\StockMovementController;
 use App\Http\Controllers\StockPersonalController;
 use App\Http\Controllers\StockPlaceController;
+use App\Http\Controllers\JobBoardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -180,3 +181,6 @@ Route::controller(StockMovementController::class)->group(function () {
     Route::get('/stockmovements/searchByBarcode/{barcode}', 'searchByBarcode')->name('stockmovements.searchByBarcode');
     Route::post('/stockmovements/updateProducts', 'updateProducts')->name('stockmovements.updateProducts');
 })->middleware(['role:admin|manager']);
+
+//Ruta para bolsa de trabajo
+Route::resource('jobboards', JobBoardController::class)->middleware(['role:admin|manager']);
