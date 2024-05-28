@@ -1,2 +1,3 @@
+<a href="{{ route('stockmovements.pdf', $model->id) }}" class="btn btn-info mx-1" data-id="{{ $model->id }}" target=_blank""><i class="fas fa-file-pdf"></i></a>
 <a href="javascript:void(0)" class="edit btn btn-primary mx-1 editModelMovement" data-id="{{$model->id}}"><i class="fa fa-edit"></i></a>
 <a href="javascript:void(0)" class="btn btn-danger btn-xs deleteModelMovement" data-id="{{$model->id}}"><i class="fa fa-trash"></i></a>

@@ -278,6 +278,7 @@ export default {
         }
     },
     mounted() {
+        
         this.getPlaces();
         this.getPersonal();
 

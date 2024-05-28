@@ -8,6 +8,7 @@ use App\DataTables\StockMovementDataTable;
 use App\Models\Barcode;
 use App\Models\Product;
 use App\Models\StockHistory;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StockMovementController extends Controller
 {
@@ -123,5 +124,11 @@ class StockMovementController extends Controller
 
         // Retornar los detalles del producto encontrado
         return response()->json(['product' => $product]);
+    }
+
+    public function getPDF($id){
+        $model = StockMovement::with('stockHistory')->find($id);
+        $pdf = Pdf::loadView('stockmovement.pdf', ['model' => $model]);
+        return $pdf->stream('MovimientoStock.pdf');
     }
 }

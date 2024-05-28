@@ -181,6 +181,9 @@ Route::controller(StockMovementController::class)->group(function () {
     Route::get('/stockmovements/searchByBarcode/{barcode}', 'searchByBarcode')->name('stockmovements.searchByBarcode');
 })->middleware(['role:admin|manager']);
 
+// Ruta para descargar PDF
+Route::get('stockmovements/{id}/pdf', [StockMovementController::class, 'getPDF'])->name('stockmovements.pdf');
+
 //Ruta para bolsa de trabajo
 Route::resource('jobboards', JobBoardController::class)->middleware(['role:admin|manager']);
 

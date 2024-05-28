@@ -70,7 +70,7 @@
     <div class="body">
         <div class="card">
             <div class="card-content">
-                <img src="{{ asset('img/Logo_Ayuntamiento.png') }}" alt="" class="img">
+                <img src="{{ base64_encode(file_get_contents(asset('img/Logo_Ayuntamiento.png'))) }}" alt="" class="img">
                 <h2 style="text-align: center;">¡Hola {{ $name }}!</h2>
                 <p>Aquí están tus credenciales de acceso:</p>
                 <div class="credentials">
