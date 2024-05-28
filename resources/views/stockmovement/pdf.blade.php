@@ -42,8 +42,14 @@
             padding: 8px;
             text-align: left;
         }
+        .borderless th, .borderless td {
+            border: 0px;
+        }
         .table th {
             background-color: #f2f2f2;
+        }
+        .table p {
+            margin: 5px 0;
         }
         .details {
             margin-bottom: 20px;
@@ -63,37 +69,37 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">
-                <img src="{{ asset('img/Logo_Ayuntamiento.png') }}" alt="" class="img">
-            </div>
-            <div class="info">
-                <p><strong>Lugar:</strong> {{ $model->place->name }}</p>
-                <p><strong>Personal:</strong> {{ $model->personal->name }} {{ $model->personal->surname }}</p>
-                <p><strong>Fecha:</strong> {{ $model->created_at->format('d/m/Y') }}</p>
-            </div>
-        </div>
-
+        <table class="table borderless">
+            <tr>
+                <td width="50%">
+                    <p><strong>Ayuntamiento de Alhaurin el Grande</strong></p>
+                    <p><strong>Personal:</strong> {{ $model->personal->name }} {{ $model->personal->surname }}</p>
+                    <p><strong>Lugar:</strong> {{ $model->place->name }}</p>
+                    <p><strong>Fecha:</strong> {{ $model->created_at->format('d/m/Y') }}</p>
+                </td>
+                <td width="50%" style="text-align: right;">
+                    <img src="{{ asset('img/Logo_Ayuntamiento.png') }}" width="150px" style="margin-right: 25px" class="img">
+                </td>
+            </tr>
+        </table>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Producto ID</th>
-                    <th>Nombre del Producto</th>
-                    <th>Lugar</th>
-                    <th>Personal</th>
-                    <th>Cantidad</th>
-                    <th>Tipo de Movimiento</th>
+                    <th width="26.66%">Producto</th>
+                    <th width="26.66%">Lugar</th>
+                    <th width="26.66%"">Personal</th>
+                    <th width="10%">Cant.</th>
+                    <th width="10%">Mov.</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($model->stockHistory as $history)
                     <tr>
-                        <td>{{ $history->product_id }}</td>
-                        <td>{{ $history->name }}</td>
-                        <td>{{ $history->place->name }}</td>
-                        <td>{{ $history->personal->name }} {{ $history->personal->surname }}</td>
-                        <td>{{ $history->quantity }}</td>
-                        <td>{{ $history->type == 1 ? 'Entrada' : 'Salida' }}</td> 
+                        <td width="26.66%">{{ $history->name }}</td>
+                        <td width="26.66%">{{ $history->place->name }}</td>
+                        <td width="26.66%">{{ $history->personal->name }} {{ $history->personal->surname }}</td>
+                        <td width="10%" style="text-align: right">{{ $history->quantity }}</td>
+                        <td width="10%">{{ $history->type == 1 ? 'Entrada' : 'Salida' }}</td> 
                     </tr>
                 @endforeach
             </tbody>
