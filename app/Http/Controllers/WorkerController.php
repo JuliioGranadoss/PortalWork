@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\DataTables\DegreeDataTable;
 use App\DataTables\ExperienceDataTable;
-use App\DataTables\JobDataTable;
 use App\DataTables\OtherDataTable;
 use App\DataTables\WorkerOfferDataTable;
 use Illuminate\Http\Request;
@@ -72,6 +71,8 @@ class WorkerController extends Controller
                 'driving_license_B' => $request->driving_license_B,
                 'driving_license_A' => $request->driving_license_A,
                 'status' => $request->status,
+                'job_id' => $request->job_id,
+                'jobboard_id' => $request->jobboard_id
             ]
         );
 
@@ -98,29 +99,30 @@ class WorkerController extends Controller
         return response()->json(['success' => __('Trabajador guardado correctamente.'), 'model' => $model]);
     }
 
-
     /**
-     * Show the detailss page.
+     * Show the details page.
      *
-     * @param  \App\Worker  $model
+     * @param  int  $id
+     * @param  DegreeDataTable  $degreeDataTable
+     * @param  ExperienceDataTable  $experienceDataTable
+     * @param  OtherDataTable  $otherDataTable
+     * @param  WorkerOfferDataTable  $workerofferDataTable
      * @return \Illuminate\Http\Response
      */
     public function show(
         $id, 
         DegreeDataTable $degreeDataTable, 
         ExperienceDataTable $experienceDataTable,
-        //JobDataTable $jobDataTable, 
         OtherDataTable $otherDataTable,
         WorkerOfferDataTable $workerofferDataTable
-        )
+    )
     {
         $model = Worker::find($id);
-    
+
         return view('workers.show', [
             'model' => $model,
             'degreeDataTable' => $degreeDataTable->html()->minifiedAjax(route('degrees.index', $id)),
             'experienceDataTable' => $experienceDataTable->html()->minifiedAjax(route('experiencies.index', $id)),
-            //'jobDataTable' => $jobDataTable->html()->minifiedAjax(route('jobs.index', $id)),
             'otherDataTable' => $otherDataTable->html()->minifiedAjax(route('others.index', $id)),
             'workerofferDataTable' => $workerofferDataTable->html()->minifiedAjax(route('workeroffers.index', $id))
         ]);
@@ -129,7 +131,7 @@ class WorkerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Worker  $model
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -141,7 +143,7 @@ class WorkerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Worker  $model
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -166,5 +168,4 @@ class WorkerController extends Controller
 
         return response()->json(['message' => '¡Email enviado!']);
     }
-
 }

@@ -39,7 +39,7 @@ class JobBoardDataTable extends DataTable
      * @param \App\Models\JobBoard $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(JobBoard $model, Request $request): QueryBuilder
+    public function query(JobBoard $model): QueryBuilder
     {
         return $model->newQuery();
     }

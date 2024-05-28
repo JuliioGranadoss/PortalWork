@@ -31,9 +31,10 @@ class Worker extends Model
         'phone2',
         'status',
         'driving_license_B',
-        'driving_license_A'
+        'driving_license_A',
+        'job_id',
+        'jobboard_id'
     ];
-
 
     /**
      * The attributes that should be casted to native types.
@@ -102,11 +103,6 @@ class Worker extends Model
         return $this->hasMany(Degree::class);
     }
 
-    /*public function jobs()
-    {
-        return $this->hasMany(Job::class);
-    }*/
-
     public function experiencies()
     {
         return $this->hasMany(Experience::class);
@@ -130,6 +126,16 @@ class Worker extends Model
     public function file()
     {
         return $this->belongsTo(File::class);
+    }
+
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
+
+    public function jobBoard()
+    {
+        return $this->belongsTo(JobBoard::class, 'jobboard_id');
     }
 
     /**

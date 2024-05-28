@@ -26,6 +26,7 @@
                             <p><strong>Fecha de nacimiento:</strong> {{ $model->birth_date->format('d/m/Y') }}</p>
                             <p><strong>Descripción:</strong> {{ $model->description }}</p>
                             <p><strong>Dirección:</strong> {{ $model->address }}</p>
+                            <p><strong>Trabajo:</strong> {{ $model->job->name ?? 'N/A' }}</p>
                         </div>
                         <div class="col-md-6">
                             <p><strong>Código postal:</strong> {{ $model->postal_code }}</p>
@@ -36,6 +37,7 @@
                             <p><strong>Permiso B (turismo):</strong> {{ $model->driving_license_B == 1 ? 'Si' : 'No' }}</p>
                             <p><strong>Permiso A (moto):</strong> {{ $model->driving_license_A == 1 ? 'Si' : 'No' }}</p>
                             <p><strong>Estado:</strong> {{ $model->status == 1 ? 'Alta' : 'Baja' }}</p>
+                            <p><strong>Bolsa de trabajo:</strong> {{ $model->jobBoard->name ?? 'N/A' }}</p>
                         </div>
                     </div>
                 </div>
@@ -97,7 +99,6 @@
          
 @section('scripts')
     @include('includes.datatables')
-        
     {!! $degreeDataTable->scripts() !!}
     {!! $experienceDataTable->scripts() !!}
     {!! $otherDataTable->scripts() !!}

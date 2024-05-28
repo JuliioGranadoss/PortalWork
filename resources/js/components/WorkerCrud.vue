@@ -19,8 +19,8 @@
                         <input type="hidden" name="id" v-model="model.id">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="announcement" class="control-label">Convocatoria*</label>
-                                <input type="date" class="form-control" v-model="model.announcement" required>
+                                <label for="dni" class="control-label">DNI*</label>
+                                <input type="text" class="form-control" id="dni" name="dni" v-model="model.dni" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="name" class="control-label">Nombre*</label>
@@ -29,11 +29,6 @@
                             <div class="form-group col-md-6">
                                 <label for="surname" class="control-label">Apellidos*</label>
                                 <input type="text" class="form-control" v-model="model.surname" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="dni" class="control-label">DNI*</label>
-                                <input type="text" class="form-control" id="dni" name="dni" pattern="[0-9]{8}[A-Za-z]"
-                                    title="Formato de DNI incorrecto (8 dígitos seguidos de una letra)" v-model="model.dni" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="email" class="control-label">Email*</label>
@@ -74,6 +69,39 @@
                                 <input type="tel" class="form-control" id="phone2" name="phone2" pattern="[0-9]{9}"
                                     title="El teléfono debe contener 9 dígitos numéricos" v-model="model.phone2">
                             </div>
+                            
+                            <div class="form-group col-md-6">
+                                <label for="status" class="control-label">Estado*</label>
+                                <select class="select form-control" name="status" id="status" v-model="model.status" required>
+                                    <option value="0">Baja</option>
+                                    <option value="1">Alta</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="announcement" class="control-label">Convocatoria*</label>
+                                <input type="date" class="form-control" v-model="model.announcement" required>
+                            </div>
+                            
+
+                            <div class="form-group col-md-6">
+                                <label for="jobs" class="control-label">Trabajo</label>
+                                <v-select 
+                                    label="name" 
+                                    :reduce="job => job.id" 
+                                    v-model="model.job_id"
+                                    :options="jobs"
+                                ></v-select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="jobboards" class="control-label">Bolsa de trabajo</label>
+                                <v-select 
+                                    label="name" 
+                                    :reduce="jobboard => jobboard.id" 
+                                    v-model="model.jobboard_id"
+                                    :options="jobboards"
+                                ></v-select>
+                            </div>
                             <div class="form-group col-md-6">
                                 <label for="driving_license_B" class="control-label">Permiso de conducir B (turismo)*</label>
                                 <select class="select form-control" name="driving_license_B" id="driving_license_B" v-model="model.driving_license_B" required>
@@ -88,13 +116,7 @@
                                     <option value="1">Si</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="status" class="control-label">Estado*</label>
-                                <select class="select form-control" name="status" id="status" v-model="model.status" required>
-                                    <option value="0">Baja</option>
-                                    <option value="1">Alta</option>
-                                </select>
-                            </div>
+                            
                         </div>
 
                         <div class="col-sm-12 text-right">
@@ -114,6 +136,8 @@ export default {
             title: null,
             alert: null,
             disable: false,
+            jobboards: [],
+            jobs: [],
             model: {
                 id: null,
                 file_id: null,
@@ -133,6 +157,8 @@ export default {
                 driving_license_B: 1,
                 driving_license_A: 1,
                 status: 1,
+                jobboard_id: null,
+                job_id: null
             },
         }
     },
@@ -164,10 +190,10 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.phone || !this.model.status || !this.model.driving_license_B || !this.model.driving_license_A || !this.model.announcement) {
+            /*if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.phone || !this.model.status || !this.model.driving_license_B || !this.model.driving_license_A || !this.model.announcement) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
-            }
+            }*/
 
             this.submit();
         },
@@ -195,7 +221,9 @@ export default {
                 phone2: null,
                 driving_license_B: 1,
                 driving_license_A: 1,
-                status: 1
+                status: 1,
+                jobboard_id: null,
+                job_id: null
             };
         },
         ajustTable() {
@@ -224,10 +252,30 @@ export default {
                         });
                 }
             });
+        },
+        getJobBoards() {
+            axios.get('/jobboards/get/data')
+                .then(response => {
+                    this.jobboards = response.data;
+                })
+                .catch(error => {
+                    console.error('Error al obtener las bolsas de trabajo:', error);
+                });
+        },
+        getJobs() {
+            axios.get('/jobs/get/data')
+                .then(response => {
+                    this.jobs = response.data;
+                })
+                .catch(error => {
+                    console.error('Error al obtener los puestos de trabajo:', error);
+                });
         }
     },
     mounted() {
         let self = this;
+        this.getJobBoards();
+        this.getJobs();
 
         $('#nav-workers-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             self.ajustTable();
@@ -283,5 +331,4 @@ export default {
         });
     }
 }
-
 </script>

@@ -186,6 +186,12 @@ Route::get('stockmovements/{id}/pdf', [StockMovementController::class, 'getPDF']
 
 //Ruta para bolsa de trabajo
 Route::resource('jobboards', JobBoardController::class)->middleware(['role:admin|manager']);
+Route::controller(JobBoardController::class)->group(function () {
+    Route::get('/jobboards/get/data', 'data')->name('jobboards.data');
+})->middleware(['role:admin|manager']);
+/*Route::controller(JobBoardController::class)->group(function () {
+    Route::get('/jobboards/{id}/index', 'index')->name('jobboards.index');
+})->middleware(['role:admin|manager']);*/
 
 //Ruta para las titulaciones
 Route::resource('degreetitles', DegreeTitleController::class)->middleware(['role:admin|manager']);
