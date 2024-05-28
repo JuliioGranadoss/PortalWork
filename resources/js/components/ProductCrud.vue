@@ -57,8 +57,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="status" class="control-label">Estado del producto*</label>
-                                <select class="select form-control" name="status" id="status" v-model="model.status"
-                                    required>
+                                <select class="select form-control" name="status" id="status" v-model="model.status">
                                     <option value="0">No disponible</option>
                                     <option value="1">Disponible</option>
                                 </select>
@@ -135,7 +134,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.stock) {
+            if (!this.model.name || !this.model.stock || !this.providers) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }

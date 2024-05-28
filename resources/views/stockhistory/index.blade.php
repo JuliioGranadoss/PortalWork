@@ -15,6 +15,10 @@
                     </h4>
                 </div>
                 <div class="card-body">
+                    <!-- Filtros -->
+                    <div class="row mb-3">
+                        <histories-filters ref="historiesfilters"></histories-filters>
+                    </div>
                     {{$dataTable->table()}}
                 </div>
             </div>

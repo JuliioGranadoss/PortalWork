@@ -22,7 +22,7 @@ class StockHistoryDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('product_name', function (StockHistory $history) {
-                return $history->product->name;
+                return $history->product ? $history->product->name : 'N/A';
             })
             ->addColumn('quantity', function (StockHistory $history) {
                 return $history->quantity;
@@ -32,6 +32,12 @@ class StockHistoryDataTable extends DataTable
             })
             ->editColumn('updated_at', function (StockHistory $history) {
                 return date("d/m/Y H:i:s", $history->updated_at);
+            })
+            ->editColumn('place_id', function (StockHistory $history) {
+                return $history->place ? $history->place->name : 'N/A';
+            })
+            ->editColumn('personal_id', function (StockHistory $history) {
+                return $history->personal ? $history->personal->name : 'N/A';
             })
             ->escapeColumns([])
             ->setRowId('id');
@@ -43,9 +49,9 @@ class StockHistoryDataTable extends DataTable
      * @param \App\Models\Product $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(StockHistory $history): QueryBuilder
+    public function query(StockHistory $model): QueryBuilder
     {
-        return $history->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -73,10 +79,19 @@ class StockHistoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('details')->title('')
+            ->responsivePriority(0)->targets(-2)
+            ->addClass('details-control')
+            ->exportable(false)
+            ->printable(false)
+            ->orderable(false)
+            ->defaultContent(''),
             Column::make('product_name')->title('Producto'),
+            Column::make('place_id')->title('Lugar')->addClass('column-selectedPlace'),
+            Column::make('personal_id')->title('Personal')->addClass('column-selectedPersonal'),
             Column::make('quantity')->title('Cantidad'),
             Column::make('type')->title('Tipo'),
-            Column::make('updated_at')->title('Fecha'),
+            Column::make('updated_at')->title('Fecha')->addClass('column-selectedDate'),
         ];
     }
 

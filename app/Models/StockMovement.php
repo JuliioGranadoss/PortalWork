@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    $place_id
  * @property int    $personal_id
  * @property int    $status
+ * @property string $created_at
+ * @property string $updated_at
  */
 class StockMovement extends Model
 {
@@ -32,7 +34,16 @@ class StockMovement extends Model
      * @var array
      */
     protected $fillable = [
-        'signature_id', 'place_id', 'personal_id', 'status'
+        'signature_id', 'place_id', 'personal_id', 'status', 'created_at', 'updated_at'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at', 'updated_at'
     ];
 
     /**
@@ -59,7 +70,7 @@ class StockMovement extends Model
      *
      * @var boolean
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     // Relations
     public function place()
@@ -71,4 +82,10 @@ class StockMovement extends Model
     {
         return $this->belongsTo(StockPersonal::class, 'personal_id');
     }
+
+    public function stockHistory()
+    {
+        return $this->hasMany(StockHistory::class, 'movement_id');
+    }
+
 }

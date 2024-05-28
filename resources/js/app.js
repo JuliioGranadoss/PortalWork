@@ -35,6 +35,8 @@ import StockMovementCrud from './components/StockMovementCrud.vue';
 import ProductsFilters from './components/ProductsFilters.vue';
 import JobBoardCrud from './components/JobBoardCrud.vue';
 import DegreeTitleCrud from './components/DegreeTitleCrud.vue';
+import HistoriesFilters from './components/HistoriesFilters.vue';
+import MovementsFilters from './components/MovementsFilters.vue';
 
 app.component('config-crud', ConfigCrud);
 app.component('user-crud', UserCrud);
@@ -60,6 +62,9 @@ app.component('stockmovement-crud', StockMovementCrud);
 app.component('products-filters', ProductsFilters);
 app.component('jobboard-crud', JobBoardCrud);
 app.component('degreetitle-crud', DegreeTitleCrud);
+app.component('histories-filters', HistoriesFilters);
+app.component('movements-filters', MovementsFilters);
+
 
 app.component("v-select", vSelect)
 

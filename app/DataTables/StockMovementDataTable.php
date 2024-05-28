@@ -20,11 +20,14 @@ class StockMovementDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('place_name', function (StockMovement $movement) {
+            ->editColumn('place_id', function (StockMovement $movement) {
                 return $movement->place ? $movement->place->name : 'N/A';
             })
-            ->addColumn('personal_name', function (StockMovement $movement) {
+            ->editColumn('personal_id', function (StockMovement $movement) {
                 return $movement->personal ? $movement->personal->name . ' ' . $movement->personal->surname : 'N/A';
+            })
+            ->editColumn('created_at', function (StockMovement $movement) {
+                return $movement->created_at instanceof \Carbon\Carbon ? $movement->created_at->format('d/m/Y H:i:s') : 'N/A';
             })
             ->addColumn('action', 'stockmovement.action')
             ->escapeColumns([])
@@ -37,9 +40,9 @@ class StockMovementDataTable extends DataTable
      * @param \App\Models\StockMovement $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(StockMovement $movement): QueryBuilder
+    public function query(StockMovement $model): QueryBuilder
     {
-        return $movement->newQuery()->with(['place', 'personal']);
+        return $model->newQuery();
     }
 
     /**
@@ -56,7 +59,7 @@ class StockMovementDataTable extends DataTable
             ->addTableClass('table-bordered w-100')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->orderBy(1);
+            ->orderBy(3);
     }
 
     /**
@@ -74,8 +77,9 @@ class StockMovementDataTable extends DataTable
                 ->printable(false)
                 ->orderable(false)
                 ->defaultContent(''),
-            Column::make('place_name')->title('Lugar'),
-            Column::make('personal_name')->title('Personal'),
+            Column::make('place_id')->title('Lugar')->addClass('column-selectedPlace'),
+            Column::make('personal_id')->title('Personal')->addClass('column-selectedPersonal'),
+            Column::make('created_at')->title('Fecha')->addClass('column-selectedDate'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)

@@ -179,7 +179,6 @@ Route::controller(StockPersonalController::class)->group(function () {
 Route::resource('stockmovements', StockMovementController::class)->middleware(['role:admin|manager']);
 Route::controller(StockMovementController::class)->group(function () {
     Route::get('/stockmovements/searchByBarcode/{barcode}', 'searchByBarcode')->name('stockmovements.searchByBarcode');
-    Route::post('/stockmovements/updateProducts', 'updateProducts')->name('stockmovements.updateProducts');
 })->middleware(['role:admin|manager']);
 
 //Ruta para bolsa de trabajo

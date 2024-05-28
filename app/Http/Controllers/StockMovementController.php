@@ -49,6 +49,34 @@ class StockMovementController extends Controller
             ]
         );
 
+        foreach ($request->products as $product) {
+            $element = Product::find($product['id']);
+
+            if ($element) {
+                // Calcula la cantidad y el tipo de movimiento
+                $quantity = $product['stock'];
+                $type = $quantity >= 0 ? 1 : 0;
+
+                // Actualiza el stock del producto
+                $element->update([
+                    'stock' => $element->stock + $quantity,
+                ]);
+
+                // Registro de historial de stock
+                StockHistory::create([
+                    'product_id' => $element->id,
+                    'name' => $element->name,
+                    'quantity' => abs($quantity),
+                    'place_id' => $request->place_id,
+                    'personal_id' => $request->personal_id,
+                    'movement_id' => $model->id,
+                    'type' => $type,
+                ]);
+            } else {
+                return response()->json(['error' => 'Producto no encontrado.']);
+            }
+        }
+
         return response()->json(['success' => __('Movimiento guardado correctamente.'), 'model' => $model]);
     }
 
@@ -60,8 +88,7 @@ class StockMovementController extends Controller
      */
     public function edit($id)
     {
-        $model = StockMovement::find($id);
-
+        $model = StockMovement::with('stockHistory')->find($id);
         return response()->json($model);
     }
 
@@ -96,28 +123,5 @@ class StockMovementController extends Controller
 
         // Retornar los detalles del producto encontrado
         return response()->json(['product' => $product]);
-    }
-
-    public function updateProducts(Request $request)
-    {
-        $products = $request->products;
-
-        foreach ($products as $product) {
-            $model = Product::find($product['id']);
-            if ($model) {
-                $quantity = $product['stock'];
-                $type = $quantity >= 0 ? 1 : 0;
-
-                $model->update(['stock' => $model->stock + $quantity]);
-
-                // Registro de historial de stock
-                StockHistory::create([
-                    'product_id' => $model->id,
-                    'name' => $model->name,
-                    'quantity' => abs($quantity),
-                    'type' => $type,
-                ]);
-            }
-        }
     }
 }

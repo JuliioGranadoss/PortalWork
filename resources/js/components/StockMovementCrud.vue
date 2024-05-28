@@ -21,22 +21,21 @@
                             <div class="form-group col-md-6">
                                 <label for="place_id" class="control-label">Lugar*</label>
                                 <v-select label="name" :reduce="place => place.id" v-model="model.place_id"
-                                    :options="places" required></v-select>
+                                    :options="places"></v-select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="personal_id" class="control-label">Personal*</label>
                                 <v-select label="name" :reduce="personal => personal.id" v-model="model.personal_id"
-                                    :options="personals" required></v-select>
+                                    :options="personals"></v-select>
                             </div>
                         </div>
-                        
-                        <!-- Barcode input section -->
-                        <div class="mb-3">
+
+                        <div class="mb-3" v-if="edit == false">
                             <label for="barcodeInput" class="form-label">Código de Barras</label>
                             <input type="text" class="form-control" id="barcodeInput" v-model="model.barcode"
-                                placeholder="Ingrese el código de barras" required @input="autoSearch">
+                                placeholder="Ingrese el código de barras" @input="autoSearch">
                         </div>
-                        <div v-if="products.length > 0" class="mb-3">
+                        <div v-if="products.length > 0 && edit == false" class="mb-3">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -54,6 +53,28 @@
                                         <td>
                                             <button type="button" class="btn btn-danger"
                                                 @click="removeProduct(index)">Borrar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div v-if="model.stock_history.length > 0 && edit == true" class="mb-3">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(product, index) in model.stock_history" :key="index">
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.quantity }}</td>
+                                        <td>
+                                            <span v-if="product.type === 1">Entrada</span>
+                                            <span v-else>Salida</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -83,8 +104,10 @@ export default {
             title: null,
             alert: null,
             disable: false,
+            edit: false,
             model: {
                 id: null,
+                stock_history: [],
                 place_id: null,
                 personal_id: null,
                 signature_id: null,
@@ -119,6 +142,7 @@ export default {
         },
         submit() {
             this.disable = true;
+            this.model.products = this.products;
             axios.post('/stockmovements', this.model)
                 .then(response => {
                     $('#modelForm').trigger("reset");
@@ -158,6 +182,7 @@ export default {
                 place_id: null,
                 personal_id: null,
                 signature_id: null,
+                stock_history: [],
                 status: 1,
                 barcode: null
             };
@@ -165,8 +190,7 @@ export default {
         ajustTable() {
             $('#stock-movement-table').DataTable().columns.adjust().draw();
         },
-        // Barcode related methods
-        submitBarcode() {
+        searchByBarcode() {
             let self = this;
             this.disable = true;
 
@@ -179,7 +203,7 @@ export default {
                     self.$swal.showLoading();
                 },
             })
-            
+
             axios.get(`/stockmovements/searchByBarcode/${this.model.barcode}`)
                 .then(function (response) {
                     self.$swal.close();
@@ -222,7 +246,7 @@ export default {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
             } else {
                 this.alert = null;
-                this.submitBarcode();
+                this.searchByBarcode();
             }
         },
         clearTable() {
@@ -241,7 +265,7 @@ export default {
 
             this.typingTimer = setTimeout(() => {
                 if (this.model.barcode.trim() !== "") {
-                    this.submitBarcode();
+                    this.searchByBarcode();
                 }
             }, this.doneTypingInterval);
         },
@@ -251,35 +275,6 @@ export default {
         clearAll() {
             this.clearTable();
             this.clearBarcodeInput();
-        },
-        saveChanges() {
-            let self = this;
-            this.$swal.fire({
-                icon: 'loading',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    self.$swal.showLoading();
-                },
-            });
-
-            axios.post('/stockmovements/updateProducts', { products: this.products })
-                .then(response => {
-                    self.$swal.fire(
-                        'Actualizado',
-                        'Los productos han sido actualizados correctamente.',
-                        'success'
-                    );
-                })
-                .catch(error => {
-                    console.error('Error al actualizar los productos:', error);
-                    self.$swal.fire(
-                        'Error',
-                        'Se produjo un error al intentar actualizar los productos.',
-                        'error'
-                    );
-                });
         }
     },
     mounted() {
@@ -290,6 +285,7 @@ export default {
 
         $('#createNewModelMovement').click(() => {
             this.title = 'Añadir nuevo movimiento';
+            this.edit = false;
             this.resetModel();
             $('#ajaxModelMovement').modal('show');
         });
@@ -299,6 +295,7 @@ export default {
             axios.get(`/stockmovements/${id}/edit`)
                 .then(response => {
                     this.title = 'Editar movimiento';
+                    this.edit = true;
                     $('#ajaxModelMovement').modal('show');
                     this.setModel(response.data);
                 })

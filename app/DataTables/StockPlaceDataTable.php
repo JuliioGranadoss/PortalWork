@@ -37,9 +37,9 @@ class StockPlaceDataTable extends DataTable
      * @param \App\Models\StockPlace $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(StockPlace $place): QueryBuilder
+    public function query(StockPlace $model): QueryBuilder
     {
-        return $place->newQuery();
+        return $model->newQuery();
     }
 
     /**

@@ -46,9 +46,9 @@ class StockPersonalDataTable extends DataTable
      * @param \App\Models\StockPersonal $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(StockPersonal $personal): QueryBuilder
+    public function query(StockPersonal $model): QueryBuilder
     {
-        return $personal->newQuery();
+        return $model->newQuery();
     }
 
     /**
