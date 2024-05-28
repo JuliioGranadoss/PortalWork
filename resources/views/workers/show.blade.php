@@ -26,7 +26,7 @@
                             <p><strong>Fecha de nacimiento:</strong> {{ $model->birth_date->format('d/m/Y') }}</p>
                             <p><strong>Descripción:</strong> {{ $model->description }}</p>
                             <p><strong>Dirección:</strong> {{ $model->address }}</p>
-                            <p><strong>Trabajo:</strong> {{ $model->job->name ?? 'N/A' }}</p>
+                            <p><strong>Titular:</strong> {{ $model->job->name ?? 'N/A' }}</p>
                         </div>
                         <div class="col-md-6">
                             <p><strong>Código postal:</strong> {{ $model->postal_code }}</p>

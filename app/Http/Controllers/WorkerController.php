@@ -52,6 +52,7 @@ class WorkerController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->driving_license_B);
         $model = Worker::updateOrCreate(
             ['id' => $request->id],
             [

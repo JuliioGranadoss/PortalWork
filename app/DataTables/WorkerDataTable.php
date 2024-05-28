@@ -90,7 +90,7 @@ class WorkerDataTable extends DataTable
             Column::make('email')->title('Email'),
             Column::make('birth_date')->title('Fecha de nacimiento'),
             Column::make('phone')->title('Teléfono'),
-            Column::make('job_id')->title('Trabajo')->width(100),
+            Column::make('job_id')->title('Titular')->width(100),
             Column::make('jobboard_id')->title('Bolsa de trabajo')->width(150),
             Column::make('status')->title('Estado')->width(80),
             Column::make('announcement')->title('Convocatoria'),

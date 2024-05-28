@@ -1,3 +1,14 @@
+<style>
+    .checkbox-lg .form-check-input {
+        width: 1.3em;
+        height: 1.3em;
+    }
+
+    .checkbox-lg .form-check-label {
+        margin-left:1em;
+        line-height: 1.75em;
+    }
+</style>
 <template>
     <div class="modal fade" id="ajaxModel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -84,7 +95,7 @@
                             
 
                             <div class="form-group col-md-6">
-                                <label for="jobs" class="control-label">Trabajo</label>
+                                <label for="jobs" class="control-label">Titular</label>
                                 <v-select 
                                     label="name" 
                                     :reduce="job => job.id" 
@@ -103,18 +114,14 @@
                                 ></v-select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="driving_license_B" class="control-label">Permiso de conducir B (turismo)*</label>
-                                <select class="select form-control" name="driving_license_B" id="driving_license_B" v-model="model.driving_license_B" required>
-                                    <option value="0">No</option>
-                                    <option value="1">Si</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="driving_license_A" class="control-label">Permiso de conducir A (moto)*</label>
-                                <select class="select form-control" name="driving_license_A" id="driving_license_A" v-model="model.driving_license_A" required>
-                                    <option value="0">No</option>
-                                    <option value="1">Si</option>
-                                </select>
+                                <div class="form-check my-2 checkbox-lg">
+                                    <input class="form-check-input" type="checkbox" id="driving_license_B" name="driving_license_B" v-model="model.driving_license_B">
+                                    <label class="form-check-label" for="driving_license_B">Permiso de conducir B (turismo)</label>
+                                </div>
+                                <div class="form-check my-2 checkbox-lg">
+                                    <input class="form-check-input" type="checkbox" id="driving_license_A" name="driving_license_A" v-model="model.driving_license_A">
+                                    <label class="form-check-label" for="driving_license_A">Permiso de conducir A (moto)</label>
+                                </div>
                             </div>
                             
                         </div>
@@ -166,6 +173,7 @@ export default {
         submit() {
             let self = this;
             this.disable = true;
+            this.adjustCheckboxValues();
             axios.post('/workers', this.model)
                 .then(function (response) {
                     $('#modelForm').trigger("reset");
@@ -190,15 +198,17 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            /*if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.phone || !this.model.status || !this.model.driving_license_B || !this.model.driving_license_A || !this.model.announcement) {
+            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.phone || !this.model.status || !this.model.announcement) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
-            }*/
+            }
 
             this.submit();
         },
         setModel(data) {
             this.model = data;
+            this.model.driving_license_B = this.model.driving_license_B ? true : false;
+            this.model.driving_license_A = this.model.driving_license_A ? true : false;
             this.model.birth_date = moment(String(this.model.birth_date)).format('YYYY-MM-DD');
             this.model.announcement = moment(String(this.model.announcement)).format('YYYY-MM-DD');
         },
@@ -270,7 +280,11 @@ export default {
                 .catch(error => {
                     console.error('Error al obtener los puestos de trabajo:', error);
                 });
-        }
+        },
+        adjustCheckboxValues() {
+            this.model.driving_license_B = this.model.driving_license_B ? 1 : 0;
+            this.model.driving_license_A = this.model.driving_license_A ? 1 : 0;
+        },
     },
     mounted() {
         let self = this;
