@@ -109,7 +109,7 @@ class WorkerController extends Controller
         $id, 
         DegreeDataTable $degreeDataTable, 
         ExperienceDataTable $experienceDataTable,
-        JobDataTable $jobDataTable, 
+        //JobDataTable $jobDataTable, 
         OtherDataTable $otherDataTable,
         WorkerOfferDataTable $workerofferDataTable
         )
@@ -120,7 +120,7 @@ class WorkerController extends Controller
             'model' => $model,
             'degreeDataTable' => $degreeDataTable->html()->minifiedAjax(route('degrees.index', $id)),
             'experienceDataTable' => $experienceDataTable->html()->minifiedAjax(route('experiencies.index', $id)),
-            'jobDataTable' => $jobDataTable->html()->minifiedAjax(route('jobs.index', $id)),
+            //'jobDataTable' => $jobDataTable->html()->minifiedAjax(route('jobs.index', $id)),
             'otherDataTable' => $otherDataTable->html()->minifiedAjax(route('others.index', $id)),
             'workerofferDataTable' => $workerofferDataTable->html()->minifiedAjax(route('workeroffers.index', $id))
         ]);

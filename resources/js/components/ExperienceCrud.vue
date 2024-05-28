@@ -20,8 +20,9 @@
                         <input type="hidden" name="id" v-model="model.id">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="name" class="control-label">Nombre*</label>
-                                <input type="text" class="form-control" v-model="model.name" required>
+                                <label for="jobs" class="control-label">Nombre del puesto*</label>
+                                <v-select label="name" :reduce="jobs => jobs.name" v-model="model.name"
+                                    :options="jobs" required></v-select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="company" class="control-label">Nombre de la compañía*</label>
@@ -58,6 +59,7 @@ export default {
             title: null,
             alert: null,
             disable: false,
+            jobs: [],
             model: {
                 id: null,
                 worker_id: $('#worker_id').val(),
@@ -121,10 +123,22 @@ export default {
         },
         ajustTable() {
             $('#experience-table').DataTable().columns.adjust().draw();
+        },
+        getJobs() {
+            axios.get('/jobs/get/data')
+                .then(response => {
+                    this.jobs = response.data;
+                    console.log(this.jobs);
+
+                })
+                .catch(error => {
+                    console.error('Error al obtener los puestos de trabajo:', error);
+                });
         }
     },
     mounted() {
         let self = this;
+        this.getJobs();
 
         $('#nav-experiencies-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             self.ajustTable();

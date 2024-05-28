@@ -66,17 +66,6 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h4 class="m-0 font-weight-bold text-dark text-center text-sm-left h2-sm">{{ __('Puestos de trabajo')}}
-                    <a class="btn btn-success float-sm-right" href="javascript:void(0)" id="createNewJob"><i class="fa fa-plus"></i> {{ __('Añadir puesto de trabajo') }}</a>
-                    </h4>
-                </div>
-                <div class="card-body">
-                    {!! $jobDataTable->table() !!}
-                </div>
-            </div>
-
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
                     <h4 class="m-0 font-weight-bold text-dark text-center text-sm-left h2-sm">{{ __('Habilidades')}}
                     <a class="btn btn-success float-sm-right" href="javascript:void(0)" id="createNewOther"><i class="fa fa-plus"></i> {{ __('Añadir habilidades') }}</a>
                     </h4>
@@ -111,7 +100,6 @@
         
     {!! $degreeDataTable->scripts() !!}
     {!! $experienceDataTable->scripts() !!}
-    {!! $jobDataTable->scripts() !!}
     {!! $otherDataTable->scripts() !!}
     {!! $workerofferDataTable->scripts() !!}
 @endsection

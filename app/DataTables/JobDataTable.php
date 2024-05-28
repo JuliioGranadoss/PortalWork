@@ -35,7 +35,7 @@ class JobDataTable extends DataTable
      */
     public function query(Job $model, Request $request): QueryBuilder
     {
-        return $model->where('worker_id', $request->id)->newQuery();
+        return $model->newQuery();
     }
 
     /**

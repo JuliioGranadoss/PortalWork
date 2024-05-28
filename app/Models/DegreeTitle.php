@@ -5,22 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JobBoard extends Model
+class DegreeTitle extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    protected $table = 'job_boards';
+    protected $table = 'degree_titles';
 
     protected $fillable = [
         'name',
-        'init',
-        'end'
+        'score'
     ];
 
-    protected $casts = [
-        'init' => 'date:Y-m-d',
-        'end' => 'date:Y-m-d'
-    ];
 }

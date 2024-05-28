@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="ajaxDegree" aria-hidden="true">
+    <div class="modal fade" id="ajaxDegreeTitle" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -9,7 +9,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form @submit.prevent="checkBeforeSubmit" id="degreeForm" name="degreeForm" class="form-horizontal">
+                    <form @submit.prevent="checkBeforeSubmit" id="degreetitleForm" name="degreetitleForm" class="form-horizontal">
                         <div v-if="alert" class="card bg-danger text-white shadow m-2">
                             <div class="card-body p-3">
                                 Alerta
@@ -19,28 +19,14 @@
                         <input type="hidden" name="id" v-model="model.id">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="degreetitles" class="control-label">Título*</label>
-                                <v-select label="name" :reduce="degreetitles => degreetitles.name" v-model="model.name"
-                                    :options="degreetitles" required></v-select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="institution" class="control-label">Institución*</label>
-                                <input type="text" class="form-control" v-model="model.institution" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="start" class="control-label">Fecha de inicio*</label>
-                                <input type="date" class="form-control" v-model="model.start" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="end" class="control-label">Fecha de fin*</label>
-                                <input type="date" class="form-control" v-model="model.end" required>
+                                <label for="name" class="control-label">Nombre de la titulación*</label>
+                                <input type="text" class="form-control" v-model="model.name" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="score" class="control-label">Puntuación</label>
                                 <input type="number" class="form-control" v-model="model.score" min="0" max="10">
                             </div>
                         </div>
-
                         <div class="col-sm-12 text-right">
                             <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar</button>
                         </div>
@@ -55,17 +41,12 @@
 export default {
     data() {
         return {
-            title: [],
+            title: null,
             alert: null,
             disable: false,
-            degreetitles: [],
             model: {
                 id: null,
-                worker_id: $('#worker_id').val(),
                 name: null,
-                institution: null,
-                start: null,
-                end: null,
                 score: null
             }
         }
@@ -74,10 +55,10 @@ export default {
         submit() {
             let self = this;
             this.disable = true;
-            axios.post('/degrees', this.model)
+            axios.post('/degreetitles', this.model)
                 .then(function (response) {
-                    $('#degreeForm').trigger("reset");
-                    $('#ajaxDegree').modal('hide');
+                    $('#degreetitleForm').trigger("reset");
+                    $('#ajaxDegreeTitle').modal('hide');
                     self.$swal({
                         position: 'top-end',
                         icon: 'success',
@@ -86,76 +67,57 @@ export default {
                         timer: 1000
                     });
                     self.disable = false;
-                    $('#degree-table').DataTable().draw();
+                    $('#degree_titles-table').DataTable().draw();
                 })
                 .catch(function (error) {
                     console.log('Error:', error);
                     self.disable = false;
-                    self.alert = 'Error al guardar el título.';
+                    self.alert = 'Error al guardar el puesto de trabajo.';
                 });
         },
         checkBeforeSubmit() {
             this.alert = "";
 
-             if (!this.model.name || !this.model.institution || !this.model.start || !this.model.end) {
-                 this.alert = "Por favor, completa todos los campos obligatorios.";
-                 return;
-             }
+            if (!this.model.name) {
+                this.alert = "Por favor, completa todos los campos obligatorios.";
+                return;
+            }
 
             this.submit();
         },
-
         setModel(data) {
             this.model = data;
-            this.model.start = moment(String(this.model.start)).format('YYYY-MM-DD');
-            this.model.end = moment(String(this.model.end)).format('YYYY-MM-DD');
         },
         resetModel() {
             this.model = {
                 id: null,
-                worker_id: $('#worker_id').val(),
                 name: null,
-                institution: null,
-                start: null,
-                end: null,
                 score: null
             };
         },
         ajustTable() {
-            $('#degree-table').DataTable().columns.adjust().draw();
-        },
-        getDegreeTitles() {
-            axios.get('/degreetitles/get/data')
-                .then(response => {
-                    this.degreetitles = response.data;
-                    console.log(this.degreetitles);
-
-                })
-                .catch(error => {
-                    console.error('Error al obtener las titulaciones:', error);
-                });
+            $('#degree_titles-table').DataTable().columns.adjust().draw();
         }
     },
     mounted() {
         let self = this;
-        this.getDegreeTitles();
 
-        $('#nav-degrees-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('#nav-degree_titles-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             self.ajustTable();
         });
 
-        $('#createNewDegree').click(function () {
-            self.title = 'Añadir nuevo título';
+        $('#createNewDegreeTitle').click(function () {
+            self.title = 'Añadir nuevo puesto de trabajo';
             self.resetModel();
-            $('#ajaxDegree').modal('show');
+            $('#ajaxDegreeTitle').modal('show');
         });
 
-        $('body').on('click', '.editDegree', function () {
+        $('body').on('click', '.editDegreeTitle', function () {
             var id = $(this).data('id');
-            axios.get('/degrees/' + id + '/edit')
+            axios.get('/degreetitles/' + id + '/edit')
                 .then(function (response) {
-                    self.title = 'Editar título';
-                    $('#ajaxDegree').modal('show');
+                    self.title = 'Editar puesto de trabajo';
+                    $('#ajaxDegreeTitle').modal('show');
                     self.setModel(response.data);
                 })
                 .catch(function (error) {
@@ -163,11 +125,11 @@ export default {
                 });
         });
 
-        $('body').on('click', '.deleteDegree', function () {
+        $('body').on('click', '.deleteDegreeTitle', function () {
             var id = $(this).data("id");
             self.$swal({
                 title: "¿Estás seguro?",
-                text: "¿Estás seguro de que quieres eliminar este título?",
+                text: "¿Estás seguro de que quieres eliminar este puesto de trabajo?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
@@ -177,9 +139,9 @@ export default {
                 closeOnCancel: false
             }).then((data) => {
                 if (data.isConfirmed) {
-                    axios.delete('/degrees/' + id)
+                    axios.delete('/degreetitles/' + id)
                         .then(function (response) {
-                            $('#degree-table').DataTable().draw();
+                            $('#degree_titles-table').DataTable().draw();
                         })
                         .catch(function (error) {
                             console.log('Error:', error);

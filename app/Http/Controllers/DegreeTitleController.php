@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Job;
-use App\DataTables\JobDataTable;
+use App\Models\DegreeTitle;
+use App\DataTables\DegreeTitleDataTable;
 
-class JobController extends Controller
+class DegreeTitleController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -20,7 +20,7 @@ class JobController extends Controller
 
     public function data()
     {
-        $model = Job::get();
+        $model = DegreeTitle::get();
         return response()->json($model);
     }
 
@@ -29,9 +29,9 @@ class JobController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(JobDataTable $dataTable)
+    public function index(DegreeTitleDataTable $dataTable)
     {
-        return $dataTable->render('jobs.index');
+        return $dataTable->render('degree_titles.index');
     }
 
     /**
@@ -42,7 +42,7 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        $model = Job::updateOrCreate(
+        $model = DegreeTitle::updateOrCreate(
             ['id' => $request->id],
             [
                 'name' => $request->name,
@@ -50,18 +50,18 @@ class JobController extends Controller
             ]
         );
 
-        return response()->json(['success' => __('Trabajo guardado correctamente.'), 'model' => $model]);
+        return response()->json(['success' => __('Tituñación guardada correctamente.'), 'model' => $model]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Job  $model
+     * @param  \App\DegreeTitle  $model
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $model = Job::find($id);
+        $model = DegreeTitle::find($id);
 
         return response()->json($model);
     }
@@ -69,14 +69,14 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Job  $model
+     * @param  \App\DegreeTitle  $model
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $model = Job::find($id);
+        $model = DegreeTitle::find($id);
         $model->delete();
 
-        return response()->json(['success' => __('Trabajo eliminado correctamente.')]);
+        return response()->json(['success' => __('Titulación eliminada correctamente.')]);
     }
 }

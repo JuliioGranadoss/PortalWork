@@ -102,10 +102,10 @@ class Worker extends Model
         return $this->hasMany(Degree::class);
     }
 
-    public function jobs()
+    /*public function jobs()
     {
         return $this->hasMany(Job::class);
-    }
+    }*/
 
     public function experiencies()
     {

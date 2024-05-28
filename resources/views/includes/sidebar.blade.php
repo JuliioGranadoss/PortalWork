@@ -36,6 +36,30 @@
             <span>{{__('Ofertas de Trabajo')}}</span></a>
     </li>
 
+        <li class="nav-item">
+        <a href="#collapseWorkOptions" class="nav-link" data-toggle="collapse" aria-expanded="true" aria-controls="collapseWorkOptions">
+            <i class="fas fa-bars"></i>
+            <span>Opciones de trabajo</span>
+        </a>
+        <div id="collapseWorkOptions" class="collapse dropdown-menu-right">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a href="{{ route('jobboards.index') }}" class="collapse-item">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>{{__('Bolsa de trabajo')}}</span>
+                </a>
+                <a href="{{ route('jobs.index') }}" class="collapse-item">
+                    <i class="fas fa-briefcase"></i>
+                    <span>{{__('Puestos de trabajo')}}</span>
+                </a>
+                <a href="{{ route('degreetitles.index') }}" class="collapse-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>{{ __('Titulaciones') }}</span>
+                </a>
+            </div>
+        </div>
+    </li>
+
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

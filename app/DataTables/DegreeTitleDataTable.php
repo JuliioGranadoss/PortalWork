@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\JobBoard;
+use App\Models\DegreeTitle;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Http\Request;
 
-class JobBoardDataTable extends DataTable
+class DegreeTitleDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,13 +22,7 @@ class JobBoardDataTable extends DataTable
     {
 
         return (new EloquentDataTable($query))
-            ->editColumn('init', function (JobBoard $model) {
-                return $model->init->format("d/m/Y");
-            })
-            ->editColumn('end', function (JobBoard $model) {
-                return $model->end->format("d/m/Y");
-            })
-            ->addColumn('action', 'job_boards.action')
+            ->addColumn('action', 'degree_titles.action')
             ->escapeColumns([])
             ->setRowId('id');
     }
@@ -36,10 +30,10 @@ class JobBoardDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\JobBoard $model
+     * @param \App\Models\Job $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(JobBoard $model, Request $request): QueryBuilder
+    public function query(DegreeTitle $model, Request $request): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -54,7 +48,7 @@ class JobBoardDataTable extends DataTable
         return $this->builder()
             ->parameters(["language" =>  ["url" => "//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"]])
             ->responsive()
-            ->setTableId('jobboard-table')
+            ->setTableId('degree_titles-table')
             ->addTableClass('table-bordered w-100')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -78,8 +72,7 @@ class JobBoardDataTable extends DataTable
                 ->orderable(false)
                 ->defaultContent(''),
             Column::make('name')->responsivePriority(1)->targets(0)->title('Nombre'),
-            Column::make('init')->title('Fecha inicio'),
-            Column::make('end')->title('Fecha fin'),
+            Column::make('score')->title('Puntuación'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)
@@ -97,6 +90,6 @@ class JobBoardDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'JobBoard_' . date('YmdHis');
+        return 'DegreeTitle_' . date('YmdHis');
     }
 }

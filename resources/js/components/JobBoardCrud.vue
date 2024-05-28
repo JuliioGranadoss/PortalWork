@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="ajaxOther" aria-hidden="true">
+    <div class="modal fade" id="ajaxModel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -52,8 +52,8 @@ export default {
             model: {
                 id: null,
                 name: null,
-                description: null,
-                score: null
+                init: null,
+                end: null
             }
         }
     },
@@ -64,7 +64,7 @@ export default {
             axios.post('/jobboards', this.model)
                 .then(function (response) {
                     $('#jobboardForm').trigger("reset");
-                    $('#ajaxJobboard').modal('hide');
+                    $('#ajaxModel').modal('hide');
                     self.$swal({
                         position: 'top-end',
                         icon: 'success',
@@ -73,7 +73,7 @@ export default {
                         timer: 1000
                     });
                     self.disable = false;
-                    $('#job_boards-table').DataTable().draw();
+                    $('#jobboard-table').DataTable().draw();
                 })
                 .catch(function (error) {
                     console.log('Error:', error);
@@ -84,7 +84,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.description) {
+            if (!this.model.name || !this.model.init || !this.model.end) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }
@@ -98,25 +98,25 @@ export default {
             this.model = {
                 id: null,
                 name: null,
-                description: null,
-                score: null
+                init: null,
+                end: null
             };
         },
         ajustTable() {
-            $('#job_board-table').DataTable().columns.adjust().draw();
+            $('#jobboard-table').DataTable().columns.adjust().draw();
         }
     },
     mounted() {
         let self = this;
 
-        $('#nav-others-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('#nav-jobboards-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             self.ajustTable();
         });
 
-        $('#createNewOther').click(function () {
-            self.title = 'Añadir habilidades';
+        $('#createNewModel').click(function () {
+            self.title = 'Añadir bolsas de trabajo';
             self.resetModel();
-            $('#ajaxOther').modal('show');
+            $('#ajaxModel').modal('show');
         });
 
         $('body').on('click', '.editJobboard', function () {
@@ -124,7 +124,7 @@ export default {
             axios.get('/jobboards/' + id + '/edit')
                 .then(function (response) {
                     self.title = 'Editar bolsa de trabajo';
-                    $('#ajaxJobboard').modal('show');
+                    $('#ajaxModel').modal('show');
                     self.setModel(response.data);
                 })
                 .catch(function (error) {
@@ -148,7 +148,7 @@ export default {
                 if (data.isConfirmed) {
                     axios.delete('/jobboards/' + id)
                         .then(function (response) {
-                            $('#job_board-table').DataTable().draw();
+                            $('#jobboard-table').DataTable().draw();
                         })
                         .catch(function (error) {
                             console.log('Error:', error);

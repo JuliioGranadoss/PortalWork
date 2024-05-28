@@ -47,8 +47,8 @@ class JobBoardController extends Controller
             ['id' => $request->id],
             [
                 'name' => $request->name,
-                'init' => $request->Carbon::parse($request->init)->format('Y-m-d'),
-                'end' => $request->Carbon::parse($request->end)->format('Y-m-d'),
+                'init' => Carbon::parse($request->init)->format('Y-m-d'),
+                'end' => Carbon::parse($request->end)->format('Y-m-d'),
             ]
         );
 

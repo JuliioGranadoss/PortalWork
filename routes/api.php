@@ -48,4 +48,4 @@ Route::get('/offers/{id}', [OfferController::class, 'show'])->middleware(['auth:
 Route::resource('/degrees', DegreeController::class)->middleware(['auth:sanctum']); // Rutas para los títulos
 Route::resource('/experiences', ExperienceController::class)->middleware(['auth:sanctum']); // Rutas para las experiencias
 Route::resource('/others', OtherController::class)->middleware(['auth:sanctum']); // Rutas para las habilidades
-Route::resource('/jobs', JobController::class)->middleware(['auth:sanctum']); // Rutas para los trabajos
+//Route::resource('/jobs', JobController::class)->middleware(['auth:sanctum']); // Rutas para los trabajos

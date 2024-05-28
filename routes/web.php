@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\WorkerController;
@@ -18,6 +17,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\WorkerOfferController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\DegreeTitleController;
 use Livewire\Livewire;
 use App\Http\Livewire\Calendar;
 use App\Models\Config;
@@ -108,9 +108,9 @@ Route::controller(OtherController::class)->group(function () {
 })->middleware(['role:admin|manager']);
 
 // Ruta para los trabajos
-Route::resource('jobs', JobController::class)->except(['index'])->middleware(['role:admin|manager']);
+Route::resource('jobs', JobController::class)->middleware(['role:admin|manager']);
 Route::controller(JobController::class)->group(function () {
-    Route::get('/jobs/{id}/index', 'index')->name('jobs.index');
+    Route::get('/jobs/get/data', 'data')->name('jobs.data');
 })->middleware(['role:admin|manager']);
 
 // Ruta para las ofertas de trabajo asociadas a un trabajador
@@ -184,3 +184,9 @@ Route::controller(StockMovementController::class)->group(function () {
 
 //Ruta para bolsa de trabajo
 Route::resource('jobboards', JobBoardController::class)->middleware(['role:admin|manager']);
+
+//Ruta para las titulaciones
+Route::resource('degreetitles', DegreeTitleController::class)->middleware(['role:admin|manager']);
+Route::controller(DegreeTitleController::class)->group(function () {
+    Route::get('/degreetitles/get/data', 'data')->name('degreetitles.data');
+})->middleware(['role:admin|manager']);

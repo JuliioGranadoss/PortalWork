@@ -14,13 +14,12 @@ class Job extends Model
     protected $table = 'jobs';
 
     protected $fillable = [
-        'worker_id',
         'name',
         'score'
     ];
 
-    public function worker()
+    /*public function worker()
     {
         return $this->hasMany(Worker::class);
-    }
+    }*/
 }

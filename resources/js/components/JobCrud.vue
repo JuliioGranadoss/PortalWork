@@ -46,7 +46,7 @@ export default {
             disable: false,
             model: {
                 id: null,
-                worker_id: $('#worker_id').val(),
+                //worker_id: $('#worker_id').val(),
                 name: null,
                 score: null
             }
@@ -92,7 +92,7 @@ export default {
         resetModel() {
             this.model = {
                 id: null,
-                worker_id: $('#worker_id').val(),
+                //worker_id: $('#worker_id').val(),
                 name: null,
                 score: null
             };
