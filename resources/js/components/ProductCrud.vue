@@ -33,7 +33,7 @@
                             <div class="form-group col-md-6">
                                 <label for="provider" class="control-label">Proveedor</label>
                                 <v-select label="name" :reduce="provider => provider.id" v-model="model.provider_id"
-                                    :options="providers" required></v-select>
+                                    :options="providers"></v-select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="categories" class="control-label">Categorías</label>
@@ -134,7 +134,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.stock || !this.providers) {
+            if (!this.model.name || !this.model.stock) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }
