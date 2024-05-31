@@ -105,6 +105,21 @@
                             </div>
 
                             <div class="form-group col-md-6">
+                                <label for="delivery_deadline" class="control-label">Plazo de entrega de documentación</label>
+                                <input type="date" class="form-control" v-model="model.delivery_deadline">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="entry_number" class="control-label">Nº de registro de entrada</label>
+                                <input type="text" class="form-control" id="entry_number" name="entry_number" v-model="model.entry_number">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="entry_date" class="control-label">Fecha de registro de entrada</label>
+                                <input type="date" class="form-control" v-model="model.entry_date">
+                            </div>
+
+                            <div class="form-group col-md-6">
                                 <label for="jobboards" class="control-label">Bolsa de trabajo</label>
                                 <v-select 
                                     label="name" 
@@ -165,7 +180,10 @@ export default {
                 driving_license_A: 1,
                 status: 1,
                 jobboard_id: null,
-                job_id: null
+                job_id: null,
+                entry_number: null,
+                entry_date: null,
+                delivery_deadline: null
             },
         }
     },
@@ -211,6 +229,8 @@ export default {
             this.model.driving_license_A = this.model.driving_license_A ? true : false;
             this.model.birth_date = moment(String(this.model.birth_date)).format('YYYY-MM-DD');
             this.model.announcement = moment(String(this.model.announcement)).format('YYYY-MM-DD');
+            this.model.entry_date = moment(String(this.model.entry_date)).format('YYYY-MM-DD');
+            this.model.delivery_deadline = moment(String(this.model.delivery_deadline)).format('YYYY-MM-DD');
         },
         resetModel() {
             this.model = {
@@ -233,7 +253,10 @@ export default {
                 driving_license_A: 1,
                 status: 1,
                 jobboard_id: null,
-                job_id: null
+                job_id: null,
+                entry_number: null,
+                entry_date: null,
+                delivery_deadline: null
             };
         },
         ajustTable() {

@@ -18,6 +18,10 @@
                     </h4>
                 </div>
                 <div class="card-body">
+                    <!-- Filtros -->
+                    <div class="row mb-3">
+                        <workers-filters ref="workersfilters"></workers-filters>
+                    </div>
                     {{$dataTable->table()}}
                 </div>
             </div>

@@ -8,6 +8,7 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
+use Carbon\Carbon;
 
 class WorkerDataTable extends DataTable
 {
@@ -26,10 +27,13 @@ class WorkerDataTable extends DataTable
             ->editColumn('birth_date', function (Worker $model) {
                 return $model->birth_date->format("d/m/Y");
             })
+            ->addColumn('age', function (Worker $model) {
+                return Carbon::parse($model->birth_date)->age;
+            })
             ->addColumn('job_id', function (Worker $model) {
                 return $model->job ? $model->job->name : 'N/A';
             })
-            ->addColumn('jobboard_id', function (Worker $model) {
+            ->editColumn('jobboard_id', function (Worker $model) {
                 return $model->jobBoard->name ?? 'N/A';
             })
             ->editColumn('status', function (Worker $model) {
@@ -89,9 +93,11 @@ class WorkerDataTable extends DataTable
             Column::make('dni')->title('DNI'),
             Column::make('email')->title('Email'),
             Column::make('birth_date')->title('Fecha de nacimiento'),
+            Column::make('age')->title('Edad'),
             Column::make('phone')->title('Teléfono'),
             Column::make('job_id')->title('Titular')->width(100),
-            Column::make('jobboard_id')->title('Bolsa de trabajo')->width(150),
+            Column::make('entry_number')->title('Nº de registro de entrada'),
+            Column::make('jobboard_id')->title('Bolsa de trabajo')->addClass('column-jobboards'),
             Column::make('status')->title('Estado')->width(80),
             Column::make('announcement')->title('Convocatoria'),
             Column::computed('action')->title('Acciones')

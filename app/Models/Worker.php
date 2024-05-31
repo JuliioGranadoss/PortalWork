@@ -33,7 +33,10 @@ class Worker extends Model
         'driving_license_B',
         'driving_license_A',
         'job_id',
-        'jobboard_id'
+        'jobboard_id',
+        'entry_number',
+        'entry_date',
+        'delivery_deadline'
     ];
 
     /**
@@ -44,7 +47,9 @@ class Worker extends Model
     protected $casts = [
         'announcement' => 'date:Y-m-d',
         'birth_date' => 'date:Y-m-d',
-        'file_id' => 'int'
+        'file_id' => 'int',
+        'entry_date' => 'date:Y-m-d',
+        'delivery_deadline'=> 'date:Y-m-d'
     ];
 
     /**

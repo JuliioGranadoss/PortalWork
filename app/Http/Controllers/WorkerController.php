@@ -52,7 +52,6 @@ class WorkerController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->driving_license_B);
         $model = Worker::updateOrCreate(
             ['id' => $request->id],
             [
@@ -73,7 +72,10 @@ class WorkerController extends Controller
                 'driving_license_A' => $request->driving_license_A,
                 'status' => $request->status,
                 'job_id' => $request->job_id,
-                'jobboard_id' => $request->jobboard_id
+                'jobboard_id' => $request->jobboard_id,
+                'entry_number' => $request->entry_number,
+                'entry_date' => Carbon::parse($request->entry_date)->format('Y-m-d'),
+                'delivery_deadline' => Carbon::parse($request->delivery_deadline)->format('Y-m-d')
             ]
         );
 

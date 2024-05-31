@@ -37,6 +37,7 @@ import JobBoardCrud from './components/JobBoardCrud.vue';
 import DegreeTitleCrud from './components/DegreeTitleCrud.vue';
 import HistoriesFilters from './components/HistoriesFilters.vue';
 import MovementsFilters from './components/MovementsFilters.vue';
+import WorkersFilters from './components/WorkersFilters.vue';
 
 app.component('config-crud', ConfigCrud);
 app.component('user-crud', UserCrud);
@@ -64,6 +65,7 @@ app.component('jobboard-crud', JobBoardCrud);
 app.component('degreetitle-crud', DegreeTitleCrud);
 app.component('histories-filters', HistoriesFilters);
 app.component('movements-filters', MovementsFilters);
+app.component('workers-filters', WorkersFilters);
 
 
 app.component("v-select", vSelect)
