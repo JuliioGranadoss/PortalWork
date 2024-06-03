@@ -139,6 +139,13 @@
             <span>{{__('Ges. documental')}}</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('contacts.index') }}">
+            <i class="fas fa-envelope"></i>
+            <span>{{ __('Contacto') }}</span>
+        </a>
+    </li>    
+
         <!-- Divider -->
     <hr class="sidebar-divider">
 

@@ -17,6 +17,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\WorkerOfferController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DegreeTitleController;
 use Livewire\Livewire;
 use App\Http\Livewire\Calendar;
@@ -198,3 +199,6 @@ Route::resource('degreetitles', DegreeTitleController::class)->middleware(['role
 Route::controller(DegreeTitleController::class)->group(function () {
     Route::get('/degreetitles/get/data', 'data')->name('degreetitles.data');
 })->middleware(['role:admin|manager']);
+
+// Ruta para contacto
+Route::resource('contacts', ContactController::class)->middleware(['role:admin|manager']);
