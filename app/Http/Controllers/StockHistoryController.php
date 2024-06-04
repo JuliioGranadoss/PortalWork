@@ -32,7 +32,7 @@ class StockHistoryController extends Controller
 
     public function export(Request $request)
 {
-    return Excel::download(new StockHistoryExport($request->get('place_id'), $request->get('personal_id'), $request->get('date')), 'historial_stock.xlsx');
+    return Excel::download(new StockHistoryExport($request->get('place_id'), $request->get('personal_id'), $request->get('start_date'), $request->get('end_date')), 'historial_stock.xlsx');
 }
 
 }

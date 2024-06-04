@@ -23,20 +23,30 @@
         </div>
         <div class="form-group pl-2">
             <label><strong>Fecha:</strong></label>
-            <input type="date" id="created_at" class="form-control" v-model="selectedDate">
+            <flat-pickr class="form-control" v-model="selectedDateRange" :config="datePickerConfig" placeholder="Selecciona dos fechas"></flat-pickr>
         </div>
     </div>
 </template>
 
 <script>
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
+
 export default {
+    components: {
+      flatPickr
+    },
     data() {
         return {
             places: [],
             personals: [],
             selectedPlace: "",
             selectedPersonal: "",
-            selectedDate: ""
+            selectedDateRange: "",
+            datePickerConfig: {
+            mode: "range",
+            dateFormat: "Y-m-d"
+            }
         };
     },
     watch: {
@@ -46,8 +56,8 @@ export default {
         selectedPersonal() {
             $('#stock-movement-table').DataTable().columns(2).search(this.selectedPersonal).draw();
         },
-        selectedDate() {
-            $('#stock-movement-table').DataTable().columns(3).search(this.selectedDate).draw();
+        selectedDateRange() {
+            $('#stock-movement-table').DataTable().columns(3).search(this.selectedDateRange).draw();
         }
     },
     methods: {

@@ -16,33 +16,37 @@ class StockHistoryExport implements FromQuery, WithHeadings, WithMapping, Should
 
     private $place_id;
     private $personal_id;
-    private $date;
+    private $startDate;
+    private $endDate;
 
-    public function __construct($place_id, $personal_id, $date)
+    public function __construct($place_id, $personal_id, $startDate, $endDate)
     {
         $this->place_id = $place_id;
         $this->personal_id = $personal_id;
-        $this->date = $date;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;;
     }
 
     public function query()
-    {
-        $query = StockHistory::query();
+{
+    $query = StockHistory::query();
 
-        if ($this->place_id) {
-            $query->where('place_id', $this->place_id);
-        }
-
-        if ($this->personal_id) {
-            $query->where('personal_id', $this->personal_id);
-        }
-
-        if ($this->date) {
-            $query->whereDate('updated_at', $this->date);
-        }
-
-        return $query->select('name', 'place_id',  'personal_id', 'quantity', 'type', 'updated_at');
+    if ($this->place_id) {
+        $query->where('place_id', $this->place_id);
     }
+
+    if ($this->personal_id) {
+        $query->where('personal_id', $this->personal_id);
+    }
+
+    if ($this->startDate && $this->endDate) {
+            $query->where('created_at', '>=', $this->startDate)
+                  ->where('created_at', '<=', $this->endDate);
+    }
+
+    return $query->select('name', 'place_id',  'personal_id', 'quantity', 'type', 'created_at');
+}
+
 
     public function headings(): array
     {
@@ -64,7 +68,7 @@ class StockHistoryExport implements FromQuery, WithHeadings, WithMapping, Should
             $row->personal ? $row->personal->name : 'N/A',
             $row->quantity,
             $row->type == 1 ? 'Entrada' : 'Salida',
-            Carbon::createFromTimestamp($row->updated_at)->format('d/m/Y H:i:s'),
+            Carbon::createFromTimestamp($row->created_at)->format('d/m/Y H:i:s'),
         ];
     }
 }

@@ -20,6 +20,7 @@
         "datatables.net-searchpanes-bs4": "^2.1.2",
         "datatables.net-select-bs4": "^1.6.2",
         "moment": "^2.29.4",
+        "vue-flatpickr-component": "^11.0.5",
         "vue-select": "^4.0.0-beta.6",
         "vue-sweetalert2": "^5.0.5",
         "vue3-colorpicker": "^2.2.3"

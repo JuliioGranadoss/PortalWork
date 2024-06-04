@@ -30,8 +30,8 @@ class StockHistoryDataTable extends DataTable
             ->addColumn('type', function (StockHistory $history) {
                 return $history->getTypeLabel();
             })
-            ->editColumn('updated_at', function (StockHistory $history) {
-                return date("d/m/Y H:i:s", $history->updated_at);
+            ->editColumn('created_at', function (StockHistory $history) {
+                return date("d/m/Y H:i:s", $history->created_at);
             })
             ->editColumn('place_id', function (StockHistory $history) {
                 return $history->place ? $history->place->name : 'N/A';
@@ -39,6 +39,15 @@ class StockHistoryDataTable extends DataTable
             ->editColumn('personal_id', function (StockHistory $history) {
                 return $history->personal ? $history->personal->name : 'N/A';
             })
+            ->filterColumn('created_at', function ($query, $keyword) {
+                $dates = explode(' to ', $keyword);
+                if (count($dates) === 2) {
+                    $startDate = date('Y-m-d 00:00:00', strtotime($dates[0]));
+                    $endDate = date('Y-m-d 23:59:59', strtotime($dates[1]));
+                    $query->where('created_at', '>=', $startDate)
+                          ->where('created_at', '<=', $endDate);
+                }
+            })            
             ->escapeColumns([])
             ->setRowId('id');
     }
@@ -91,7 +100,7 @@ class StockHistoryDataTable extends DataTable
             Column::make('personal_id')->title('Personal')->addClass('column-selectedPersonal'),
             Column::make('quantity')->title('Cantidad'),
             Column::make('type')->title('Tipo'),
-            Column::make('updated_at')->title('Fecha')->addClass('column-selectedDate')
+            Column::make('created_at')->title('Fecha')->addClass('column-selectedDate')
         ];
     }
 

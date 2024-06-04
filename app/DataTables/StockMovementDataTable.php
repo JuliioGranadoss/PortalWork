@@ -29,6 +29,15 @@ class StockMovementDataTable extends DataTable
             ->editColumn('created_at', function (StockMovement $movement) {
                 return $movement->created_at instanceof \Carbon\Carbon ? $movement->created_at->format('d/m/Y H:i:s') : 'N/A';
             })
+            ->filterColumn('created_at', function ($query, $keyword) {
+                $dates = explode(' to ', $keyword);
+                if (count($dates) === 2) {
+                    $startDate = date('Y-m-d 00:00:00', strtotime($dates[0]));
+                    $endDate = date('Y-m-d 23:59:59', strtotime($dates[1]));
+                    $query->where('created_at', '>=', $startDate)
+                          ->where('created_at', '<=', $endDate);
+                }
+            })
             ->addColumn('action', 'stockmovement.action')
             ->escapeColumns([])
             ->setRowId('id');
@@ -79,7 +88,7 @@ class StockMovementDataTable extends DataTable
                 ->defaultContent(''),
             Column::make('place_id')->title('Lugar')->addClass('column-selectedPlace'),
             Column::make('personal_id')->title('Personal')->addClass('column-selectedPersonal'),
-            Column::make('created_at')->title('Fecha')->addClass('column-selectedDate'),
+            Column::make('created_at')->title('Fecha')->addClass('column-selectedDateRange'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)
