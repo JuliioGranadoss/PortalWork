@@ -29,4 +29,10 @@ class StockHistoryController extends Controller
     {
         return $dataTable->render('stockhistory.index');
     }
+
+    public function export(Request $request)
+{
+    return Excel::download(new StockHistoryExport($request->get('place_id'), $request->get('personal_id'), $request->get('date')), 'historial_stock.xlsx');
+}
+
 }

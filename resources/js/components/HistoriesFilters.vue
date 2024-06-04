@@ -1,3 +1,17 @@
+<style>
+  .row.mb-3.no-gutters {
+    display: flex;
+    align-items: center;
+  }
+  .form-group {
+    margin-right: 24px;
+  }
+  .btn-success {
+    margin-top: 15px;
+  }
+</style>
+
+
 <template>
     <div class="row mb-3 no-gutters">
         <div class="col-md-12">
@@ -25,6 +39,8 @@
             <label><strong>Fecha:</strong></label>
             <input type="date" id="updated_at" class="form-control" v-model="selectedDate">
         </div>
+        <button @click="exportExcel" class="btn btn-success" style="height: 38px;"><i class="fa fa-file-excel"></i> Exportar a excel</button>
+        
     </div>
 </template>
 
@@ -51,6 +67,9 @@ export default {
         }
     },
     methods: {
+        exportExcel() {
+            window.location.href = '/exportar-historial?place_id=' + this.selectedPlace + '&personal_id=' + this.selectedPersonal + '&date=' + this.selectedDate;
+        },
         getPlaces() {
             axios.get('/stockplaces/get/data')
                 .then(response => {

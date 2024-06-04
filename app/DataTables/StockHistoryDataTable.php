@@ -91,7 +91,7 @@ class StockHistoryDataTable extends DataTable
             Column::make('personal_id')->title('Personal')->addClass('column-selectedPersonal'),
             Column::make('quantity')->title('Cantidad'),
             Column::make('type')->title('Tipo'),
-            Column::make('updated_at')->title('Fecha')->addClass('column-selectedDate'),
+            Column::make('updated_at')->title('Fecha')->addClass('column-selectedDate')
         ];
     }
 

@@ -145,6 +145,7 @@ Route::resource('products', ProductController::class)->middleware(['role:admin|m
 
 // Ruta para el historial
 Route::resource('stockhistories', StockHistoryController::class)->middleware(['role:admin|manager']);
+Route::get('/exportar-historial', [StockHistoryController::class, 'export'])->name('exportHistory');
 
 // Ruta para los códigos de barras
 Route::resource('barcodes', BarcodeController::class)->middleware(['role:admin|manager']);
