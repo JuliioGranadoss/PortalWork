@@ -37,7 +37,7 @@ class StockHistoryDataTable extends DataTable
                 return $history->place ? $history->place->name : 'N/A';
             })
             ->editColumn('personal_id', function (StockHistory $history) {
-                return $history->personal ? $history->personal->name : 'N/A';
+                return $history->personal ? $history->personal->name . ' ' . $history->personal->surname : 'N/A';
             })
             ->filterColumn('created_at', function ($query, $keyword) {
                 $dates = explode(' to ', $keyword);

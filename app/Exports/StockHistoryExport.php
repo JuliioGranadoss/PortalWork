@@ -65,7 +65,7 @@ class StockHistoryExport implements FromQuery, WithHeadings, WithMapping, Should
         return [
             $row->name,
             $row->place ? $row->place->name : 'N/A',
-            $row->personal ? $row->personal->name : 'N/A',
+            $row->personal ? $row->personal->name . ' ' . $row->personal->surname : 'N/A',
             $row->quantity,
             $row->type == 1 ? 'Entrada' : 'Salida',
             Carbon::createFromTimestamp($row->created_at)->format('d/m/Y H:i:s'),
