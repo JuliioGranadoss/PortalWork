@@ -8,7 +8,7 @@
                 $url = App\Models\File::where('id', $logo)->first()->source ?? null;
             @endphp
             @if ($url)
-                <img width="60px" class="img-profile" src="{{ $url }}">
+                <img width="70px" class="img-profile" src="{{ $url }}">
             @else
                 <i class="fas fa-laugh-wink"></i>
             @endif

@@ -38,9 +38,6 @@ class ProductController extends Controller
      */
     public function index(ProductDataTable $dataTable, Request $request)
     {
-        // $providers = Provider::all(); 
-        // $categories = Category::all(); 
-        // return $dataTable->render('products.index', compact('providers', 'categories'));
         return $dataTable->render('products.index');
     }
 
@@ -75,26 +72,6 @@ class ProductController extends Controller
         }
 
         return response()->json(['success' => __('Producto guardado correctamente.')]);
-    }
-
-    /**
-     * Show the detailss page.
-     *
-     * @param  \App\Product  $model
-     * @return \Illuminate\Http\Response
-     */
-    public function show(
-        $id,
-        CategoryProductDataTable $categoryProductDataTable,
-        BarcodeDataTable $barcodeDataTable
-    ) {
-        $model = Product::find($id);
-
-        return view('products.show', [
-            'model' => $model,
-            'categoryproductDataTable' => $categoryProductDataTable->html()->minifiedAjax(route('categoryproducts.index', $id)),
-            'barcodeDataTable' => $barcodeDataTable->html()->minifiedAjax(route('barcodes.index', $id)),
-        ]);
     }
 
     /**

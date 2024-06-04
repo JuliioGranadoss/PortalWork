@@ -81,19 +81,23 @@ class WorkerController extends Controller
 
         $user_id = $model->user_id ?? null;
         $user = User::find($user_id);
+
+        // Generar una contraseña aleatoria de 12 caracteres
+        $password = Str::random(12);
+
         $user = User::updateOrCreate(
             ['id' => $user_id],
             [
                 'name' => $model->name . ' ' . $model->surname,
                 'email' => $model->email,
-                'password' => $user ? $user->password : Hash::make('123456')
+                'password' => $user ? $user->password : Hash::make($password)
             ]
         );
-        
+
         $user->syncRoles(['worker']);
 
         if ($user->wasRecentlyCreated) {
-            Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, '123456'));
+            Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, $password));
         }
 
         $model->user_id = $user->id;
@@ -113,13 +117,12 @@ class WorkerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(
-        $id, 
-        DegreeDataTable $degreeDataTable, 
+        $id,
+        DegreeDataTable $degreeDataTable,
         ExperienceDataTable $experienceDataTable,
         OtherDataTable $otherDataTable,
         WorkerOfferDataTable $workerofferDataTable
-    )
-    {
+    ) {
         $model = Worker::find($id);
 
         return view('workers.show', [
@@ -166,7 +169,7 @@ class WorkerController extends Controller
 
         $user->password = Hash::make($password);
         $user->save();
-        
+
         Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, $password));
 
         return response()->json(['message' => '¡Email enviado!']);
