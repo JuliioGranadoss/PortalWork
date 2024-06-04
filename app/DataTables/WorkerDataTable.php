@@ -22,13 +22,13 @@ class WorkerDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->editColumn('announcement', function (Worker $model) {
-                return $model->announcement->format("d/m/Y");
+                return $model->announcement ? $model->announcement->format("d/m/Y") : "N/A";
             })
             ->editColumn('birth_date', function (Worker $model) {
-                return $model->birth_date->format("d/m/Y");
+                return $model->birth_date ? $model->birth_date->format("d/m/Y") : "N/A";
             })
             ->addColumn('age', function (Worker $model) {
-                return Carbon::parse($model->birth_date)->age;
+                return $model->birth_date ? Carbon::parse($model->birth_date)->age : "N/A";
             })
             ->addColumn('job_id', function (Worker $model) {
                 return $model->job ? $model->job->name : 'N/A';
