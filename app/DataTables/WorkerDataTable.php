@@ -21,9 +21,6 @@ class WorkerDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->editColumn('announcement', function (Worker $model) {
-                return $model->announcement ? $model->announcement->format("d/m/Y") : "N/A";
-            })
             ->editColumn('birth_date', function (Worker $model) {
                 return $model->birth_date ? $model->birth_date->format("d/m/Y") : "N/A";
             })
@@ -96,10 +93,8 @@ class WorkerDataTable extends DataTable
             Column::make('age')->title('Edad'),
             Column::make('phone')->title('Teléfono'),
             Column::make('job_id')->title('Titular')->width(100),
-            Column::make('entry_number')->title('Nº de registro de entrada'),
             Column::make('jobboard_id')->title('Bolsa de trabajo')->addClass('column-jobboards'),
             Column::make('status')->title('Estado')->width(80),
-            Column::make('announcement')->title('Convocatoria'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)

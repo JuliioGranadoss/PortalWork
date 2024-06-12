@@ -15,7 +15,6 @@ class DegreeTitle extends Model
 
     protected $fillable = [
         'name',
-        'score'
     ];
 
 }

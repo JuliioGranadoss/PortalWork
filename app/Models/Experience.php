@@ -19,7 +19,6 @@ class Experience extends Model
         'company',
         'start',
         'end',
-        'score'
     ];
 
     /**

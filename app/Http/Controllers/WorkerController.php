@@ -18,11 +18,6 @@ use Illuminate\Support\Str;
 
 class WorkerController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -34,28 +29,16 @@ class WorkerController extends Controller
         return response()->json($model);
     }
 
-    /**
-     * Show the datatable.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(WorkerDataTable $dataTable)
     {
         return $dataTable->render('workers.index');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $model = Worker::updateOrCreate(
             ['id' => $request->id],
             [
-                'announcement' => Carbon::parse($request->announcement)->format('Y-m-d'),
                 'name' => $request->name,
                 'surname' => $request->surname,
                 'dni' => $request->dni,
@@ -73,31 +56,29 @@ class WorkerController extends Controller
                 'status' => $request->status,
                 'job_id' => $request->job_id,
                 'jobboard_id' => $request->jobboard_id,
-                'entry_number' => $request->entry_number,
-                'entry_date' => Carbon::parse($request->entry_date)->format('Y-m-d'),
-                'delivery_deadline' => Carbon::parse($request->delivery_deadline)->format('Y-m-d')
             ]
         );
 
-        $user_id = $model->user_id ?? null;
-        $user = User::find($user_id);
+        $user = $model->user;
 
         // Generar una contraseña aleatoria de 12 caracteres
         $password = Str::random(12);
 
-        $user = User::updateOrCreate(
-            ['id' => $user_id],
-            [
+        if (!$user) {
+            $user = User::create([
                 'name' => $model->name . ' ' . $model->surname,
                 'email' => $model->email,
-                'password' => $user ? $user->password : Hash::make($password)
-            ]
-        );
+                'password' => Hash::make($password),
+            ]);
 
-        $user->syncRoles(['worker']);
+            $user->syncRoles(['worker']);
 
-        if ($user->wasRecentlyCreated) {
             Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, $password));
+        } else {
+            $user->update([
+                'name' => $model->name . ' ' . $model->surname,
+                'email' => $model->email,
+            ]);
         }
 
         $model->user_id = $user->id;
@@ -106,16 +87,6 @@ class WorkerController extends Controller
         return response()->json(['success' => __('Trabajador guardado correctamente.'), 'model' => $model]);
     }
 
-    /**
-     * Show the details page.
-     *
-     * @param  int  $id
-     * @param  DegreeDataTable  $degreeDataTable
-     * @param  ExperienceDataTable  $experienceDataTable
-     * @param  OtherDataTable  $otherDataTable
-     * @param  WorkerOfferDataTable  $workerofferDataTable
-     * @return \Illuminate\Http\Response
-     */
     public function show(
         $id,
         DegreeDataTable $degreeDataTable,
@@ -134,29 +105,22 @@ class WorkerController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $model = Worker::find($id);
         return response()->json($model);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $model = Worker::find($id);
-        $model->status = -1;
-        $model->save();
+        if ($model) {
+            $user = $model->user;
+            $model->delete();
+            if ($user) {
+                $user->delete();
+            }
+        }
 
         return response()->json(['success' => __('Trabajador eliminado correctamente.')]);
     }
@@ -164,14 +128,20 @@ class WorkerController extends Controller
     public function sendCredentials($id)
     {
         $model = Worker::find($id);
-        $password = Str::random(12);
-        $user = $model->user;
+        if ($model) {
+            $password = Str::random(12);
+            $user = $model->user;
 
-        $user->password = Hash::make($password);
-        $user->save();
+            if ($user) {
+                $user->password = Hash::make($password);
+                $user->save();
 
-        Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, $password));
+                Mail::to($model->email)->send(new SendUserCredentials($model->name . ' ' . $model->surname, $password));
 
-        return response()->json(['message' => '¡Email enviado!']);
+                return response()->json(['message' => '¡Email enviado!']);
+            }
+        }
+
+        return response()->json(['message' => 'No se pudo enviar el email.'], 400);
     }
 }

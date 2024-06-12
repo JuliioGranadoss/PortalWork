@@ -35,7 +35,6 @@ return new class extends Migration
             $table->string('institution')->nullable();
             $table->date('start');
             $table->date('end');
-            $table->float('score')->nullable();
         });
 
         Schema::create('experiences', function (Blueprint $table) {
@@ -45,7 +44,6 @@ return new class extends Migration
             $table->string('company');
             $table->date('start');
             $table->date('end');
-            $table->float('score')->nullable();
         });
     
         Schema::create('others', function (Blueprint $table) {
@@ -53,14 +51,12 @@ return new class extends Migration
             $table->foreignId('worker_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
-            $table->float('score')->nullable();
         });
 
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('worker_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
-            $table->float('score')->nullable();
         });
 
         Schema::create('offers', function (Blueprint $table) {

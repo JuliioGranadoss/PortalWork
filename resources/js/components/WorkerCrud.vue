@@ -80,7 +80,6 @@
                                 <input type="tel" class="form-control" id="phone2" name="phone2" pattern="[0-9]{9}"
                                     title="El teléfono debe contener 9 dígitos numéricos" v-model="model.phone2">
                             </div>
-                            
                             <div class="form-group col-md-6">
                                 <label for="status" class="control-label">Estado*</label>
                                 <select class="select form-control" name="status" id="status" v-model="model.status" required>
@@ -88,12 +87,6 @@
                                     <option value="1">Alta</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="announcement" class="control-label">Convocatoria*</label>
-                                <input type="date" class="form-control" v-model="model.announcement" required>
-                            </div>
-                            
-
                             <div class="form-group col-md-6">
                                 <label for="jobs" class="control-label">Titular</label>
                                 <v-select 
@@ -103,22 +96,6 @@
                                     :options="jobs"
                                 ></v-select>
                             </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="delivery_deadline" class="control-label">Plazo de entrega de documentación</label>
-                                <input type="date" class="form-control" v-model="model.delivery_deadline">
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="entry_number" class="control-label">Nº de registro de entrada</label>
-                                <input type="text" class="form-control" id="entry_number" name="entry_number" v-model="model.entry_number">
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="entry_date" class="control-label">Fecha de registro de entrada</label>
-                                <input type="date" class="form-control" v-model="model.entry_date">
-                            </div>
-
                             <div class="form-group col-md-6">
                                 <label for="jobboards" class="control-label">Bolsa de trabajo</label>
                                 <v-select 
@@ -140,7 +117,6 @@
                             </div>
                             
                         </div>
-
                         <div class="col-sm-12 text-right">
                             <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar trabajador</button>
                         </div>
@@ -162,8 +138,6 @@ export default {
             jobs: [],
             model: {
                 id: null,
-                file_id: null,
-                announcement: null,
                 name: null,
                 surname: null,
                 dni: null,
@@ -180,10 +154,7 @@ export default {
                 driving_license_A: 1,
                 status: 1,
                 jobboard_id: null,
-                job_id: null,
-                entry_number: null,
-                entry_date: null,
-                delivery_deadline: null
+                job_id: null            
             },
         }
     },
@@ -216,7 +187,7 @@ export default {
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.phone || !this.model.status || !this.model.announcement) {
+            if (!this.model.name || !this.model.surname || !this.model.dni || !this.model.email || !this.model.birth_date || !this.model.phone || !this.model.status) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }
@@ -228,15 +199,10 @@ export default {
             this.model.driving_license_B = this.model.driving_license_B ? true : false;
             this.model.driving_license_A = this.model.driving_license_A ? true : false;
             this.model.birth_date = moment(String(this.model.birth_date)).format('YYYY-MM-DD');
-            this.model.announcement = moment(String(this.model.announcement)).format('YYYY-MM-DD');
-            this.model.entry_date = moment(String(this.model.entry_date)).format('YYYY-MM-DD');
-            this.model.delivery_deadline = moment(String(this.model.delivery_deadline)).format('YYYY-MM-DD');
         },
         resetModel() {
             this.model = {
                 id: null,
-                file_id: null,
-                announcement: null,
                 name: null,
                 surname: null,
                 dni: null,
@@ -254,9 +220,6 @@ export default {
                 status: 1,
                 jobboard_id: null,
                 job_id: null,
-                entry_number: null,
-                entry_date: null,
-                delivery_deadline: null
             };
         },
         ajustTable() {

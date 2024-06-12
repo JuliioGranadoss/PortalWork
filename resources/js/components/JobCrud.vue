@@ -22,10 +22,6 @@
                                 <label for="name" class="control-label">Nombre del puesto*</label>
                                 <input type="text" class="form-control" v-model="model.name" required>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="score" class="control-label">Puntuación</label>
-                                <input type="number" class="form-control" v-model="model.score" min="0" max="10">
-                            </div>
                         </div>
                         <div class="col-sm-12 text-right">
                             <button type="submit" class="btn btn-primary" v-bind:disabled="disable">Guardar</button>
@@ -48,7 +44,6 @@ export default {
                 id: null,
                 //worker_id: $('#worker_id').val(),
                 name: null,
-                score: null
             }
         }
     },
@@ -94,7 +89,6 @@ export default {
                 id: null,
                 //worker_id: $('#worker_id').val(),
                 name: null,
-                score: null
             };
         },
         ajustTable() {

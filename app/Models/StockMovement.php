@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int    $signature_id
  * @property int    $place_id
  * @property int    $personal_id
  * @property int    $status
@@ -34,7 +33,7 @@ class StockMovement extends Model
      * @var array
      */
     protected $fillable = [
-        'signature_id', 'place_id', 'personal_id', 'status', 'created_at', 'updated_at'
+        'place_id', 'personal_id', 'status', 'created_at', 'updated_at'
     ];
 
     /**

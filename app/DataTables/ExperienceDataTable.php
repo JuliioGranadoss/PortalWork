@@ -81,7 +81,6 @@ class ExperienceDataTable extends DataTable
             Column::make('company')->title('Empresa'),
             Column::make('start')->title('Fecha de Inicio'),
             Column::make('end')->title('Fecha de Fin'),
-            Column::make('score')->title('Puntuación'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)

@@ -43,7 +43,6 @@ class StockMovementController extends Controller
         $model = StockMovement::updateOrCreate(
             ['id' => $request->id],
             [
-                'signature_id' => $request->signature_id,
                 'place_id' => $request->place_id,
                 'personal_id' => $request->personal_id,
                 'status' => $request->status

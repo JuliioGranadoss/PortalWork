@@ -19,7 +19,6 @@ return new class extends Migration
         Schema::create('degree_titles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('score')->nullable();
         });
     }
 

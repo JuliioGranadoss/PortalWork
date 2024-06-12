@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('workers', function (Blueprint $table) {
-            $table->date('announcement')->nullable()->after('description');
             $table->string('phone2')->nullable()->after('phone');
             $table->tinyInteger('driving_license_A')->default(0)->after('phone2'); 
             $table->tinyInteger('driving_license_B')->default(0)->after('driving_license_A'); 
@@ -28,7 +27,6 @@ return new class extends Migration
             $table->dropColumn('driving_license_A');
             $table->dropColumn('driving_license_B');
             $table->dropColumn('phone2');
-            $table->dropColumn('announcement');
         });
     }
 };

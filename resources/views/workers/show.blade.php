@@ -18,7 +18,6 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>Convocatoria:</strong> {{ $model->announcement->format('d/m/Y') }}</p>
                             <p><strong>Nombre:</strong> {{ $model->name }}</p>
                             <p><strong>Apellido:</strong> {{ $model->surname }}</p>
                             <p><strong>DNI:</strong> {{ $model->dni }}</p>
@@ -28,10 +27,8 @@
                             <p><strong>Descripción:</strong> {{ $model->description }}</p>
                             <p><strong>Dirección:</strong> {{ $model->address }}</p>
                             <p><strong>Titular:</strong> {{ $model->job->name ?? 'N/A' }}</p>
-                            <p><strong>Numero de registro de entrada: </strong>{{ $model->entry_number ?? 'N/A' }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Plazo de entrega para documentación:</strong> {{ $model->delivery_deadline ? $model->delivery_deadline->format('d/m/Y') : 'N/A' }}</p>
                             <p><strong>Código postal:</strong> {{ $model->postal_code }}</p>
                             <p><strong>Provincia:</strong> {{ $model->province }}</p>
                             <p><strong>Localidad:</strong> {{ $model->location }}</p>
@@ -41,7 +38,6 @@
                             <p><strong>Permiso A (moto):</strong> {{ $model->driving_license_A == 1 ? 'Si' : 'No' }}</p>
                             <p><strong>Estado:</strong> {{ $model->status == 1 ? 'Alta' : 'Baja' }}</p>
                             <p><strong>Bolsa de trabajo:</strong> {{ $model->jobBoard->name ?? 'N/A' }}</p>
-                            <p><strong>Fecha de registro de entrada:</strong> {{ $model->entry_date ? $model->entry_date->format('d/m/Y') : 'N/A' }}</p>
                         </div>
                     </div>
                 </div>

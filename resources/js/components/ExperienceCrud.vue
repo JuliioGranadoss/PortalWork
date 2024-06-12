@@ -36,10 +36,6 @@
                                 <label for="end" class="control-label">Fecha de fin*</label>
                                 <input type="date" class="form-control" v-model="model.end" required>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="score" class="control-label">Puntuación</label>
-                                <input type="number" class="form-control" v-model="model.score" min="0" max="10">
-                            </div>
                         </div>
 
                         <div class="col-sm-12 text-right">
@@ -67,7 +63,6 @@ export default {
                 company: null,
                 start: null,
                 end: null,
-                score: null
             }
         }
     },
@@ -118,7 +113,6 @@ export default {
                 company: null,
                 start: null,
                 end: null,
-                score: null
             };
         },
         ajustTable() {

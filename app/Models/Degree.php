@@ -19,7 +19,6 @@ class Degree extends Model
         'institution',
         'start',
         'end',
-        'score'
     ];
 
      /**

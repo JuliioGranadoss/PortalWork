@@ -61,9 +61,13 @@ Route::get('/dynamic-styles', function () {
 
 Livewire::component('calendar', Calendar::class);
 
-Route::get('/', [WorkerController::class, 'index'])->name('home')->middleware(['role:admin|manager']);
+// Route::get('/', [WorkerController::class, 'index'])->name('home')->middleware(['role:admin|manager|worker']);
 
-Route::resource('users', UserController::class)->middleware(['role:admin|manager']);
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome')->middleware('auth');
+
+Route::resource('users', UserController::class)->middleware(['role:admin']);
 Route::controller(UserController::class)->group(function () {
     Route::post('/users/check-email', 'checkEmail')->name('users.check_email');
     Route::get('/users/profile/data', 'profile')->name('users.profile');
@@ -78,53 +82,53 @@ Route::resource('incidents', IncidentController::class)->middleware(['role:admin
 Route::resource('files', FileController::class)->middleware(['role:admin|manager']);
 
 Route::controller(ConfigController::class)->group(function () {
-    Route::get('/config', 'index')->name('config')->middleware(['role:admin|manager']);
-    Route::get('/calendar', 'calendar')->name('calendar')->middleware(['role:admin|manager']);
-    Route::get('/config/data', 'data')->name('config.data')->middleware(['role:admin|manager']);
-    Route::post('/config/save', 'save')->name('config.save')->middleware(['role:admin|manager']);
+    Route::get('/config', 'index')->name('config')->middleware(['role:admin']);
+    Route::get('/calendar', 'calendar')->name('calendar')->middleware(['role:admin']);
+    Route::get('/config/data', 'data')->name('config.data')->middleware(['role:admin']);
+    Route::post('/config/save', 'save')->name('config.save')->middleware(['role:admin']);
 });
 
 // Ruta para trabajadores
-Route::resource('workers', WorkerController::class)->middleware(['role:admin|manager']);
+Route::resource('workers', WorkerController::class)->middleware(['role:admin|worker']);
 
 // Ruta para ofertas de trabajo
-Route::resource('offers', OfferController::class)->middleware(['role:admin|manager']);
+Route::resource('offers', OfferController::class)->middleware(['role:admin']);
 
 // Ruta para los títulos
-Route::resource('degrees', DegreeController::class)->except(['index'])->middleware(['role:admin|manager']);
+Route::resource('degrees', DegreeController::class)->except(['index'])->middleware(['role:admin|worker']);
 Route::controller(DegreeController::class)->group(function () {
     Route::get('/degrees/{id}/index', 'index')->name('degrees.index');
-})->middleware(['role:admin|manager']);
+})->middleware(['role:admin|worker']);
 
 // Ruta para las experiencias
-Route::resource('experiencies', ExperienceController::class)->except(['index'])->middleware(['role:admin|manager']);
+Route::resource('experiencies', ExperienceController::class)->except(['index'])->middleware(['role:admin|worker']);
 Route::controller(ExperienceController::class)->group(function () {
     Route::get('/experiencies/{id}/index', 'index')->name('experiencies.index');
-})->middleware(['role:admin|manager']);
+})->middleware(['role:admin|worker']);
 
 // Ruta para las otras formaciones
-Route::resource('others', OtherController::class)->except(['index'])->middleware(['role:admin|manager']);
+Route::resource('others', OtherController::class)->except(['index'])->middleware(['role:admin|worker']);
 Route::controller(OtherController::class)->group(function () {
     Route::get('/others/{id}/index', 'index')->name('others.index');
-})->middleware(['role:admin|manager']);
+})->middleware(['role:admin|worker']);
 
 // Ruta para los trabajos
-Route::resource('jobs', JobController::class)->middleware(['role:admin|manager']);
+Route::resource('jobs', JobController::class)->middleware(['role:admin|worker']);
 Route::controller(JobController::class)->group(function () {
     Route::get('/jobs/get/data', 'data')->name('jobs.data');
-})->middleware(['role:admin|manager']);
+})->middleware(['role:admin|worker']);
 
 // Ruta para las ofertas de trabajo asociadas a un trabajador
-Route::resource('workeroffers', WorkerOfferController::class)->except(['destroy','index'])->middleware(['role:admin|manager']);
+Route::resource('workeroffers', WorkerOfferController::class)->except(['destroy','index'])->middleware(['role:admin|worker']);
 Route::controller(WorkerOfferController::class)->group(function () {
     Route::get('/workeroffers/{id}/index', 'index')->name('workeroffers.index');
     Route::get('/workeroffers/{id}/offers', 'offers')->name('workeroffers.offers');
     Route::get('/workeroffers/{id}/available-offers', 'availableOffers')->name('workeroffers.available-offers');
     Route::delete('/workeroffers/{worker_id}/{offer_id}/destroy', 'destroy')->name('workeroffers.destroy');
-})->middleware(['role:admin|manager']);
+})->middleware(['role:admin|worker']);
 
 // Ruta para enviar credenciales por email
-Route::get('/email/{id}', [WorkerController::class, 'sendCredentials'])->name('email.sendCredentials');
+Route::get('/email/{id}', [WorkerController::class, 'sendCredentials'])->name('email.sendCredentials')->middleware(['role:admin|worker']);;
 
 // Ruta para los proveedores
 Route::resource('providers', ProviderController::class)->middleware(['role:admin|manager']);
@@ -184,22 +188,22 @@ Route::controller(StockMovementController::class)->group(function () {
 })->middleware(['role:admin|manager']);
 
 // Ruta para descargar PDF
-Route::get('stockmovements/{id}/pdf', [StockMovementController::class, 'getPDF'])->name('stockmovements.pdf');
+Route::get('stockmovements/{id}/pdf', [StockMovementController::class, 'getPDF'])->name('stockmovements.pdf')->middleware(['role:admin|manager']);
 
 //Ruta para bolsa de trabajo
-Route::resource('jobboards', JobBoardController::class)->middleware(['role:admin|manager']);
+Route::resource('jobboards', JobBoardController::class)->middleware(['role:admin|worker']);
 Route::controller(JobBoardController::class)->group(function () {
     Route::get('/jobboards/get/data', 'data')->name('jobboards.data');
-})->middleware(['role:admin|manager']);
+})->middleware(['role:admin|worker']);
 /*Route::controller(JobBoardController::class)->group(function () {
     Route::get('/jobboards/{id}/index', 'index')->name('jobboards.index');
 })->middleware(['role:admin|manager']);*/
 
 //Ruta para las titulaciones
-Route::resource('degreetitles', DegreeTitleController::class)->middleware(['role:admin|manager']);
+Route::resource('degreetitles', DegreeTitleController::class)->middleware(['role:admin|worker']);
 Route::controller(DegreeTitleController::class)->group(function () {
     Route::get('/degreetitles/get/data', 'data')->name('degreetitles.data');
-})->middleware(['role:admin|manager']);
+})->middleware(['role:admin|worker']);
 
 // Ruta para contacto
 Route::resource('contacts', ContactController::class)->middleware(['role:admin|manager']);

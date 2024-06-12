@@ -15,8 +15,6 @@ class Worker extends Model
 
     protected $fillable = [
         'user_id',
-        'file_id',
-        'announcement',
         'name',
         'surname',
         'dni',
@@ -34,9 +32,6 @@ class Worker extends Model
         'driving_license_A',
         'job_id',
         'jobboard_id',
-        'entry_number',
-        'entry_date',
-        'delivery_deadline'
     ];
 
     /**
@@ -45,11 +40,7 @@ class Worker extends Model
      * @var array
      */
     protected $casts = [
-        'announcement' => 'date:Y-m-d',
         'birth_date' => 'date:Y-m-d',
-        'file_id' => 'int',
-        'entry_date' => 'date:Y-m-d',
-        'delivery_deadline'=> 'date:Y-m-d'
     ];
 
     /**
@@ -126,11 +117,6 @@ class Worker extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function file()
-    {
-        return $this->belongsTo(File::class);
     }
 
     public function job()

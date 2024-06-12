@@ -72,7 +72,6 @@ class JobDataTable extends DataTable
                 ->orderable(false)
                 ->defaultContent(''),
             Column::make('name')->responsivePriority(1)->targets(0)->title('Nombre'),
-            Column::make('score')->title('Puntuación'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)

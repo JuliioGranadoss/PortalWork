@@ -15,7 +15,6 @@ class Job extends Model
 
     protected $fillable = [
         'name',
-        'score'
     ];
 
     /*public function worker()

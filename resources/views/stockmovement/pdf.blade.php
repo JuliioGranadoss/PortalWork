@@ -72,13 +72,13 @@
         <table class="table borderless">
             <tr>
                 <td width="50%">
-                    <p><strong>Ayuntamiento de Alhaurin el Grande</strong></p>
+                    <p><strong>PortalWork</strong></p>
                     <p><strong>Personal:</strong> {{ $model->personal->name }} {{ $model->personal->surname }}</p>
                     <p><strong>Lugar:</strong> {{ $model->place->name }}</p>
                     <p><strong>Fecha:</strong> {{ $model->created_at->format('d/m/Y') }}</p>
                 </td>
                 <td width="50%" style="text-align: right;">
-                    <img src="{{ asset('img/Logo_Ayuntamiento.png') }}" width="150px" style="margin-right: 25px" class="img">
+                    <img src="{{ asset('img/Logo_PortalWork.png') }}" width="150px" style="margin-right: 25px" class="img">
                 </td>
             </tr>
         </table>
@@ -106,7 +106,7 @@
         </table>
 
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Ayuntamiento Alhaurín el Grande.</p>
+            <p>&copy; {{ date('Y') }} PortalWork.</p>
         </div>
     </div>
 </body>

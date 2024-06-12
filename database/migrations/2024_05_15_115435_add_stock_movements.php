@@ -28,8 +28,6 @@ return new class extends Migration
 
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('signature_id')->nullable();
-            $table->foreign('signature_id')->references('id')->on('files')->onDelete('set null')->onUpdate('set null');
             $table->foreignId('place_id')->nullable()->constrained('stock_places')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('personal_id')->nullable()->constrained('stock_personals')->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default(1);

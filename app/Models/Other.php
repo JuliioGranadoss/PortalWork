@@ -17,7 +17,6 @@ class Other extends Model
         'worker_id',
         'name',
         'description',
-        'score'
     ];
 
     public function worker()

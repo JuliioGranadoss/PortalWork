@@ -46,7 +46,6 @@ class DegreeTitleController extends Controller
             ['id' => $request->id],
             [
                 'name' => $request->name,
-                'score' => $request->score
             ]
         );
 

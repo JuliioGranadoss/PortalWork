@@ -73,7 +73,6 @@ class OtherDataTable extends DataTable
                 ->defaultContent(''),
             Column::make('name')->responsivePriority(1)->targets(0)->title('Nombre'),
             Column::make('description')->title('Descripción'),
-            Column::make('score')->title('Puntuación'),
             Column::computed('action')->title('Acciones')
                 ->responsivePriority(2)
                 ->targets(-1)
