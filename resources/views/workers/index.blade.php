@@ -14,6 +14,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h4 class="m-0 font-weight-bold text-dark text-center text-sm-left h2-sm">{{__('Trabajadores')}}
+                    <a class="btn btn-primary float-sm-right" href="{{ route('welcome') }}" style="position: relative; top: 15px; margin-left: 10px;"><i class="fa fa-arrow-left"></i> {{ __('Volver al inicio') }}</a>
                         <a class="btn btn-success float-sm-right" href="javascript:void(0)" id="createNewModel"><i class="fa fa-plus" ></i> {{ __('Añadir trabajador') }}</a>
                     </h4>
                 </div>
