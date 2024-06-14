@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="ajaxModel" aria-hidden="true">
+    <div class="modal fade" id="ajaxProviderModel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -19,53 +19,20 @@
                         <input type="hidden" name="id" v-model="model.id">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="name" class="control-label">Nombre del producto*</label>
+                                <label for="name" class="control-label">Nombre del proveedor*</label>
                                 <input type="text" class="form-control" v-model="model.name" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="description" class="control-label">Descripción</label>
-                                <input type="text" class="form-control" v-model="model.description">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="stock" class="control-label">Cantidad*</label>
-                                <input type="number" class="form-control" v-model="model.stock" min="0" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="provider" class="control-label">Proveedor</label>
-                                <v-select label="name" :reduce="provider => provider.id" v-model="model.provider_id"
-                                    :options="providers" required></v-select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="categories" class="control-label">Categorías</label>
-                                <v-select label="name" :reduce="category => category.id" v-model="model.categories_ids"
-                                    :options="categories" multiple></v-select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="barcode" class="control-label">Código de barras</label>
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" v-model="newBarcode"
-                                        @keyup.enter="addBarcode">
-                                    <button type="button" class="btn btn-primary" @click="addBarcode">Agregar</button>
-                                </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item" v-for="(barcode, index) in model.barcodes">
-                                        {{ barcode.code }}
-                                        <button type="button" class="btn btn-danger btn-sm float-right"
-                                            @click="removeBarcode(index)">Eliminar</button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="status" class="control-label">Estado del producto*</label>
+                                <label for="status" class="control-label">Estado del proveedor*</label>
                                 <select class="select form-control" name="status" id="status" v-model="model.status"
                                     required>
-                                    <option value="0">No disponible</option>
-                                    <option value="1">Disponible</option>
+                                    <option value="0">Baja</option>
+                                    <option value="1">Alta</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-12 text-right">
-                            <button type="submit" class="btn btn-primary" :disabled="disable">Guardar producto</button>
+                            <button type="submit" class="btn btn-primary" :disabled="disable">Guardar proveedor</button>
                         </div>
                     </form>
                 </div>
@@ -81,41 +48,21 @@ export default {
             title: null,
             alert: null,
             disable: false,
-            providers: [],
-            categories: [],
-            newBarcode: '',
             model: {
                 id: null,
-                categories_ids: [],
-                provider_id: null,
                 name: null,
-                description: null,
-                stock: null,
-                barcodes: [],
                 status: 1
             }
-        }
+        };
     },
     methods: {
-        addBarcode() {
-            if (this.newBarcode) {
-                if (!this.model.barcodes) {
-                    this.model.barcodes = [];
-                }
-                this.model.barcodes.push({id: null, code: this.newBarcode});
-                this.newBarcode = '';
-            }
-        },
-        removeBarcode(index) {
-            this.model.barcodes.splice(index, 1);
-        },
         submit() {
             let self = this;
             this.disable = true;
-            axios.post('/products', this.model)
+            axios.post('/providers', this.model)
                 .then(function (response) {
                     $('#modelForm').trigger("reset");
-                    $('#ajaxModel').modal('hide');
+                    $('#ajaxProviderModel').modal('hide');
                     self.$swal({
                         position: 'top-end',
                         icon: 'success',
@@ -124,18 +71,18 @@ export default {
                         timer: 1000
                     });
                     self.disable = false;
-                    $('#product-table').DataTable().draw();
+                    $('#provider-table').DataTable().draw();
                 })
                 .catch(function (error) {
                     console.log('Error:', error);
                     self.disable = false;
-                    self.alert = 'Error al guardar el producto.';
+                    self.alert = 'Error al guardar el proveedor.';
                 });
         },
         checkBeforeSubmit() {
             this.alert = "";
 
-            if (!this.model.name || !this.model.stock) {
+            if (!this.model.name) {
                 this.alert = "Por favor, completa todos los campos obligatorios.";
                 return;
             }
@@ -148,61 +95,26 @@ export default {
         resetModel() {
             this.model = {
                 id: null,
-                categories_ids: [],
-                provider_id: null,
                 name: null,
-                description: null,
-                stock: null,
-                barcodes: [],
                 status: 1
             };
-            this.newBarcode = '';
-        },
-        ajustTable() {
-            $('#product-table').DataTable().columns.adjust().draw();
-        },
-        getProviders() {
-            axios.get('/providers/get/data')
-                .then(response => {
-                    this.providers = response.data;
-                })
-                .catch(error => {
-                    console.error('Error al obtener los proveedores:', error);
-                });
-        },
-        getCategories() {
-            axios.get('/categories/get/data')
-                .then(response => {
-                    this.categories = response.data;
-                    console.log(this.categories);
-
-                })
-                .catch(error => {
-                    console.error('Error al obtener las categorías:', error);
-                });
         }
     },
     mounted() {
         let self = this;
-        this.getProviders();
-        this.getCategories();
 
-        $('#nav-products-tab[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            self.ajustTable();
-        });
-
-        $('#createNewModel').click(function () {
-            self.title = 'Añadir nuevo producto';
+        $('#createNewProvider').click(function () {
+            self.title = 'Añadir nuevo proveedor';
             self.resetModel();
-            $('#ajaxModel').modal('show');
+            $('#ajaxProviderModel').modal('show');
         });
 
-        $('body').on('click', '.editModel', function () {
+        $('body').on('click', '.editProvider', function () {
             var id = $(this).data('id');
-            axios.get('/products/' + id + '/edit')
+            axios.get('/providers/' + id + '/edit')
                 .then(function (response) {
-                    self.title = 'Editar producto';
-                    $('#ajaxModel').modal('show');
+                    self.title = 'Editar proveedor';
+                    $('#ajaxProviderModel').modal('show');
                     self.setModel(response.data);
                 })
                 .catch(function (error) {
@@ -210,11 +122,11 @@ export default {
                 });
         });
 
-        $('body').on('click', '.deleteModel', function () {
+        $('body').on('click', '.deleteProvider', function () {
             var id = $(this).data("id");
             self.$swal({
                 title: "¿Estás seguro?",
-                text: "¿Estás seguro de que quieres eliminar este producto?",
+                text: "¿Estás seguro de que quieres eliminar este proveedor?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: '#DD6B55',
@@ -224,9 +136,9 @@ export default {
                 closeOnCancel: false
             }).then((data) => {
                 if (data.isConfirmed) {
-                    axios.delete('/products/' + id)
+                    axios.delete('/providers/' + id)
                         .then(function (response) {
-                            $('#product-table').DataTable().draw();
+                            $('#provider-table').DataTable().draw();
                         })
                         .catch(function (error) {
                             console.log('Error:', error);
@@ -235,5 +147,5 @@ export default {
             });
         });
     }
-}
+};
 </script>
