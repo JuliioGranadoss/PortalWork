@@ -25,7 +25,7 @@
         <label><strong>Fecha:</strong></label>
         <flat-pickr class="form-control" v-model="selectedDateRange" :config="datePickerConfig" placeholder="Selecciona dos fechas"></flat-pickr>
       </div>
-      <button @click="exportExcel" class="btn btn-success" style="height: 38px;"><i class="fa fa-file-excel"></i> Exportar a excel</button>
+      <!--<button @click="exportExcel" class="btn btn-success" style="height: 38px;"><i class="fa fa-file-excel"></i> Exportar a excel</button>-->
     </div>
   </template>
   
@@ -62,17 +62,17 @@
       },
     },
     methods: {
-        exportExcel() {
-        let startDate = '';
-        let endDate = '';
-        console.log(this.selectedDateRange);
-        if (this.selectedDateRange) {
-            let dates = this.selectedDateRange.split(' to ');
-            startDate = dates[0] ? new Date(dates[0]).toISOString().split('T')[0] : '';
-            endDate = dates[1] ? new Date(dates[1]).toISOString().split('T')[0] : '';    
-        }
-        window.location.href = `/exportar-historial?place_id=${this.selectedPlace}&personal_id=${this.selectedPersonal}&start_date=${startDate}&end_date=${endDate}`;
-    },
+    //     exportExcel() {
+    //     let startDate = '';
+    //     let endDate = '';
+    //     console.log(this.selectedDateRange);
+    //     if (this.selectedDateRange) {
+    //         let dates = this.selectedDateRange.split(' to ');
+    //         startDate = dates[0] ? new Date(dates[0]).toISOString().split('T')[0] : '';
+    //         endDate = dates[1] ? new Date(dates[1]).toISOString().split('T')[0] : '';    
+    //     }
+    //     window.location.href = `/exportar-historial?place_id=${this.selectedPlace}&personal_id=${this.selectedPersonal}&start_date=${startDate}&end_date=${endDate}`;
+    // },
       getPlaces() {
         axios.get('/stockplaces/get/data')
           .then(response => {
