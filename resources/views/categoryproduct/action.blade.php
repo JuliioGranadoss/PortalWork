@@ -1,0 +1,1 @@
+<a href="javascript:void(0)" class="btn btn-danger btn-xs deleteCategoryProduct" data-category_id="{{$model->category_id}}" data-product_id="{{$model->product_id}}"><i class="fa fa-trash"></i></a>
